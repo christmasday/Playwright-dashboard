@@ -1,0 +1,124 @@
+image: node:18
+
+variables:
+  NODE_ENV: test
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: playwright_dashboard_test
+  REDIS_URL: redis://redis:6379
+  DATABASE_URL: postgres://postgres:postgres@postgres:5432/playwright_dashboard_test
+
+stages:
+  - test
+  - build
+  - deploy
+
+before_script:
+  - npm ci
+
+test:frontend:
+  stage: test
+  before_script:
+    - cd frontend
+    - npm ci
+  script:
+    - npm run type-check
+    - npm run lint
+    - npm test
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    when: always
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+
+test:backend:
+  stage: test
+  services:
+    - postgres:15
+    - redis:7-alpine
+  before_script:
+    - cd backend
+    - npm ci
+    - npx prisma migrate deploy
+    - npx prisma db seed
+  script:
+    - npm run type-check
+    - npm run lint
+    - npm test
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+
+test:integration:
+  stage: test
+  services:
+    - postgres:15
+    - redis:7-alpine
+    - docker:dind
+  dependencies:
+    - test:backend
+  before_script:
+    - npm ci
+    - docker-compose up -d postgres redis
+    - sleep 5
+  script:
+    - npm run test:e2e
+  artifacts:
+    paths:
+      - playwright-report/
+      - playwright-report/videos/
+    when: always
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+
+build:frontend:
+  stage: build
+  needs:
+    - test:frontend
+  before_script:
+    - cd frontend
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/
+    expire_in: 1 week
+
+build:backend:
+  stage: build
+  needs:
+    - test:backend
+  before_script:
+    - cd backend
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - backend/dist/
+    expire_in: 1 week
+
+deploy:staging:
+  stage: deploy
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+    - develop
+  before_script:
+    - npm ci
+  script:
+    - echo "Deploying to staging..."
+    - docker-compose -f docker-compose.staging.yml up -d
+  when: manual
+
+deploy:production:
+  stage: deploy
+  environment:
+    name: production
+    url: https://example.com
+  only:
+    - main
+  before_script:
+    - npm ci
+  script:
+    - echo "Deploying to production..."
+    - docker-compose -f docker-compose.yml up -d
+  when: manual

@@ -1,0 +1,75 @@
+{
+  "name": "playwright-dashboard",
+  "version": "1.0.0",
+  "description": "Modern, self-hosted test management platform for Playwright test automation teams",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "reporter"
+  ],
+  "scripts": {
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "install:all": "npm run install:frontend && npm run install:backend",
+    "dev:frontend": "cd frontend && node ./node_modules/vite/bin/vite.js",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:app": "concurrently -n backend,frontend -c blue,green \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build": "npm run build:frontend && npm run build:backend",
+    "start:frontend": "cd frontend && npm run start",
+    "start:backend": "cd backend && npm run start",
+    "start": "npm run start:backend && npm run start:frontend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "type-check:frontend": "cd frontend && npm run type-check",
+    "type-check:backend": "cd backend && npm run type-check",
+    "type-check": "npm run type-check:frontend && npm run type-check:backend",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && npm test",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:e2e": "cd backend && playwright test",
+    "test:e2e:install": "cd backend && npx playwright install chromium",
+    "test:e2e:report": "cd backend && npx playwright show-report",
+    "migrate": "cd backend && npm run migrate",
+    "supabase:start": "cd backend && npm run supabase:start",
+    "supabase:stop": "cd backend && npm run supabase:stop",
+    "supabase:db-push": "cd backend && npm run supabase:db-push",
+    "supabase:db-reset": "cd backend && npm run supabase:db-reset",
+    "supabase:status": "cd backend && npm run supabase:status",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:restart": "docker-compose restart"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "test-automation",
+    "test-management",
+    "ci-cd",
+    "dashboard",
+    "self-hosted"
+  ],
+  "author": "Playwright Dashboard Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christmasday/playwright-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/christmasday/playwright-dashboard/issues"
+  },
+  "homepage": "https://github.com/christmasday/playwright-dashboard#readme"
+}
