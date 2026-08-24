@@ -1,0 +1,38 @@
+{
+  "name": "@christmasday/playwright-dashboard-reporter",
+  "version": "1.3.0",
+  "description": "Playwright reporter that streams test results to the cloud-based Playwright Dashboard @ https://playwright-dashboard.easytesting.app",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test/smoke.js"
+  },
+  "keywords": [
+    "playwright",
+    "playwright-reporter",
+    "test",
+    "dashboard",
+    "reporting"
+  ],
+  "author": "christmasday",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christmasday/playwright-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/christmasday/playwright-dashboard/issues"
+  },
+  "homepage": "https://github.com/christmasday/playwright-dashboard#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@playwright/test": ">=1.30.0"
+  }
+}

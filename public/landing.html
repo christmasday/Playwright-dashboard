@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playwright Dashboard — Test management, in real time</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @property --p {
+      syntax: '<number>';
+      inherits: false;
+      initial-value: 0;
+    }
+
+    :root {
+      --bg: #08080a;
+      --bg-subtle: #0a0a0e;
+      --surface: #0e0e13;
+      --surface-2: #14141b;
+      --border: #20202a;
+      --fg: #f4f4f7;
+      --muted: #9a9aa5;
+      --muted-2: #5e5e68;
+      --accent: #3b82f6;
+      --accent-strong: #60a5fa;
+      --accent-soft: rgba(59, 130, 246, 0.12);
+    }
+
+    * { font-family: 'Inter', system-ui, sans-serif; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ---------- Layout helpers ---------- */
+    .container { max-width: 80rem; margin: 0 auto; }
+    .section-py { padding: 6rem 1rem; }
+    .nav-link { color: var(--muted); transition: color .2s ease; }
+    .nav-link:hover { color: var(--fg); }
+
+    .text-fg { color: var(--fg); }
+    .text-muted { color: var(--muted); }
+    .text-muted-2 { color: var(--muted-2); }
+    .text-accent { color: var(--accent); }
+    .bg-surface { background: var(--surface); }
+    .bg-surface-2 { background: var(--surface-2); }
+    .border-line { border-color: var(--border); }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #93c5fd 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    /* ---------- Animated background ---------- */
+    .aurora {
+      position: fixed;
+      inset: -25%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(38% 38% at 18% 22%, rgba(59,130,246,0.20), transparent 60%),
+        radial-gradient(32% 32% at 82% 28%, rgba(96,165,250,0.12), transparent 60%),
+        radial-gradient(42% 42% at 62% 82%, rgba(59,130,246,0.10), transparent 62%);
+      filter: blur(48px);
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      0%   { transform: translate3d(0,0,0) scale(1); }
+      50%  { transform: translate3d(2.5%, -2%, 0) scale(1.06); }
+      100% { transform: translate3d(-2%, 2%, 0) scale(1.02); }
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.22;
+      -webkit-mask-image: radial-gradient(circle at 50% 28%, #000 0%, transparent 78%);
+      mask-image: radial-gradient(circle at 50% 28%, #000 0%, transparent 78%);
+      animation: gridmove 26s linear infinite;
+    }
+    @keyframes gridmove {
+      from { background-position: 0 0; }
+      to   { background-position: 64px 64px; }
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn-primary {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .85rem 1.6rem;
+      border-radius: .75rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(180deg, #3b82f6, #2563eb);
+      box-shadow: 0 8px 24px -8px rgba(59,130,246,0.55);
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -120%;
+      width: 60%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.35), transparent);
+      transform: skewX(-18deg);
+      animation: shimmer 4.5s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%   { left: -120%; }
+      55%  { left: 140%; }
+      100% { left: 140%; }
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px -10px rgba(59,130,246,0.7);
+      filter: brightness(1.05);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .85rem 1.6rem;
+      border-radius: .75rem;
+      font-weight: 600;
+      color: var(--fg);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      transform: translateY(-2px);
+    }
+
+    .icon-box {
+      width: 3rem; height: 3rem;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: .9rem;
+      color: var(--accent);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      transition: transform .3s ease, border-color .3s ease, color .3s ease;
+    }
+    .card-hover:hover .icon-box {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      color: var(--accent-strong);
+    }
+
+    .card-hover {
+      transition: transform .3s ease, border-color .3s ease, background .3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      border-color: #2c2c3a;
+      background: #101017;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .8rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+    .pulse-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 0 rgba(59,130,246,0.55);
+      animation: pulse 2.4s infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(59,130,246,0.55); }
+      70%  { box-shadow: 0 0 0 10px rgba(59,130,246,0); }
+      100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+    }
+
+    /* ---------- Hero mock dashboard ---------- */
+    .mock {
+      position: relative;
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #0f0f15, #0b0b10);
+      padding: 1.25rem;
+      box-shadow: 0 30px 80px -40px rgba(0,0,0,0.9), 0 0 0 1px rgba(59,130,246,0.04);
+    }
+    .mock-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: .45rem;
+      height: 120px;
+      margin: 1rem 0;
+    }
+    .mock-bars span {
+      flex: 1;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--accent), rgba(59,130,246,0.25));
+      animation: bar 2.6s ease-in-out infinite alternate;
+      transform-origin: bottom;
+    }
+    @keyframes bar {
+      0%   { transform: scaleY(0.35); opacity: .65; }
+      100% { transform: scaleY(1); opacity: 1; }
+    }
+    .mock-row {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .55rem 0;
+      border-top: 1px solid var(--border);
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      animation: blink 1.8s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+    .ring {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background:
+        conic-gradient(var(--accent) calc(var(--p, 0) * 1%), #1c1c26 0);
+      display: flex; align-items: center; justify-content: center;
+      animation: fill 2.4s ease forwards;
+    }
+    .ring::after {
+      content: "";
+      width: 50px; height: 50px; border-radius: 50%;
+      background: #0c0c11;
+    }
+    @keyframes fill { to { --p: 98; } }
+
+    /* ---------- Reveal on scroll ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .divider-top { border-top: 1px solid var(--border); }
+
+    .code-block {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .72rem;
+      line-height: 1.55;
+      color: var(--muted-2);
+      background: #0a0a0e;
+      border: 1px solid var(--border);
+      border-radius: .55rem;
+      padding: .7rem .8rem;
+      overflow-x: auto;
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq-item { border: 1px solid var(--border); border-radius: .9rem; background: var(--surface); overflow: hidden; }
+    .faq-content { max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease; padding: 0 1.5rem; }
+    .faq-item.open .faq-content { max-height: 320px; padding: 0 1.5rem 1.25rem; }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+    .faq-icon { transition: transform .3s ease; }
+
+    /* ---------- Nav scroll state ---------- */
+    nav.scrolled { box-shadow: 0 1px 0 0 var(--border); background: rgba(8,8,10,0.82); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .aurora, .grid-overlay, .btn-primary::after, .mock-bars span,
+      .status-dot, .pulse-dot, .ring, .reveal {
+        animation: none !important;
+        transition: none !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .ring { --p: 98; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body class="bg-[#08080a] text-[#f4f4f7]">
+
+  <div class="aurora"></div>
+  <div class="grid-overlay"></div>
+  <div class="noise"></div>
+
+  <!-- Navigation -->
+  <nav id="nav" class="fixed w-full top-0 z-50 bg-[#08080a]/80 backdrop-blur-md border-b border-[#20202a] transition-shadow">
+    <div class="container px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="/" class="flex items-center space-x-2.5">
+          <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+            <i class="fas fa-chart-line text-sm"></i>
+          </span>
+          <span class="text-[15px] font-semibold tracking-tight text-[#f4f4f7]">Playwright Dashboard</span>
+        </a>
+        <div class="hidden md:flex items-center space-x-8 text-sm">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#comparison" class="nav-link">Comparison</a>
+          <a href="#faq" class="nav-link">FAQ</a>
+          <a href="/docs" class="nav-link">Guide</a>
+        </div>
+        <div class="flex items-center space-x-3">
+          <a href="https://github.com/christmasday/Playwright-dashboard" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub Repository" title="GitHub Repository">
+            <i class="fab fa-github text-base"></i>
+          </a>
+          <a href="/login" class="nav-link text-sm">Login</a>
+          <a href="/signup" class="btn-primary !py-2 !px-4 text-sm">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative pt-36 pb-24 px-4">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+        <div class="reveal">
+          <span class="pill mb-6">
+            <span class="pulse-dot"></span> Real-time · Cloud & Self-hosted
+          </span>
+          <h1 class="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight">
+            Test management,<br>
+            in <span class="gradient-text">real time</span>.
+          </h1>
+          <p class="text-lg text-muted mt-6 max-w-xl leading-relaxed">
+            A calm, single view of every Playwright run — live dashboards,
+            flaky detection, and smart orchestration.
+          </p>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:space-x-3 mt-8">
+            <a href="/signup" class="btn-primary">
+              Start free <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+            <a href="/docs" class="btn-ghost">
+              <i class="fas fa-book"></i> View guide
+            </a>
+          </div>
+          <div class="flex items-center gap-6 mt-10 text-sm text-muted-2">
+            <span><span class="text-fg font-semibold">2 min</span> setup</span>
+            <span class="w-px h-4 bg-[#20202a]"></span>
+            <span><span class="text-fg font-semibold">100%</span> free cloud tier</span>
+            <span class="w-px h-4 bg-[#20202a]"></span>
+            <span><span class="text-fg font-semibold">Sub-second</span> updates</span>
+          </div>
+        </div>
+
+        <!-- Animated mock dashboard -->
+        <div class="reveal" style="transition-delay:.12s">
+          <div class="mock">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-sm text-muted">
+                <span class="pulse-dot"></span> Live · build #4821
+              </div>
+              <span class="text-xs text-muted border border-[#20202a] rounded-full px-2.5 py-1">main</span>
+            </div>
+            <div class="mock-bars">
+              <span style="animation-delay:0s"></span>
+              <span style="animation-delay:.15s"></span>
+              <span style="animation-delay:.3s"></span>
+              <span style="animation-delay:.45s"></span>
+              <span style="animation-delay:.6s"></span>
+              <span style="animation-delay:.75s"></span>
+              <span style="animation-delay:.9s"></span>
+              <span style="animation-delay:1.05s"></span>
+              <span style="animation-delay:1.2s"></span>
+              <span style="animation-delay:1.35s"></span>
+              <span style="animation-delay:1.5s"></span>
+              <span style="animation-delay:1.65s"></span>
+            </div>
+            <div class="flex items-center gap-4 mb-2">
+              <div class="ring" style="--p:0"><span class="relative text-[11px] font-semibold text-[#f4f4f7]">98%</span></div>
+              <div class="text-sm text-muted leading-tight">
+                <div class="text-fg font-medium">Pass rate trending up</div>
+                <div>412 passed · 7 failed · 3 flaky</div>
+              </div>
+            </div>
+            <div class="mock-row"><span class="status-dot"></span> auth.spec.ts — login succeeds <span class="ml-auto text-muted-2">1.2s</span></div>
+            <div class="mock-row"><span class="status-dot" style="animation-delay:.4s"></span> checkout.spec.ts — payment flow <span class="ml-auto text-muted-2">3.4s</span></div>
+            <div class="mock-row"><span class="status-dot" style="animation-delay:.8s"></span> search.spec.ts — index query <span class="ml-auto text-muted-2">0.9s</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section-py relative">
+    <div class="container">
+      <div class="reveal text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Everything you need, nothing you don't</h2>
+        <p class="text-muted mt-3 max-w-xl mx-auto">A focused toolkit for teams who run tests constantly and care about signal.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6">
+          <div class="icon-box mb-4"><i class="fas fa-chart-pie"></i></div>
+          <h3 class="text-lg font-semibold mb-2">Real-time dashboards</h3>
+          <p class="text-sm text-muted leading-relaxed">Watch pass rates, suite durations, and visual trend graphs update live as runs execute across environments.</p>
+        </div>
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.08s">
+          <div class="icon-box mb-4"><i class="fas fa-photo-video"></i></div>
+          <h3 class="text-lg font-semibold mb-2">Deep failure diagnostics</h3>
+          <p class="text-sm text-muted leading-relaxed">Access failure screenshots, WebM video recordings, ZIP execution traces, and detailed stack traces instantly.</p>
+        </div>
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.16s">
+          <div class="icon-box mb-4"><i class="fas fa-bug"></i></div>
+          <h3 class="text-lg font-semibold mb-2">Flaky test detection</h3>
+          <p class="text-sm text-muted leading-relaxed">Automatic flakiness scoring and historical stability tracking to catch intermittent failures before they reach production.</p>
+        </div>
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.24s">
+          <div class="icon-box mb-4"><i class="fas fa-users"></i></div>
+          <h3 class="text-lg font-semibold mb-2">Team management & access</h3>
+          <p class="text-sm text-muted leading-relaxed">Invite teammates by email with granular project Viewer and Admin permissions and automatic pending invite resolution.</p>
+        </div>
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.32s">
+          <div class="icon-box mb-4"><i class="fas fa-list-ol"></i></div>
+          <h3 class="text-lg font-semibold mb-2">Granular test step trees</h3>
+          <p class="text-sm text-muted leading-relaxed">Interactive accordion step breakdowns detailing spec file actions, locator timings, assertions, and execution logs.</p>
+        </div>
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.40s">
+          <div class="icon-box mb-4"><i class="fas fa-key"></i></div>
+          <h3 class="text-lg font-semibold mb-2">API keys & CI/CD ingest</h3>
+          <p class="text-sm text-muted leading-relaxed">Self-service API key management for authenticating custom reporters across GitHub Actions, GitLab CI, and Jenkins.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section id="comparison" class="section-py relative bg-bg-subtle">
+    <div class="container">
+      <div class="reveal text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">How it compares</h2>
+        <p class="text-muted mt-3">Same job, fewer trade-offs.</p>
+      </div>
+      <div class="reveal overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-line text-muted">
+              <th class="text-left font-medium p-4">Capability</th>
+              <th class="text-center font-semibold p-4 text-fg">Playwright Dashboard</th>
+              <th class="text-center font-medium p-4">TestRail</th>
+              <th class="text-center font-medium p-4">TestProject</th>
+              <th class="text-center font-medium p-4">Lighthouse</th>
+            </tr>
+          </thead>
+          <tbody class="text-muted">
+            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Real-time updates</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
+            <tr class="border-b border-line"><td class="font-medium text-fg p-4">CI/CD integration</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td></tr>
+            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Self-hosted</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
+            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Flaky detection</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
+            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Webhook support</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
+            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Conditional execution</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
+            <tr><td class="font-medium text-fg p-4">Cost</td><td class="text-center p-4 text-accent font-semibold">Free</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section-py relative">
+    <div class="container max-w-3xl">
+      <div class="reveal text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Questions, answered</h2>
+      </div>
+      <div class="space-y-3 reveal">
+        <div class="faq-item">
+          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
+            <span class="font-medium">What makes Playwright Dashboard different?</span>
+            <i class="fas fa-chevron-down text-muted faq-icon"></i>
+          </button>
+          <div class="faq-content text-muted text-sm">Built for modern automation teams — real-time monitoring, smart orchestration, and CI/CD integration, available both as a cloud service and self-hosted.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
+            <span class="font-medium">Is it free to use?</span>
+            <i class="fas fa-chevron-down text-muted faq-icon"></i>
+          </button>
+          <div class="faq-content text-muted text-sm">Yes. Sign up for a free cloud account or host it on your own infrastructure.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
+            <span class="font-medium">How long does setup take?</span>
+            <i class="fas fa-chevron-down text-muted faq-icon"></i>
+          </button>
+          <div class="faq-content text-muted text-sm">About two minutes: Sign up, generate an API key, install the reporter package, and connect your test suite.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
+            <span class="font-medium">Does it support real-time updates?</span>
+            <i class="fas fa-chevron-down text-muted faq-icon"></i>
+          </button>
+          <div class="faq-content text-muted text-sm">Yes — WebSocket-based updates surface results with sub-second latency as tests run.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
+            <span class="font-medium">CI/CD integration?</span>
+            <i class="fas fa-chevron-down text-muted faq-icon"></i>
+          </button>
+          <div class="faq-content text-muted text-sm">Install the Playwright reporter — it posts results on every run — or POST to the /api/tests/ingest endpoint from any pipeline (GitHub Actions, GitLab CI, Jenkins).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- User Guide -->
+  <section id="guide" class="section-py relative bg-bg-subtle">
+    <div class="container">
+      <div class="reveal text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Up and running in minutes</h2>
+        <p class="text-muted mt-3">Four steps from signup to live results.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6">
+          <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">1</div>
+          <h3 class="font-semibold mb-2">Sign up &amp; get API key</h3>
+          <p class="text-sm text-muted mb-4">Sign up for a cloud account and generate an API key in Settings → API Keys.</p>
+          <pre class="code-block"># 1. Sign up at /signup
+# 2. Go to Settings → API Keys
+DASHBOARD_API_KEY=pd_sk_735ae732...</pre>
+        </div>
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.08s">
+          <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">2</div>
+          <h3 class="font-semibold mb-2">Install Reporter</h3>
+          <p class="text-sm text-muted mb-4">Install the custom reporter package in your test project.</p>
+          <pre class="code-block">npm i @christmasday/playwright-dashboard-reporter --save-dev</pre>
+        </div>
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.16s">
+          <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">3</div>
+          <h3 class="font-semibold mb-2">Connect Playwright</h3>
+          <p class="text-sm text-muted mb-4">Add the reporter to playwright.config.ts with your API key.</p>
+          <pre class="code-block">// playwright.config.ts
+reporter: [
+  ['@christmasday/playwright-dashboard-reporter', {
+    url: 'http://localhost:3002/api',
+    apiKey: process.env.DASHBOARD_API_KEY,
+  }]
+]</pre>
+        </div>
+        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.24s">
+          <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">4</div>
+          <h3 class="font-semibold mb-2">Run &amp; watch</h3>
+          <p class="text-sm text-muted mb-4">Results stream to the dashboard in real time.</p>
+          <pre class="code-block">npx playwright test
+# → live at /dashboard</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative py-24 px-4">
+    <div class="container">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl md:text-5xl font-bold tracking-tight">Ready to see your tests clearly?</h2>
+        <p class="text-muted mt-4 text-lg">Join the teams running calmer, faster test pipelines.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:space-x-3 mt-8">
+          <a href="/signup" class="btn-primary">Start free <i class="fas fa-arrow-right ml-1"></i></a>
+          <a href="/docs" class="btn-ghost"><i class="fas fa-book"></i> Read the guide</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative border-t border-[#20202a] py-10 px-4">
+    <div class="container flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-2.5">
+        <span class="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+          <i class="fas fa-chart-line text-xs"></i>
+        </span>
+        <span class="text-sm font-semibold text-[#f4f4f7]">Playwright Dashboard</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <a href="https://github.com/christmasday/playwright-dashboard" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub"><i class="fab fa-github text-sm"></i></a>
+        <a href="#" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Twitter"><i class="fab fa-twitter text-sm"></i></a>
+        <a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Discord"><i class="fab fa-discord text-sm"></i></a>
+      </div>
+      <p class="text-sm text-muted-2">© 2024 Playwright Dashboard</p>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btn.closest('.faq-item').classList.toggle('open');
+      });
+    });
+
+    // Nav shadow on scroll
+    var nav = document.getElementById('nav');
+    var onScroll = function () {
+      if (window.scrollY > 24) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Reveal on scroll
+    var reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      reveals.forEach(function (el) { io.observe(el); });
+    } else {
+      reveals.forEach(function (el) { el.classList.add('in'); });
+    }
+  </script>
+</body>
+</html>

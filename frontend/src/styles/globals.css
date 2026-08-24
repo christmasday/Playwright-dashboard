@@ -1,0 +1,159 @@
+/**
+ * Global Styles
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #08080a;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #08080a;
+  color: #f4f4f7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #08080a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #20202a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a35;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-in-out;
+}
+
+/* Status badges */
+.badge-passed {
+  @apply bg-green-100 text-green-800;
+}
+
+.badge-failed {
+  @apply bg-red-100 text-red-800;
+}
+
+.badge-skipped {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.badge-flaky {
+  @apply bg-orange-100 text-orange-800;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Landing page theme - dark auth backgrounds */
+:root {
+  --bg: #08080a;
+  --bg-subtle: #0a0a0e;
+  --surface: #0e0e13;
+  --surface-2: #14141b;
+  --border: #20202a;
+  --fg: #f4f4f7;
+  --muted: #9a9aa5;
+  --muted-2: #5e5e68;
+  --accent: #3b82f6;
+  --accent-strong: #60a5fa;
+}
+
+/* Animated background (reuses landing page effects) */
+.aurora {
+  position: fixed;
+  inset: -25%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 38% at 18% 22%, rgba(59,130,246,0.20), transparent 60%),
+    radial-gradient(32% 32% at 82% 28%, rgba(96,165,250,0.12), transparent 60%),
+    radial-gradient(42% 42% at 62% 82%, rgba(59,130,246,0.10), transparent 62%);
+  filter: blur(48px);
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  50%  { transform: translate3d(2.5%, -2%, 0) scale(1.06); }
+  100% { transform: translate3d(-2%, 2%, 0) scale(1.02); }
+}
+
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.22;
+  -webkit-mask-image: radial-gradient(circle at 50% 28%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(circle at 50% 28%, #000 0%, transparent 78%);
+  animation: gridmove 26s linear infinite;
+}
+
+@keyframes gridmove {
+  from { background-position: 0 0; }
+  to   { background-position: 64px 64px; }
+}
