@@ -126,7 +126,7 @@ Configuration parameters for `@christmasday/playwright-dashboard-reporter`:
 | Option | Environment Variable | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `apiKey` | `DASHBOARD_API_KEY` | *None* | **Required.** API authentication key generated in Settings → API Keys. |
-| `url` | `DASHBOARD_URL` | `http://localhost:3002/api` | Base API endpoint of your dashboard instance. |
+| `url` | `DASHBOARD_URL` | `https://playwright-dashboard.easytesting.app/api` | Base API endpoint |
 | `project` | `DASHBOARD_PROJECT` | `'Default Project'` | Project name identifier to group build runs under. |
 | `buildName` | `DASHBOARD_BUILD_NAME` | `ci-<run_id>` / `playwright-<ts>` | Custom name or identifier for the build execution. |
 | `environment` | `DASHBOARD_ENVIRONMENT` | `'ci'` | Target environment tag (`'ci'`, `'staging'`, `'production'`, `'local'`). |
