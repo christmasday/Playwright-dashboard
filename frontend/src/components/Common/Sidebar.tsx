@@ -26,6 +26,7 @@ const Sidebar: React.FC = () => {
     { label: 'Analytics', path: '/analytics', icon: '📈' },
     { label: 'Projects', path: '/projects', icon: '📁' },
     { label: 'Builds', path: '/builds', icon: '🏗️' },
+    { label: 'Compare Runs', path: '/builds/compare', icon: '🔀' },
     { label: 'Flaky Tests', path: '/flaky-tests', icon: '⚠️' },
     { label: 'API Keys', path: '/settings/api-keys', icon: '🔑' },
     { label: 'Documentation', path: '/docs', icon: '📚' },

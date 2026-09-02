@@ -5,6 +5,7 @@
 
 import { Build, Metrics } from '../../models/index.js';
 import { Project } from '../../models/user.js';
+import buildComparisonService from '../../services/buildComparisonService.js';
 import logger from '../../utils/logger.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -154,10 +155,33 @@ export const getBuildMetrics = async (req, res, next) => {
   }
 };
 
+export const compareBuilds = async (req, res, next) => {
+  try {
+    const baseBuildId = req.query.baseBuildId || req.query.base;
+    const targetBuildId = req.query.targetBuildId || req.query.target;
+
+    if (!baseBuildId || !targetBuildId) {
+      return res.status(400).json({
+        error: 'Both baseBuildId and targetBuildId are required query parameters',
+      });
+    }
+
+    const comparison = await buildComparisonService.compareBuilds(baseBuildId, targetBuildId);
+    res.json(comparison);
+  } catch (error) {
+    logger.error('Error comparing builds', { error: error.message, query: req.query });
+    if (error.message && error.message.includes('not found')) {
+      return res.status(404).json({ error: error.message });
+    }
+    next(error);
+  }
+};
+
 export default {
   createBuild,
   getBuild,
   updateBuild,
   listBuilds,
   getBuildMetrics,
+  compareBuilds,
 };

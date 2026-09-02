@@ -24,6 +24,14 @@ jest.mock('../../models/user.js', () => ({
   },
 }));
 
+jest.mock('../../services/buildComparisonService.js', () => ({
+  __esModule: true,
+  default: {
+    compareBuilds: jest.fn(),
+  },
+  compareBuilds: jest.fn(),
+}));
+
 jest.mock('../../utils/logger.js', () => ({
   __esModule: true,
   default: {
@@ -141,6 +149,37 @@ describe('Build Controller', () => {
       req = { params: {} };
       await buildController.getBuildMetrics(req, res, next);
       expect(res.status).toHaveBeenCalledWith(400);
+    });
+  });
+
+  describe('compareBuilds', () => {
+    it('should return 400 if baseBuildId or targetBuildId is missing', async () => {
+      req = { query: { baseBuildId: 'b1' } };
+      await buildController.compareBuilds(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(400);
+    });
+
+    it('should return comparison data when valid IDs provided', async () => {
+      const mockResult = { summary: { regressionsCount: 1 } };
+      const buildComparisonService = (await import('../../services/buildComparisonService.js')).default;
+      buildComparisonService.compareBuilds.mockResolvedValue(mockResult);
+
+      req = { query: { baseBuildId: 'base-1', targetBuildId: 'target-1' } };
+      await buildController.compareBuilds(req, res, next);
+
+      expect(buildComparisonService.compareBuilds).toHaveBeenCalledWith('base-1', 'target-1');
+      expect(res.json).toHaveBeenCalledWith(mockResult);
+    });
+
+    it('should return 404 when service throws not found', async () => {
+      const buildComparisonService = (await import('../../services/buildComparisonService.js')).default;
+      buildComparisonService.compareBuilds.mockRejectedValue(new Error('Base build with ID "b-missing" not found'));
+
+      req = { query: { baseBuildId: 'b-missing', targetBuildId: 't-1' } };
+      await buildController.compareBuilds(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(404);
+      expect(res.json).toHaveBeenCalledWith({ error: expect.stringContaining('not found') });
     });
   });
 });

@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
 import Builds from './pages/Builds';
 import BuildDetails from './pages/BuildDetails';
+import BuildCompare from './pages/BuildCompare';
 import Projects from './pages/Projects';
 import TestDetails from './pages/TestDetails';
 import FlakyTests from './pages/FlakyTests';
@@ -62,6 +63,7 @@ function App() {
                   <Route path="/projects/:projectId/builds" element={<Builds />} />
                   <Route path="/projects/:projectId" element={<Builds />} />
                   <Route path="/builds" element={<Builds />} />
+                  <Route path="/builds/compare" element={<BuildCompare />} />
                   <Route path="/builds/:buildId" element={<BuildDetails />} />
                   <Route path="/tests/:testId" element={<TestDetails />} />
                   <Route path="/flaky-tests" element={<FlakyTests />} />
