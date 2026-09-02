@@ -14,6 +14,7 @@ router.use(apiKeyAuth);
 // Public endpoints
 router.post('/', buildController.createBuild);
 router.get('/', buildController.listBuilds);
+router.get('/compare', buildController.compareBuilds);
 router.get('/:buildId', buildController.getBuild);
 router.patch('/:buildId', buildController.updateBuild);
 router.get('/:buildId/metrics', buildController.getBuildMetrics);

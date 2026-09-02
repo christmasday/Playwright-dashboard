@@ -17,6 +17,20 @@ const Builds: React.FC = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalBuilds, setTotalBuilds] = useState(0);
+  const [selectedBuildIds, setSelectedBuildIds] = useState<string[]>([]);
+
+  const toggleSelectBuild = (id: string) => {
+    setSelectedBuildIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
+      }
+      if (prev.length >= 2) {
+        // Keep the most recent selection and add the new one
+        return [prev[1], id];
+      }
+      return [...prev, id];
+    });
+  };
 
   const fetchBuilds = async () => {
     try {
@@ -128,6 +142,15 @@ const Builds: React.FC = () => {
             <option value="failed">Failed</option>
             <option value="running">Running</option>
           </select>
+
+          {/* Compare Link */}
+          <Link
+            to="/builds/compare"
+            className="px-3.5 py-2 bg-[#1c1c26] hover:bg-blue-600/20 hover:text-blue-400 border border-[#20202a] hover:border-blue-500/30 text-xs font-semibold text-[#f4f4f7] rounded-xl transition-all flex items-center gap-1.5"
+          >
+            <i className="fas fa-code-compare text-blue-400"></i>
+            Compare Runs
+          </Link>
         </div>
       </div>
 
@@ -144,6 +167,9 @@ const Builds: React.FC = () => {
               <table className="w-full text-xs text-left">
                 <thead className="bg-[#0e0e13] border-b border-[#20202a] text-[#9a9aa5] uppercase tracking-wider font-semibold">
                   <tr>
+                    <th className="px-3 py-4 w-8 text-center">
+                      <span className="sr-only">Select</span>
+                    </th>
                     <th className="px-6 py-4">Build Name</th>
                     <th className="px-6 py-4">Project</th>
                     <th className="px-6 py-4">Branch</th>
@@ -154,7 +180,21 @@ const Builds: React.FC = () => {
                 </thead>
                 <tbody className="divide-y divide-[#20202a] text-[#9a9aa5]">
                   {builds.map((build: any) => (
-                    <tr key={build.id} className="hover:bg-[#1c1c26] transition-colors">
+                    <tr
+                      key={build.id}
+                      className={`hover:bg-[#1c1c26] transition-colors ${
+                        selectedBuildIds.includes(build.id) ? 'bg-blue-500/5' : ''
+                      }`}
+                    >
+                      <td className="px-3 py-4 text-center">
+                        <input
+                          type="checkbox"
+                          checked={selectedBuildIds.includes(build.id)}
+                          onChange={() => toggleSelectBuild(build.id)}
+                          className="rounded bg-[#0a0a0f] border-[#20202a] text-blue-500 focus:ring-0 cursor-pointer w-4 h-4"
+                          title="Select build to compare"
+                        />
+                      </td>
                       <td className="px-6 py-4">
                         <div className="font-semibold text-[#f4f4f7] text-sm">{build.name}</div>
                         {build.commit_message && (
@@ -194,12 +234,21 @@ const Builds: React.FC = () => {
                         {new Date(build.created_at || build.createdAt).toLocaleString()}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <Link
-                          to={`/builds/${build.id}`}
-                          className="px-3 py-1.5 bg-[#3b82f6]/10 hover:bg-[#3b82f6]/20 border border-[#3b82f6]/30 text-[#3b82f6] hover:text-[#60a5fa] rounded-lg font-semibold transition-all inline-flex items-center gap-1"
-                        >
-                          View <i className="fas fa-arrow-right text-[10px]"></i>
-                        </Link>
+                        <div className="flex items-center justify-end gap-2">
+                          <Link
+                            to={`/builds/compare?targetBuildId=${build.id}`}
+                            className="px-2.5 py-1.5 bg-[#14141b] hover:bg-[#20202a] border border-[#20202a] text-[#9a9aa5] hover:text-[#f4f4f7] rounded-lg font-semibold transition-all inline-flex items-center gap-1 text-[11px]"
+                            title="Compare this build"
+                          >
+                            <i className="fas fa-code-compare text-xs"></i>
+                          </Link>
+                          <Link
+                            to={`/builds/${build.id}`}
+                            className="px-3 py-1.5 bg-[#3b82f6]/10 hover:bg-[#3b82f6]/20 border border-[#3b82f6]/30 text-[#3b82f6] hover:text-[#60a5fa] rounded-lg font-semibold transition-all inline-flex items-center gap-1"
+                          >
+                            View <i className="fas fa-arrow-right text-[10px]"></i>
+                          </Link>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -228,6 +277,40 @@ const Builds: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Floating Comparison Selection Bar */}
+      {selectedBuildIds.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#101017]/95 border border-blue-500/50 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-4 z-40 backdrop-blur-md animate-in fade-in slide-in-from-bottom-4">
+          <div className="text-xs text-[#f4f4f7] flex items-center gap-2">
+            <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 font-bold flex items-center justify-center text-xs">
+              {selectedBuildIds.length}
+            </span>
+            <span>
+              {selectedBuildIds.length === 1
+                ? 'Select 1 more build to compare'
+                : '2 builds selected for comparison'}
+            </span>
+          </div>
+
+          {selectedBuildIds.length === 2 && (
+            <Link
+              to={`/builds/compare?targetBuildId=${selectedBuildIds[0]}&baseBuildId=${selectedBuildIds[1]}`}
+              className="px-4 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-blue-500/25 flex items-center gap-2 transition-all hover:scale-105"
+            >
+              <i className="fas fa-code-compare"></i>
+              Compare Runs Now
+            </Link>
+          )}
+
+          <button
+            onClick={() => setSelectedBuildIds([])}
+            className="text-xs text-[#5e5e68] hover:text-[#f4f4f7] px-2 py-1 rounded transition-colors"
+            title="Clear selection"
+          >
+            Clear
+          </button>
+        </div>
+      )}
     </div>
   );
 };

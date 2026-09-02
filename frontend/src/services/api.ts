@@ -120,6 +120,12 @@ class ApiService {
     return this.client.get(`/builds/${buildId}/metrics`);
   }
 
+  compareBuilds(baseBuildId: string, targetBuildId: string) {
+    return this.client.get('/builds/compare', {
+      params: { baseBuildId, targetBuildId },
+    });
+  }
+
   // Tests
   ingestTestResults(buildId: string, results: any) {
     return this.client.post('/tests/ingest', { buildId, results });

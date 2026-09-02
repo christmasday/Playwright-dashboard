@@ -142,6 +142,14 @@ const BuildDetails: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-3">
+            <Link
+              to={`/builds/compare?targetBuildId=${buildId}`}
+              className="text-xs bg-[#14141b] hover:bg-[#1c1c26] text-[#f4f4f7] hover:text-blue-400 px-3 py-1.5 rounded-lg border border-[#20202a] hover:border-blue-500/30 font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+              title="Compare this build with another run"
+            >
+              <i className="fas fa-code-compare text-blue-400"></i>
+              Compare Build
+            </Link>
             <span className="text-xs bg-[#0e0e13] text-[#9a9aa5] px-3 py-1.5 rounded-lg border border-[#20202a]">
               Avg Duration: <strong className="text-[#f4f4f7]">{stats.averageDuration}ms</strong>
             </span>
