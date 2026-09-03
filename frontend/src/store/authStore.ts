@@ -25,7 +25,7 @@ interface AuthState {
   resetPassword: (token: string, password: string) => Promise<void>;
   clearVerification: () => void;
   loadUser: () => Promise<void>;
-  updateProfile: (data: { firstName?: string; lastName?: string; avatarUrl?: string; notificationPreferences?: any }) => Promise<void>;
+  updateProfile: (data: { firstName?: string; lastName?: string; avatarUrl?: string; notificationPreferences?: any; aiSettings?: any }) => Promise<void>;
   changePassword: (data: { currentPassword: string; newPassword: string }) => Promise<void>;
   clearError: () => void;
 }

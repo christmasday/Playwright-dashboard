@@ -341,6 +341,31 @@ class ApiService {
   cancelProjectInvitation(projectId: string, invitationId: string) {
     return this.client.delete(`/projects/${projectId}/invitations/${invitationId}`);
   }
+
+  // AI Diagnostics & BYOK
+  getAiProviders() {
+    return this.client.get('/ai/providers');
+  }
+
+  fetchAiModels(payload: { provider: string; apiKey?: string; customEndpoint?: string }) {
+    return this.client.post('/ai/fetch-models', payload);
+  }
+
+  testAiConnection(payload: { provider: string; apiKey?: string; customEndpoint?: string; model?: string }) {
+    return this.client.post('/ai/test-connection', payload);
+  }
+
+  getTestAiAnalysis(testRunId: string) {
+    return this.client.get(`/ai/tests/${testRunId}/analysis`);
+  }
+
+  analyzeTest(testRunId: string, options?: { forceRegenerate?: boolean; provider?: string; apiKey?: string; model?: string; customEndpoint?: string }) {
+    return this.client.post(`/ai/tests/${testRunId}/analysis`, options || {});
+  }
+
+  analyzeCluster(cluster: any, options?: { provider?: string; apiKey?: string; model?: string; customEndpoint?: string }) {
+    return this.client.post('/ai/clusters/analysis', { cluster, ...(options || {}) });
+  }
 }
 
 export const apiService = new ApiService();

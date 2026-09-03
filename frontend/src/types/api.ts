@@ -93,6 +93,8 @@ export interface User {
   avatar_url?: string;
   notificationPreferences?: NotificationPreferences | string;
   notification_preferences?: NotificationPreferences | string;
+  aiSettings?: any;
+  ai_settings?: any;
   role: UserRole;
   isActive?: boolean;
   is_active?: boolean;
