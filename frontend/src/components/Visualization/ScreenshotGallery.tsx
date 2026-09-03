@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { detectVisualSnapshotPairs, VisualSnapshotPair } from '../../utils/canvasImageDiff';
+import VisualDiffViewer from './VisualDiffViewer';
+import VisualDiffModal from './VisualDiffModal';
 
 interface Artifact {
   id: string;
@@ -15,9 +18,31 @@ interface ScreenshotGalleryProps {
 
 const ScreenshotGallery: React.FC<ScreenshotGalleryProps> = ({ artifacts }) => {
   const [selectedImage, setSelectedImage] = useState<Artifact | null>(null);
+  const [selectedVisualPair, setSelectedVisualPair] = useState<VisualSnapshotPair | null>(null);
+  const [isDiffModalOpen, setIsDiffModalOpen] = useState(false);
+
+  const visualPairs = useMemo(() => detectVisualSnapshotPairs(artifacts), [artifacts]);
+  const [viewMode, setViewMode] = useState<'gallery' | 'visualDiff'>(() =>
+    visualPairs.length > 0 ? 'visualDiff' : 'gallery'
+  );
+
+  const activeVisualPair = selectedVisualPair || (visualPairs.length > 0 ? visualPairs[0] : null);
+
+  const handleOpenVisualDiff = (pair: VisualSnapshotPair) => {
+    setSelectedVisualPair(pair);
+    setIsDiffModalOpen(true);
+  };
 
   const handleImageClick = (artifact: Artifact) => {
-    setSelectedImage(artifact);
+    // Check if this artifact belongs to a visual pair
+    const matchingPair = visualPairs.find(
+      (p) => p.baseline.id === artifact.id || p.actual.id === artifact.id || p.diff?.id === artifact.id
+    );
+    if (matchingPair) {
+      handleOpenVisualDiff(matchingPair);
+    } else {
+      setSelectedImage(artifact);
+    }
   };
 
   const handleCloseModal = () => {
@@ -77,12 +102,67 @@ const ScreenshotGallery: React.FC<ScreenshotGalleryProps> = ({ artifacts }) => {
 
   return (
     <div className="space-y-6">
-      {screenshots.length > 0 && (
+      {/* Visual Diff Section (if pairs detected) */}
+      {visualPairs.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#14141b] border border-[#20202a] p-4 rounded-xl">
+            <div>
+              <h3 className="text-sm font-bold text-[#f4f4f7] flex items-center gap-2">
+                <span className="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs">
+                  <i className="fas fa-arrows-left-right"></i>
+                </span>
+                Visual Regression Diff Viewer
+              </h3>
+              <p className="text-xs text-[#9a9aa5] mt-0.5">
+                Automatically matched {visualPairs.length} visual snapshot {visualPairs.length === 1 ? 'pair' : 'pairs'} (Expected vs Actual vs Diff).
+              </p>
+            </div>
+
+            <div className="flex items-center bg-[#08080a] border border-[#20202a] p-1 rounded-xl text-xs">
+              <button
+                onClick={() => setViewMode('visualDiff')}
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 ${
+                  viewMode === 'visualDiff'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-[#9a9aa5] hover:text-[#f4f4f7]'
+                }`}
+              >
+                <i className="fas fa-columns text-[11px]"></i>
+                <span>Visual Diff Mode</span>
+              </button>
+              <button
+                onClick={() => setViewMode('gallery')}
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 ${
+                  viewMode === 'gallery'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-[#9a9aa5] hover:text-[#f4f4f7]'
+                }`}
+              >
+                <i className="fas fa-th text-[11px]"></i>
+                <span>All Images ({screenshots.length})</span>
+              </button>
+            </div>
+          </div>
+
+          {viewMode === 'visualDiff' && activeVisualPair && (
+            <div className="space-y-4">
+              <VisualDiffViewer
+                snapshotPair={activeVisualPair}
+                allPairs={visualPairs}
+                onSelectPair={(p) => setSelectedVisualPair(p)}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Standard Screenshots Grid (shown if gallery mode selected or no visual pairs) */}
+      {(viewMode === 'gallery' || visualPairs.length === 0) && screenshots.length > 0 && (
         <div className="bg-[#1a1a22] border border-[#20202a] rounded-xl p-6">
           <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#20202a]">
             <div>
-              <h3 className="text-lg font-semibold text-[#f4f4f7]">Failure Screenshots</h3>
-              <p className="text-xs text-[#9a9aa5]">Captured image snapshots during test failure</p>
+              <h3 className="text-lg font-semibold text-[#f4f4f7]">Test Screenshots</h3>
+              <p className="text-xs text-[#9a9aa5]">Captured image snapshots during test execution</p>
             </div>
             <span className="text-xs bg-[#0e0e13] text-[#3b82f6] px-3 py-1 rounded-full font-mono">
               {screenshots.length} images
@@ -177,6 +257,15 @@ const ScreenshotGallery: React.FC<ScreenshotGalleryProps> = ({ artifacts }) => {
           </div>
         </div>
       )}
+
+      {/* Visual Diff Fullscreen Modal */}
+      <VisualDiffModal
+        isOpen={isDiffModalOpen}
+        snapshotPair={activeVisualPair}
+        allPairs={visualPairs}
+        onSelectPair={(p) => setSelectedVisualPair(p)}
+        onClose={() => setIsDiffModalOpen(false)}
+      />
     </div>
   );
 };
