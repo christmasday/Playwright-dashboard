@@ -232,12 +232,13 @@ export const me = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { firstName, lastName, avatarUrl, notificationPreferences } = req.body;
+    const { firstName, lastName, avatarUrl, notificationPreferences, aiSettings } = req.body;
     const updatedUser = await User.updateProfile(userId, {
       firstName,
       lastName,
       avatarUrl,
       notificationPreferences,
+      aiSettings,
     });
     return res.status(200).json({
       success: true,

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { FailureCluster, ClusterSummaryStats } from '../../utils/failureClusterer';
 import StackTraceModal from './StackTraceModal';
 import apiService from '../../services/api';
+import AiAnalysisCard from './AiAnalysisCard';
 
 interface FailureClusterViewerProps {
   clusters: FailureCluster[];
@@ -39,6 +40,26 @@ const FailureClusterViewer: React.FC<FailureClusterViewerProps> = ({
   });
 
   const [quarantiningId, setQuarantiningId] = useState<string | null>(null);
+  const [clusterAiAnalyses, setClusterAiAnalyses] = useState<Record<string, any>>({});
+  const [diagnosingClusterId, setDiagnosingClusterId] = useState<string | null>(null);
+
+  const handleDiagnoseCluster = async (cluster: FailureCluster) => {
+    try {
+      setDiagnosingClusterId(cluster.id);
+      setExpandedClusterIds((prev) => ({ ...prev, [cluster.id]: true }));
+      const resp = await apiService.analyzeCluster(cluster);
+      if (resp.data?.data) {
+        setClusterAiAnalyses((prev) => ({
+          ...prev,
+          [cluster.id]: resp.data.data,
+        }));
+      }
+    } catch (err) {
+      console.error('Failed to diagnose cluster with AI:', err);
+    } finally {
+      setDiagnosingClusterId(null);
+    }
+  };
 
   const toggleExpand = (id: string) => {
     setExpandedClusterIds((prev) => ({
@@ -185,6 +206,16 @@ const FailureClusterViewer: React.FC<FailureClusterViewerProps> = ({
                 {/* Header Action Buttons */}
                 <div className="flex items-center gap-2.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
                   <button
+                    onClick={() => handleDiagnoseCluster(cluster)}
+                    disabled={diagnosingClusterId === cluster.id}
+                    className="px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 shadow-md disabled:opacity-50"
+                    title="Diagnose this entire failure cluster with AI"
+                  >
+                    <i className={`fas ${diagnosingClusterId === cluster.id ? 'fa-spinner fa-spin' : 'fa-wand-magic-sparkles'} text-[10px]`}></i>
+                    <span>{diagnosingClusterId === cluster.id ? 'Diagnosing...' : 'AI Diagnose'}</span>
+                  </button>
+
+                  <button
                     onClick={() => handleOpenStackTrace(cluster)}
                     className="px-3 py-1.5 bg-[#0e0e13] hover:bg-[#20202a] text-[#60a5fa] border border-[#3b82f6]/30 hover:border-[#3b82f6]/60 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5"
                     title="View common stack trace & diagnostics"
@@ -214,6 +245,15 @@ const FailureClusterViewer: React.FC<FailureClusterViewerProps> = ({
               {/* Cluster Expandable Content */}
               {isExpanded && (
                 <div className="border-t border-[#20202a] bg-[#121218] p-5 space-y-5">
+                  {/* AI Cluster Diagnosis Result */}
+                  {clusterAiAnalyses[cluster.id] && (
+                    <AiAnalysisCard
+                      analysis={clusterAiAnalyses[cluster.id]}
+                      title={`AI Diagnosis for Cluster: ${cluster.headline}`}
+                      onRegenerate={() => handleDiagnoseCluster(cluster)}
+                    />
+                  )}
+
                   {/* Debugging Advice */}
                   {cluster.rootCauseAdvice && (
                     <div className="p-3.5 bg-[#0e0e13] border border-[#20202a] rounded-xl flex items-start gap-3 text-xs">

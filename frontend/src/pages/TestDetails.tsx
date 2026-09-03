@@ -13,6 +13,7 @@ import StackTraceModal from '../components/Visualization/StackTraceModal';
 import TerminalOutput from '../components/Visualization/TerminalOutput';
 import MetricsDashboard from '../components/Visualization/MetricsDashboard';
 import TraceViewerModal from '../components/Visualization/TraceViewerModal';
+import AiAnalysisCard from '../components/Visualization/AiAnalysisCard';
 
 interface TestRunResponse {
   id: string;
@@ -68,8 +69,8 @@ const TestDetails: React.FC = () => {
   const [testRun, setTestRun] = useState<TestRunResponse | null>(null);
   const [siblingTests, setSiblingTests] = useState<TestRunResponse[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'steps' | 'artifacts' | 'metrics'>(() => {
-    if (tabParam === 'steps' || tabParam === 'artifacts' || tabParam === 'metrics' || tabParam === 'overview') {
+  const [activeTab, setActiveTab] = useState<'overview' | 'ai' | 'steps' | 'artifacts' | 'metrics'>(() => {
+    if (tabParam === 'ai' || tabParam === 'steps' || tabParam === 'artifacts' || tabParam === 'metrics' || tabParam === 'overview') {
       return tabParam;
     }
     return 'overview';
@@ -78,14 +79,50 @@ const TestDetails: React.FC = () => {
   const [selectedTraceUrl, setSelectedTraceUrl] = useState<string | null>(null);
   const [selectedTraceName, setSelectedTraceName] = useState<string>('trace.zip');
 
+  // AI Analysis State
+  const [aiAnalysis, setAiAnalysis] = useState<any | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
   const [stackTraceModalOpen, setStackTraceModalOpen] = useState(false);
   const [stackTraceModalData, setStackTraceModalData] = useState<{
     error: { message: string; stack?: string; location?: string };
     title?: string;
   } | null>(null);
 
+  // Check for existing AI analysis cache on mount
   useEffect(() => {
-    if (tabParam === 'steps' || tabParam === 'artifacts' || tabParam === 'metrics' || tabParam === 'overview') {
+    if (testId) {
+      apiService
+        .getTestAiAnalysis(testId)
+        .then((res) => {
+          if (res.data?.data) {
+            setAiAnalysis(res.data.data);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [testId]);
+
+  const handleTriggerAiAnalysis = async (forceRegenerate = false) => {
+    if (!testId) return;
+    setAiLoading(true);
+    setAiError(null);
+    try {
+      const res = await apiService.analyzeTest(testId, { forceRegenerate });
+      if (res.data?.data) {
+        setAiAnalysis(res.data.data);
+        setActiveTab('overview');
+      }
+    } catch (err: any) {
+      setAiError(err?.response?.data?.error || err.message || 'AI diagnosis failed');
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (tabParam === 'ai' || tabParam === 'steps' || tabParam === 'artifacts' || tabParam === 'metrics' || tabParam === 'overview') {
       setActiveTab(tabParam);
     }
   }, [tabParam]);
@@ -366,6 +403,34 @@ const TestDetails: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
+            {/* AI Root Cause Button */}
+            {(isFailed || testRun.status === 'flaky' || testRun.error || aiAnalysis) && (
+              <button
+                onClick={() => {
+                  if (!aiAnalysis) {
+                    handleTriggerAiAnalysis(false);
+                  } else {
+                    setActiveTab('overview');
+                  }
+                }}
+                disabled={aiLoading}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-lg flex items-center gap-1.5 disabled:opacity-50 ${
+                  aiAnalysis
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-blue-500/20'
+                    : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white animate-pulse'
+                }`}
+              >
+                <i className={`fas ${aiLoading ? 'fa-spinner fa-spin' : 'fa-wand-magic-sparkles'} text-xs`}></i>
+                <span>
+                  {aiLoading
+                    ? 'Diagnosing...'
+                    : aiAnalysis
+                    ? `AI Diagnosis (${aiAnalysis.category || 'Ready'})`
+                    : '🤖 AI Root Cause & Fix'}
+                </span>
+              </button>
+            )}
+
             {traceArtifacts.length > 0 && (
               <button
                 onClick={() => handleOpenTrace(traceArtifacts[0].url, traceArtifacts[0].name)}
@@ -391,9 +456,12 @@ const TestDetails: React.FC = () => {
 
       {/* Navigation Tabs */}
       <div className="border-b border-[#20202a]">
-        <nav className="flex space-x-6">
+        <nav className="flex space-x-6 overflow-x-auto">
           {[
             { key: 'overview', label: 'Overview', icon: 'fa-info-circle' },
+            ...(isFailed || testRun.status === 'flaky' || testRun.error || aiAnalysis
+              ? [{ key: 'ai', label: 'AI Root Cause & Fix', icon: 'fa-wand-magic-sparkles' }]
+              : []),
             { key: 'steps', label: `Execution Steps (${suiteTests.length > 0 ? suiteTests.length : steps.length})`, icon: 'fa-list-ol' },
             { key: 'artifacts', label: `Artifacts & Media (${artifacts.length})`, icon: 'fa-photo-video' },
             { key: 'metrics', label: 'Performance Analytics', icon: 'fa-chart-line' },
@@ -443,6 +511,62 @@ const TestDetails: React.FC = () => {
               <p className="text-2xl font-extrabold text-[#3b82f6] mt-1">{testRun.duration}ms</p>
             </div>
           </div>
+
+          {/* AI Root Cause & Fix Diagnostic Card or Callout */}
+          {aiAnalysis && (
+            <AiAnalysisCard
+              analysis={aiAnalysis}
+              loading={aiLoading}
+              onRegenerate={() => handleTriggerAiAnalysis(true)}
+            />
+          )}
+
+          {aiLoading && !aiAnalysis && (
+            <AiAnalysisCard analysis={null} loading={true} />
+          )}
+
+          {aiError && (
+            <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 flex items-center justify-between gap-3 text-xs text-red-400">
+              <div className="flex items-center gap-2">
+                <i className="fas fa-circle-exclamation"></i>
+                <span>{aiError}</span>
+              </div>
+              <button
+                onClick={() => handleTriggerAiAnalysis(true)}
+                className="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-white font-semibold"
+              >
+                Retry
+              </button>
+            </div>
+          )}
+
+          {!aiAnalysis && !aiLoading && (isFailed || testRun.status === 'flaky' || testRun.error) && (
+            <div className="bg-gradient-to-r from-blue-900/20 via-indigo-900/20 to-purple-900/20 border border-blue-500/30 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
+              <div className="flex items-center gap-3.5">
+                <span className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg shadow-inner shrink-0">
+                  <i className="fas fa-wand-magic-sparkles"></i>
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-[#f4f4f7] flex items-center gap-2">
+                    <span>Diagnose Failure Root Cause & Get Instant Fix</span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                      AI Powered
+                    </span>
+                  </h3>
+                  <p className="text-xs text-[#9a9aa5] mt-1 leading-relaxed">
+                    Automatically decompile error logs, evaluate locator drift or hydration race conditions, and generate verified drop-in Playwright code patches.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => handleTriggerAiAnalysis(false)}
+                className="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg flex items-center gap-2 shrink-0"
+              >
+                <i className="fas fa-bolt text-xs"></i>
+                <span>Run AI Diagnosis</span>
+              </button>
+            </div>
+          )}
 
           {/* List of Tests in this Test Suite */}
           <div className="bg-[#1a1a22] border border-[#20202a] rounded-xl p-6">
@@ -519,6 +643,39 @@ const TestDetails: React.FC = () => {
           {/* Terminal Logs */}
           {testRun.terminalOutput && testRun.terminalOutput.length > 0 && (
             <TerminalOutput lines={testRun.terminalOutput} />
+          )}
+        </div>
+      )}
+
+      {/* Tab: AI Root Cause & Fix */}
+      {activeTab === 'ai' && (
+        <div className="space-y-6">
+          {aiAnalysis ? (
+            <AiAnalysisCard
+              analysis={aiAnalysis}
+              loading={aiLoading}
+              onRegenerate={() => handleTriggerAiAnalysis(true)}
+            />
+          ) : (
+            <div className="bg-[#1a1a22] border border-[#20202a] rounded-2xl p-8 text-center space-y-4 shadow-xl">
+              <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/30 text-blue-400 inline-flex items-center justify-center text-2xl shadow-inner">
+                <i className="fas fa-wand-magic-sparkles"></i>
+              </span>
+              <div className="max-w-md mx-auto">
+                <h3 className="text-base font-bold text-[#f4f4f7]">No AI Diagnosis Generated Yet</h3>
+                <p className="text-xs text-[#9a9aa5] mt-1.5">
+                  Launch an automated root cause diagnosis to classify the failure, identify locator drift or race conditions, and receive a verified code fix.
+                </p>
+              </div>
+              <button
+                onClick={() => handleTriggerAiAnalysis(false)}
+                disabled={aiLoading}
+                className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg inline-flex items-center gap-2 disabled:opacity-50"
+              >
+                <i className={`fas ${aiLoading ? 'fa-spinner fa-spin' : 'fa-bolt'}`}></i>
+                <span>{aiLoading ? 'Analyzing Test Failure...' : 'Analyze with AI Now'}</span>
+              </button>
+            </div>
           )}
         </div>
       )}

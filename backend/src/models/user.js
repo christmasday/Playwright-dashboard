@@ -29,7 +29,7 @@ export const User = {
 
   findById: async (id) => {
     return await queryOne(
-      'SELECT id, email, username, first_name, last_name, avatar_url, notification_preferences, role, is_active, last_login_at, created_at FROM users WHERE id = $1',
+      'SELECT id, email, username, first_name, last_name, avatar_url, notification_preferences, ai_settings, role, is_active, last_login_at, created_at FROM users WHERE id = $1',
       [id]
     );
   },
@@ -98,7 +98,7 @@ export const User = {
     return await query('DELETE FROM users WHERE id = $1', [id]);
   },
 
-  updateProfile: async (id, { firstName, lastName, avatarUrl, notificationPreferences } = {}) => {
+  updateProfile: async (id, { firstName, lastName, avatarUrl, notificationPreferences, aiSettings } = {}) => {
     const sets = [];
     const values = [];
     let i = 1;
@@ -118,11 +118,15 @@ export const User = {
       sets.push(`notification_preferences = $${i++}`);
       values.push(typeof notificationPreferences === 'object' ? JSON.stringify(notificationPreferences) : notificationPreferences);
     }
+    if (aiSettings !== undefined) {
+      sets.push(`ai_settings = $${i++}`);
+      values.push(typeof aiSettings === 'object' ? JSON.stringify(aiSettings) : aiSettings);
+    }
     if (sets.length === 0) return await User.findById(id);
     sets.push(`updated_at = NOW()`);
     values.push(id);
     return await queryOne(
-      `UPDATE users SET ${sets.join(', ')} WHERE id = $${i} RETURNING id, email, username, first_name, last_name, avatar_url, notification_preferences, role, is_active`,
+      `UPDATE users SET ${sets.join(', ')} WHERE id = $${i} RETURNING id, email, username, first_name, last_name, avatar_url, notification_preferences, ai_settings, role, is_active`,
       values
     );
   },

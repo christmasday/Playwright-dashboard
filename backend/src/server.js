@@ -23,6 +23,7 @@ import projectRoutes from './api/routes/projects.js';
 import apiKeysRoutes from './api/routes/apiKeys.js';
 import flakyRoutes from './api/routes/flaky.js';
 import analyticsRoutes from './api/routes/analytics.js';
+import aiRoutes from './api/routes/ai.js';
 
 const app = express();
 app.set('trust proxy', 1);
@@ -82,6 +83,7 @@ app.use('/api/flaky', flakyRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/webhooks', webhookRoutes);
 app.use('/api/conditionalExecution', conditionalRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Error handling
 app.use(notFoundHandler);
