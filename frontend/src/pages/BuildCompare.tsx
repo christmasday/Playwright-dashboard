@@ -7,6 +7,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import apiService from '../services/api';
+import VisualDiffModal from '../components/Visualization/VisualDiffModal';
+import { VisualSnapshotPair } from '../utils/canvasImageDiff';
 
 interface BuildRecord {
   id: string;
@@ -164,6 +166,63 @@ const BuildCompare: React.FC = () => {
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
   const [copiedPrSummary, setCopiedPrSummary] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  // Visual Diff Modal State for Build-to-Build Comparisons
+  const [visualDiffModalOpen, setVisualDiffModalOpen] = useState<boolean>(false);
+  const [visualDiffPair, setVisualDiffPair] = useState<VisualSnapshotPair | null>(null);
+  const [loadingVisualDiffKey, setLoadingVisualDiffKey] = useState<string | null>(null);
+
+  const handleOpenTestVisualDiff = async (test: ComparedTestItem) => {
+    if (!test.base || !test.target) return;
+    setLoadingVisualDiffKey(test.key);
+    try {
+      const [baseResp, targetResp] = await Promise.all([
+        apiService.getTestDetails(test.base.id).catch(() => null),
+        apiService.getTestDetails(test.target.id).catch(() => null),
+      ]);
+
+      const baseArtifacts: any[] = baseResp?.data?.artifacts || [];
+      const targetArtifacts: any[] = targetResp?.data?.artifacts || [];
+
+      const isImage = (a: any) => {
+        const type = (a.type || '').toLowerCase();
+        const name = (a.name || '').toLowerCase();
+        const path = (a.path || '').toLowerCase();
+        const url = (a.url || '').toLowerCase();
+        return (
+          type === 'screenshot' ||
+          type === 'image' ||
+          name.includes('screenshot') ||
+          path.endsWith('.png') ||
+          path.endsWith('.jpg') ||
+          path.endsWith('.jpeg') ||
+          url.includes('.png') ||
+          url.includes('.jpg')
+        );
+      };
+
+      const baseImg = baseArtifacts.find(isImage);
+      const targetImg = targetArtifacts.find(isImage);
+
+      if (baseImg && targetImg) {
+        setVisualDiffPair({
+          id: `diff-${test.key}`,
+          name: `${test.title} (Base vs Target)`,
+          cleanTitle: test.title,
+          baseline: baseImg,
+          actual: targetImg,
+          diff: null,
+        });
+        setVisualDiffModalOpen(true);
+      } else {
+        alert('One or both test runs do not contain captured screenshots to visually compare.');
+      }
+    } catch (err: any) {
+      alert('Failed to load visual comparison screenshots.');
+    } finally {
+      setLoadingVisualDiffKey(null);
+    }
+  };
 
   // Fetch builds list for selector dropdowns
   useEffect(() => {
@@ -952,6 +1011,23 @@ const BuildCompare: React.FC = () => {
                               </button>
                             )}
 
+                            {/* Visual Diff Button (for tests in both runs) */}
+                            {test.base && test.target && (
+                              <button
+                                onClick={() => handleOpenTestVisualDiff(test)}
+                                disabled={loadingVisualDiffKey === test.key}
+                                className="px-2.5 py-1 text-xs rounded-lg border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 transition-all flex items-center gap-1.5 shadow-sm"
+                                title="Visually compare screenshots from Base Run vs Target Run"
+                              >
+                                {loadingVisualDiffKey === test.key ? (
+                                  <i className="fas fa-circle-notch fa-spin text-[10px]"></i>
+                                ) : (
+                                  <i className="fas fa-arrows-left-right text-[10px]"></i>
+                                )}
+                                <span>Visual Diff</span>
+                              </button>
+                            )}
+
                             {test.target && (
                               <Link
                                 to={`/tests/${test.target.id}`}
@@ -1011,6 +1087,13 @@ const BuildCompare: React.FC = () => {
           </div>
         </>
       )}
+
+      {/* Visual Diff Fullscreen Modal for Base vs Target */}
+      <VisualDiffModal
+        isOpen={visualDiffModalOpen}
+        snapshotPair={visualDiffPair}
+        onClose={() => setVisualDiffModalOpen(false)}
+      />
     </div>
   );
 };

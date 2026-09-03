@@ -11,3 +11,6 @@ export const E2E_PREFIX = 'e2e-';
 export const SEED_ADMIN_EMAIL = 'pw-admin@pw.local';
 export const SEED_ADMIN_USERNAME = 'pw-admin';
 export const SEED_ADMIN_PASSWORD = 'PlaywrightAdmin123!';
+
+export const USER_EMAIL = 'ojbauer24@gmail.com';
+export const USER_PASSWORD = 'Qwerty@.123456';

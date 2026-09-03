@@ -70,6 +70,8 @@ function App() {
                   <Route path="/users" element={<UserManagement />} />
                   <Route path="/settings/api-keys" element={<ApiKeys />} />
                   <Route path="/settings/profile" element={<ProfileSettings />} />
+                  <Route path="/profile" element={<ProfileSettings />} />
+                  <Route path="/settings" element={<ProfileSettings />} />
                   <Route path="/docs" element={<Docs />} />
                 </Routes>
               </Layout>

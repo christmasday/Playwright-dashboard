@@ -14,6 +14,8 @@ import TerminalOutput from '../components/Visualization/TerminalOutput';
 import MetricsDashboard from '../components/Visualization/MetricsDashboard';
 import TraceViewerModal from '../components/Visualization/TraceViewerModal';
 import AiAnalysisCard from '../components/Visualization/AiAnalysisCard';
+import VisualDiffViewer from '../components/Visualization/VisualDiffViewer';
+import { detectVisualSnapshotPairs, VisualSnapshotPair } from '../utils/canvasImageDiff';
 
 interface TestRunResponse {
   id: string;
@@ -69,12 +71,13 @@ const TestDetails: React.FC = () => {
   const [testRun, setTestRun] = useState<TestRunResponse | null>(null);
   const [siblingTests, setSiblingTests] = useState<TestRunResponse[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'ai' | 'steps' | 'artifacts' | 'metrics'>(() => {
-    if (tabParam === 'ai' || tabParam === 'steps' || tabParam === 'artifacts' || tabParam === 'metrics' || tabParam === 'overview') {
+  const [activeTab, setActiveTab] = useState<'overview' | 'ai' | 'visualDiff' | 'steps' | 'artifacts' | 'metrics'>(() => {
+    if (tabParam === 'ai' || tabParam === 'visualDiff' || tabParam === 'steps' || tabParam === 'artifacts' || tabParam === 'metrics' || tabParam === 'overview') {
       return tabParam;
     }
     return 'overview';
   });
+  const [selectedVisualPair, setSelectedVisualPair] = useState<VisualSnapshotPair | null>(null);
   const [traceModalOpen, setTraceModalOpen] = useState(false);
   const [selectedTraceUrl, setSelectedTraceUrl] = useState<string | null>(null);
   const [selectedTraceName, setSelectedTraceName] = useState<string>('trace.zip');
@@ -330,6 +333,12 @@ const TestDetails: React.FC = () => {
     return artifacts.filter((a) => !knownIds.has(a.id));
   }, [artifacts, screenshots, videos, traceArtifacts, logArtifacts]);
 
+  const visualPairs = useMemo(() => {
+    return detectVisualSnapshotPairs(artifacts);
+  }, [artifacts]);
+
+  const activeVisualPair = selectedVisualPair || (visualPairs.length > 0 ? visualPairs[0] : null);
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] text-[#9a9aa5] space-y-3">
@@ -431,6 +440,20 @@ const TestDetails: React.FC = () => {
               </button>
             )}
 
+            {/* Visual Diff Action Button */}
+            {visualPairs.length > 0 && (
+              <button
+                onClick={() => {
+                  setActiveTab('visualDiff');
+                  setSearchParams({ tab: 'visualDiff' });
+                }}
+                className="px-3.5 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg flex items-center gap-1.5 shadow-purple-500/15"
+              >
+                <i className="fas fa-arrows-left-right text-xs"></i>
+                <span>Visual Diff ({visualPairs.length})</span>
+              </button>
+            )}
+
             {traceArtifacts.length > 0 && (
               <button
                 onClick={() => handleOpenTrace(traceArtifacts[0].url, traceArtifacts[0].name)}
@@ -461,6 +484,9 @@ const TestDetails: React.FC = () => {
             { key: 'overview', label: 'Overview', icon: 'fa-info-circle' },
             ...(isFailed || testRun.status === 'flaky' || testRun.error || aiAnalysis
               ? [{ key: 'ai', label: 'AI Root Cause & Fix', icon: 'fa-wand-magic-sparkles' }]
+              : []),
+            ...(visualPairs.length > 0
+              ? [{ key: 'visualDiff', label: `Visual Diffs (${visualPairs.length})`, icon: 'fa-arrows-left-right' }]
               : []),
             { key: 'steps', label: `Execution Steps (${suiteTests.length > 0 ? suiteTests.length : steps.length})`, icon: 'fa-list-ol' },
             { key: 'artifacts', label: `Artifacts & Media (${artifacts.length})`, icon: 'fa-photo-video' },
@@ -677,6 +703,17 @@ const TestDetails: React.FC = () => {
               </button>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Tab: Visual Regression Diff Viewer */}
+      {activeTab === 'visualDiff' && activeVisualPair && (
+        <div className="space-y-6">
+          <VisualDiffViewer
+            snapshotPair={activeVisualPair}
+            allPairs={visualPairs}
+            onSelectPair={(p) => setSelectedVisualPair(p)}
+          />
         </div>
       )}
 
