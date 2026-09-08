@@ -20,6 +20,7 @@ import AlertSettings from './pages/AlertSettings';
 import UserSettings from './pages/UserSettings';
 import VerifyEmail from './pages/VerifyEmail';
 import Docs from './pages/Docs';
+import Legal from './pages/Legal';
 import './styles/globals.css';
 
 const LandingRedirect = () => {
@@ -49,6 +50,13 @@ function App() {
           }
         />
         <Route path="/docs" element={<Docs />} />
+        <Route path="/privacy" element={<Legal initialTab="privacy" />} />
+        <Route path="/terms" element={<Legal initialTab="terms" />} />
+        <Route path="/acceptable-use" element={<Legal initialTab="acceptable-use" />} />
+        <Route path="/dpa" element={<Legal initialTab="dpa" />} />
+        <Route path="/cookie-policy" element={<Legal initialTab="cookie-policy" />} />
+        <Route path="/security" element={<Legal initialTab="security" />} />
+        <Route path="/legal" element={<Legal initialTab="privacy" />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />

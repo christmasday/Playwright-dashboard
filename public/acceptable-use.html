@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08080a">
+  
+  <title>Acceptable Use Policy — Playwright Dashboard</title>
+  <meta name="title" content="Acceptable Use Policy — Playwright Dashboard">
+  <meta name="description" content="Acceptable Use Policy (AUP) for Playwright Dashboard. Outlines rules on API rate limits, prohibited test artifacts, malware prevention, and fair resource usage.">
+  <link rel="canonical" href="https://playwright-dashboard.easytesting.app/acceptable-use.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Playwright Dashboard">
+  <meta property="og:url" content="https://playwright-dashboard.easytesting.app/acceptable-use.html">
+  <meta property="og:title" content="Acceptable Use Policy — Playwright Dashboard">
+  <meta property="og:description" content="Guidelines on fair usage, API quotas, and prohibited activities across Playwright Dashboard services.">
+  <meta property="og:image" content="https://playwright-dashboard.easytesting.app/og-image.png">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --bg: #08080a;
+      --bg-subtle: #0a0a0e;
+      --surface: #0e0e13;
+      --surface-2: #14141b;
+      --border: #20202a;
+      --fg: #f4f4f7;
+      --muted: #9a9aa5;
+      --muted-2: #5e5e68;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .aurora {
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(35% 35% at 20% 20%, rgba(59,130,246,0.15), transparent 60%),
+        radial-gradient(30% 30% at 80% 25%, rgba(96,165,250,0.10), transparent 60%);
+      filter: blur(50px);
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.18;
+    }
+
+    .nav-link { color: var(--muted); transition: color .2s ease; }
+    .nav-link:hover { color: var(--fg); }
+
+    .prose-legal h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f4f4f7;
+      margin-top: 2.5rem;
+      margin-bottom: 0.85rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .prose-legal h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .prose-legal p, .prose-legal ul, .prose-legal ol {
+      color: #9a9aa5;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .prose-legal ul { list-style-type: disc; padding-left: 1.5rem; }
+    .prose-legal ol { list-style-type: decimal; padding-left: 1.5rem; }
+    .prose-legal li { margin-bottom: 0.35rem; }
+    .prose-legal strong { color: #f4f4f7; font-weight: 600; }
+    .prose-legal code {
+      background: #14141b;
+      border: 1px solid #20202a;
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.35rem;
+      font-size: 0.85em;
+      color: #93c5fd;
+    }
+    .prose-legal a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .prose-legal a:hover { color: var(--accent-hover); }
+
+    .legal-card {
+      background: rgba(14, 14, 19, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+    }
+
+    .callout {
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      border-left: 4px solid;
+    }
+    .callout-info { background: rgba(59, 130, 246, 0.08); border-color: #3b82f6; color: #bfdbfe; }
+    .callout-warn { background: rgba(245, 158, 11, 0.08); border-color: #f59e0b; color: #fde68a; }
+
+    .toc-link {
+      display: block;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.85rem;
+      color: #9a9aa5;
+      border-radius: 0.5rem;
+      transition: all 0.15s ease;
+      text-decoration: none !important;
+    }
+    .toc-link:hover, .toc-link.active {
+      background: #14141b;
+      color: #60a5fa;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-blue-600 selection:text-white">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Global Header -->
+  <header class="sticky top-0 z-50 border-b border-[#20202a] bg-[#08080a]/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="/landing.html" class="flex items-center space-x-2.5">
+          <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+          </span>
+          <span class="font-bold text-base tracking-tight text-white">Playwright Dashboard</span>
+        </a>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 font-medium">Legal Hub</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="/landing.html" class="nav-link">Overview</a>
+        <a href="/landing.html#features" class="nav-link">Features</a>
+        <a href="/docs" class="nav-link">Documentation</a>
+        <a href="/legal.html" class="text-blue-400 font-medium">Legal Center</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="/login" class="text-xs sm:text-sm font-medium text-muted hover:text-white transition px-3 py-1.5">Sign in</a>
+        <a href="/signup" class="text-xs sm:text-sm font-semibold text-black bg-gradient-to-r from-[#93c5fd] to-[#3b82f6] px-4 py-2 rounded-lg hover:opacity-90 transition">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb & Hero -->
+  <section class="relative z-10 pt-10 pb-6 border-b border-[#20202a]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center space-x-2 text-xs text-muted mb-4">
+        <a href="/landing.html" class="hover:text-white">Home</a>
+        <i class="fas fa-chevron-right text-[10px] text-muted-2"></i>
+        <a href="/legal.html" class="hover:text-white">Legal &amp; Trust Center</a>
+        <i class="fas fa-chevron-right text-[10px] text-muted-2"></i>
+        <span class="text-blue-400 font-medium">Acceptable Use Policy</span>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
+            <i class="fas fa-hand-holding-hand text-blue-500 text-2xl"></i>
+            Acceptable Use Policy (AUP)
+          </h1>
+          <p class="text-muted text-sm sm:text-base mt-2 max-w-2xl">
+            Standards of conduct, ingestion quotas, and security boundaries required of all users and automation test runners.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="bg-[#14141b] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-muted">
+            <span class="text-muted-2">Effective:</span> <strong class="text-white">September 1, 2026</strong>
+          </div>
+          <button onclick="window.print()" class="bg-[#14141b] hover:bg-[#1f1f2a] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-white flex items-center gap-1.5 transition">
+            <i class="fas fa-print text-muted"></i> Print
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Nav Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto py-4 mt-2 text-xs scrollbar-none">
+        <span class="text-muted-2 whitespace-nowrap">Explore Policies:</span>
+        <a href="/privacy.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Privacy Policy</a>
+        <a href="/terms.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Terms of Use</a>
+        <a href="/acceptable-use.html" class="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 font-medium whitespace-nowrap">Acceptable Use</a>
+        <a href="/dpa.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">DPA (Data Processing Addendum)</a>
+        <a href="/cookie-policy.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Cookie Policy</a>
+        <a href="/security.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Security &amp; Compliance</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      
+      <!-- Sticky Sidebar Table of Contents -->
+      <aside class="hidden lg:block sticky top-24 space-y-4">
+        <div class="legal-card p-5">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-3 flex items-center justify-between">
+            <span>On This Page</span>
+            <i class="fas fa-list-ul text-blue-400 text-xs"></i>
+          </h3>
+          <nav class="space-y-1">
+            <a href="#purpose" class="toc-link">1. Purpose &amp; Scope</a>
+            <a href="#security-violations" class="toc-link">2. System &amp; Network Security</a>
+            <a href="#prohibited-testing" class="toc-link">3. Abusive Testing Practices</a>
+            <a href="#artifact-content" class="toc-link">4. Prohibited Content in Artifacts</a>
+            <a href="#rate-limits" class="toc-link">5. Ingestion Quotas &amp; Rate Limits</a>
+            <a href="#webhooks" class="toc-link">6. Webhook &amp; Alerting Fair Use</a>
+            <a href="#investigation" class="toc-link">7. Investigation &amp; Audit</a>
+            <a href="#enforcement" class="toc-link">8. Enforcement &amp; Penalties</a>
+            <a href="#reporting" class="toc-link">9. Reporting Abuse</a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Policy Prose Content -->
+      <article class="lg:col-span-3 legal-card p-6 sm:p-10 prose-legal">
+        
+        <div class="callout callout-info">
+          <strong>Overview:</strong> This Acceptable Use Policy specifies permitted and prohibited uses of the Playwright Dashboard platform, ingestion endpoints, reporter libraries, and real-time streaming sockets.
+        </div>
+
+        <section id="purpose">
+          <h2><i class="fas fa-compass text-blue-400 text-sm"></i> 1. Purpose &amp; Scope</h2>
+          <p>
+            Playwright Dashboard is engineered to empower software teams to build faster, high-reliability test suites. To preserve the reliability, security, and integrity of our shared multi-tenant infrastructure, all customers, automation runners, and API clients must comply with this Acceptable Use Policy.
+          </p>
+        </section>
+
+        <section id="security-violations">
+          <h2><i class="fas fa-shield-cat text-blue-400 text-sm"></i> 2. System &amp; Network Security Violations</h2>
+          <p>You may not use or attempt to use the platform to:</p>
+          <ul>
+            <li>Launch Denial of Service (DoS or DDoS) attacks against our infrastructure or any third-party services.</li>
+            <li>Probe, scan, or test the vulnerability of our systems without prior authorization under our <a href="/security.html">Responsible Disclosure Policy</a>.</li>
+            <li>Bypass authentication mechanisms, forge JWT credentials, or access projects without authorized permissions.</li>
+            <li>Interfere with or disrupt server operations, Redis message brokers, or PostgreSQL connection pools.</li>
+            <li>Distribute trojans, worms, rootkits, or other malicious code through test reporters or uploaded trace bundles.</li>
+          </ul>
+        </section>
+
+        <section id="prohibited-testing">
+          <h2><i class="fas fa-triangle-exclamation text-blue-400 text-sm"></i> 3. Abusive &amp; Deceptive Testing Practices</h2>
+          <p>
+            Automated test runners connected to Playwright Dashboard must be configured responsibly:
+          </p>
+          <ul>
+            <li><strong>Target Authorization:</strong> You must only execute automated Playwright tests against domain names, staging environments, or APIs that you own or have explicit written permission to test.</li>
+            <li><strong>No Cryptocurrency Mining:</strong> Running crypto-mining software, proof-of-work scripts, or computational arbitrage via CI runners or embedded test harnesses is strictly prohibited.</li>
+            <li><strong>No Credential Stuffing:</strong> Using Playwright test suites to automate credential stuffing, brute-forcing login forms, or scraping copyrighted web properties without consent is forbidden.</li>
+          </ul>
+        </section>
+
+        <section id="artifact-content">
+          <h2><i class="fas fa-file-shield text-blue-400 text-sm"></i> 4. Prohibited Content in Test Artifacts</h2>
+          <p>
+            When uploading screenshots, video recordings, DOM snapshots, network payloads, and Playwright <code>trace.zip</code> files to our ingest endpoint, you must not submit:
+          </p>
+          <ul>
+            <li>Child sexual abuse material (CSAM) or sexually explicit exploitation content (violators will be immediately reported to law enforcement and NCMEC).</li>
+            <li>Unredacted payment card details (PAN / CVV), bank account credentials, or real government identification numbers.</li>
+            <li>Protected Health Information (PHI) subject to HIPAA regulations without an executed Business Associate Agreement (BAA).</li>
+            <li>Stolen trade secrets, confidential third-party credentials, or proprietary source code owned by non-consenting parties.</li>
+          </ul>
+        </section>
+
+        <section id="rate-limits">
+          <h2><i class="fas fa-gauge-high text-blue-400 text-sm"></i> 5. Ingestion Quotas &amp; Fair Rate Limits</h2>
+          <p>
+            To guarantee predictable sub-second latency for all users, the following default ingest boundaries apply:
+          </p>
+          <ul>
+            <li><strong>API Ingestion:</strong> Standard accounts are allocated up to 120 ingest requests per minute. Burst traffic exceeding 300 requests per minute will receive HTTP <code>429 Too Many Requests</code> with a <code>Retry-After</code> header.</li>
+            <li><strong>Artifact File Size:</strong> Individual trace zip files, video recordings, and failure snapshots must not exceed <strong>50 MB per artifact</strong>. Artifacts exceeding this size will be rejected.</li>
+            <li><strong>Concurrent WebSocket Connections:</strong> Workspaces may maintain up to 25 simultaneous live dashboard viewer connections concurrently on standard tiers.</li>
+          </ul>
+          <p>Teams requiring custom ingestion throughput for large distributed matrices (10,000+ parallel test workers) should contact our Enterprise team.</p>
+        </section>
+
+        <section id="webhooks">
+          <h2><i class="fas fa-bell text-blue-400 text-sm"></i> 6. Webhook &amp; Alerting Fair Use</h2>
+          <p>
+            Automated alerts dispatched to Slack, Discord, Microsoft Teams, or custom HTTP webhooks must not be configured into tight infinite retry loops. If an alert destination repeatedly returns HTTP 5xx errors, our system will implement exponential backoff and temporarily pause delivery.
+          </p>
+        </section>
+
+        <section id="investigation">
+          <h2><i class="fas fa-magnifying-glass text-blue-400 text-sm"></i> 7. Investigation &amp; Audit</h2>
+          <p>
+            We do not proactively inspect customer test traces under normal operating conditions. However, we reserve the right to investigate reports of abusive activity, unusual traffic spikes, or suspected security breaches.
+          </p>
+        </section>
+
+        <section id="enforcement">
+          <h2><i class="fas fa-gavel text-blue-400 text-sm"></i> 8. Enforcement &amp; Penalties</h2>
+          <p>
+            Failure to adhere to this policy may result in progressive disciplinary actions:
+          </p>
+          <ol>
+            <li><strong>Warning Notice:</strong> Informal or formal notification to the workspace administrator requesting remediation of runaway test runs.</li>
+            <li><strong>Temporary Rate Throttling:</strong> Automated reduction of ingestion limits to protect infrastructure stability.</li>
+            <li><strong>API Key Invalidation:</strong> Immediate revocation of compromised or abusive project ingestion tokens.</li>
+            <li><strong>Account Suspension / Termination:</strong> Complete shutdown of the workspace and permanent forfeiture of services.</li>
+          </ol>
+        </section>
+
+        <section id="reporting">
+          <h2><i class="fas fa-flag text-blue-400 text-sm"></i> 9. Reporting Abuse</h2>
+          <p>
+            To report suspected violations of this Acceptable Use Policy, please submit detailed incident telemetry to:
+          </p>
+          <div class="p-4 bg-[#14141b] rounded-xl border border-[#20202a] text-sm space-y-1">
+            <p><strong>Playwright Dashboard Abuse Desk</strong></p>
+            <p>Email: <a href="mailto:abuse@playwright-dashboard.easytesting.app">abuse@playwright-dashboard.easytesting.app</a></p>
+            <p>Escalation response time: Within 24 hours for security incidents.</p>
+          </div>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="relative z-10 border-t border-[#20202a] bg-[#08080a] py-12 px-4 sm:px-6 lg:px-8 mt-16">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-2.5">
+        <span class="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+          <i class="fas fa-chart-line text-xs" aria-hidden="true"></i>
+        </span>
+        <span class="text-sm font-semibold text-white">Playwright Dashboard</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-muted">
+        <a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a>
+        <a href="/terms.html" class="hover:text-white transition">Terms of Use</a>
+        <a href="/acceptable-use.html" class="text-blue-400 font-medium">Acceptable Use</a>
+        <a href="/dpa.html" class="hover:text-white transition">DPA</a>
+        <a href="/cookie-policy.html" class="hover:text-white transition">Cookies</a>
+        <a href="/security.html" class="hover:text-white transition">Security</a>
+      </div>
+      <p class="text-xs text-muted-2">© 2026 Playwright Dashboard. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const sections = document.querySelectorAll('article section');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 140;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>

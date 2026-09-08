@@ -719,20 +719,83 @@ reporter: [
   </main>
 
   <!-- Footer -->
-  <footer role="contentinfo" class="relative border-t border-[#20202a] py-10 px-4">
-    <div class="container flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center space-x-2.5">
-        <span class="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
-          <i class="fas fa-chart-line text-xs" aria-hidden="true"></i>
-        </span>
-        <span class="text-sm font-semibold text-[#f4f4f7]">Playwright Dashboard</span>
+  <footer role="contentinfo" class="relative border-t border-[#20202a] bg-[#08080a] pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="container max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#20202a]">
+        
+        <!-- Brand / Col 1 & 2 -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center space-x-2.5">
+            <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+              <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+            </span>
+            <span class="text-base font-bold text-[#f4f4f7]">Playwright Dashboard</span>
+          </div>
+          <p class="text-xs text-muted max-w-sm leading-relaxed">
+            Real-time test reporting, flaky test detection engine, and trace visualization for modern Playwright E2E automation pipelines.
+          </p>
+          <div class="flex items-center space-x-3 pt-2">
+            <a href="https://github.com/christmasday/playwright-dashboard" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub Repository"><i class="fab fa-github text-xs" aria-hidden="true"></i></a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Twitter Profile"><i class="fab fa-twitter text-xs" aria-hidden="true"></i></a>
+            <a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Discord Community"><i class="fab fa-discord text-xs" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <!-- Product Col -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Product</h3>
+          <ul class="space-y-2 text-xs text-muted">
+            <li><a href="#features" class="hover:text-white transition">Features</a></li>
+            <li><a href="#comparison" class="hover:text-white transition">Compare Tools</a></li>
+            <li><a href="/dashboard" class="hover:text-white transition">Live Dashboard</a></li>
+            <li><a href="#pricing" class="hover:text-white transition">Pricing Plans</a></li>
+            <li><a href="/docs" class="hover:text-white transition">Documentation</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources Col -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Resources</h3>
+          <ul class="space-y-2 text-xs text-muted">
+            <li><a href="/docs" class="hover:text-white transition">User Guide</a></li>
+            <li><a href="https://github.com/christmasday/playwright-dashboard" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">GitHub Repository</a></li>
+            <li><a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">Discord Community</a></li>
+            <li><a href="/signup" class="hover:text-white transition">Create Free Account</a></li>
+            <li><a href="/login" class="hover:text-white transition">Sign In</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal & Trust Col -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fas fa-shield-halved text-blue-500 text-xs"></i>
+            Legal &amp; Trust
+          </h3>
+          <ul class="space-y-2 text-xs text-muted">
+            <li><a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="hover:text-white transition">Terms of Use</a></li>
+            <li><a href="/acceptable-use.html" class="hover:text-white transition">Acceptable Use</a></li>
+            <li><a href="/dpa.html" class="hover:text-white transition">Data Processing (DPA)</a></li>
+            <li><a href="/cookie-policy.html" class="hover:text-white transition">Cookie Policy</a></li>
+            <li><a href="/security.html" class="hover:text-white transition">Security &amp; Compliance</a></li>
+            <li><a href="/legal.html" class="text-blue-400 font-medium hover:underline">Trust Center &rarr;</a></li>
+          </ul>
+        </div>
+
       </div>
-      <nav aria-label="Footer Social Links" class="flex items-center space-x-3">
-        <a href="https://github.com/christmasday/playwright-dashboard" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub Repository"><i class="fab fa-github text-sm" aria-hidden="true"></i></a>
-        <a href="#" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Twitter Profile"><i class="fab fa-twitter text-sm" aria-hidden="true"></i></a>
-        <a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Discord Community"><i class="fab fa-discord text-sm" aria-hidden="true"></i></a>
-      </nav>
-      <p class="text-sm text-muted-2">© 2026 Playwright Dashboard. All rights reserved.</p>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-2">
+        <p>© 2026 Playwright Dashboard. All rights reserved.</p>
+        <div class="flex items-center space-x-4 text-xs">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px]">
+            <i class="fas fa-check text-[9px]"></i> GDPR Compliant
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px]">
+            <i class="fas fa-lock text-[9px]"></i> TLS 1.3 / AES-256
+          </span>
+        </div>
+      </div>
     </div>
   </footer>
 

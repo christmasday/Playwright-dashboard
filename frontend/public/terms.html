@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08080a">
+  
+  <title>Terms of Use — Playwright Dashboard</title>
+  <meta name="title" content="Terms of Use — Playwright Dashboard">
+  <meta name="description" content="Terms of Use and Service Agreement for Playwright Dashboard. Understand customer data rights, API key responsibilities, subscription billing, and SLA terms.">
+  <link rel="canonical" href="https://playwright-dashboard.easytesting.app/terms.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Playwright Dashboard">
+  <meta property="og:url" content="https://playwright-dashboard.easytesting.app/terms.html">
+  <meta property="og:title" content="Terms of Use — Playwright Dashboard">
+  <meta property="og:description" content="Terms of Use governing access to Playwright Dashboard cloud and self-hosted editions.">
+  <meta property="og:image" content="https://playwright-dashboard.easytesting.app/og-image.png">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --bg: #08080a;
+      --bg-subtle: #0a0a0e;
+      --surface: #0e0e13;
+      --surface-2: #14141b;
+      --border: #20202a;
+      --fg: #f4f4f7;
+      --muted: #9a9aa5;
+      --muted-2: #5e5e68;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .aurora {
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(35% 35% at 20% 20%, rgba(59,130,246,0.15), transparent 60%),
+        radial-gradient(30% 30% at 80% 25%, rgba(96,165,250,0.10), transparent 60%);
+      filter: blur(50px);
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.18;
+    }
+
+    .nav-link { color: var(--muted); transition: color .2s ease; }
+    .nav-link:hover { color: var(--fg); }
+
+    .prose-legal h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f4f4f7;
+      margin-top: 2.5rem;
+      margin-bottom: 0.85rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .prose-legal h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .prose-legal p, .prose-legal ul, .prose-legal ol {
+      color: #9a9aa5;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .prose-legal ul { list-style-type: disc; padding-left: 1.5rem; }
+    .prose-legal ol { list-style-type: decimal; padding-left: 1.5rem; }
+    .prose-legal li { margin-bottom: 0.35rem; }
+    .prose-legal strong { color: #f4f4f7; font-weight: 600; }
+    .prose-legal code {
+      background: #14141b;
+      border: 1px solid #20202a;
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.35rem;
+      font-size: 0.85em;
+      color: #93c5fd;
+    }
+    .prose-legal a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .prose-legal a:hover { color: var(--accent-hover); }
+
+    .legal-card {
+      background: rgba(14, 14, 19, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+    }
+
+    .callout {
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      border-left: 4px solid;
+    }
+    .callout-info { background: rgba(59, 130, 246, 0.08); border-color: #3b82f6; color: #bfdbfe; }
+    .callout-warn { background: rgba(245, 158, 11, 0.08); border-color: #f59e0b; color: #fde68a; }
+
+    .toc-link {
+      display: block;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.85rem;
+      color: #9a9aa5;
+      border-radius: 0.5rem;
+      transition: all 0.15s ease;
+      text-decoration: none !important;
+    }
+    .toc-link:hover, .toc-link.active {
+      background: #14141b;
+      color: #60a5fa;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-blue-600 selection:text-white">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Global Header -->
+  <header class="sticky top-0 z-50 border-b border-[#20202a] bg-[#08080a]/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="/landing.html" class="flex items-center space-x-2.5">
+          <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+          </span>
+          <span class="font-bold text-base tracking-tight text-white">Playwright Dashboard</span>
+        </a>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 font-medium">Legal Hub</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="/landing.html" class="nav-link">Overview</a>
+        <a href="/landing.html#features" class="nav-link">Features</a>
+        <a href="/docs" class="nav-link">Documentation</a>
+        <a href="/legal.html" class="text-blue-400 font-medium">Legal Center</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="/login" class="text-xs sm:text-sm font-medium text-muted hover:text-white transition px-3 py-1.5">Sign in</a>
+        <a href="/signup" class="text-xs sm:text-sm font-semibold text-black bg-gradient-to-r from-[#93c5fd] to-[#3b82f6] px-4 py-2 rounded-lg hover:opacity-90 transition">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb & Hero -->
+  <section class="relative z-10 pt-10 pb-6 border-b border-[#20202a]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center space-x-2 text-xs text-muted mb-4">
+        <a href="/landing.html" class="hover:text-white">Home</a>
+        <i class="fas fa-chevron-right text-[10px] text-muted-2"></i>
+        <a href="/legal.html" class="hover:text-white">Legal &amp; Trust Center</a>
+        <i class="fas fa-chevron-right text-[10px] text-muted-2"></i>
+        <span class="text-blue-400 font-medium">Terms of Use</span>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
+            <i class="fas fa-scale-balanced text-blue-500 text-2xl"></i>
+            Terms of Use &amp; Service Agreement
+          </h1>
+          <p class="text-muted text-sm sm:text-base mt-2 max-w-2xl">
+            Governing terms for accessing the Playwright Dashboard platform, API ingest services, reporter packages, and cloud accounts.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="bg-[#14141b] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-muted">
+            <span class="text-muted-2">Effective:</span> <strong class="text-white">September 1, 2026</strong>
+          </div>
+          <button onclick="window.print()" class="bg-[#14141b] hover:bg-[#1f1f2a] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-white flex items-center gap-1.5 transition">
+            <i class="fas fa-print text-muted"></i> Print
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Nav Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto py-4 mt-2 text-xs scrollbar-none">
+        <span class="text-muted-2 whitespace-nowrap">Explore Policies:</span>
+        <a href="/privacy.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Privacy Policy</a>
+        <a href="/terms.html" class="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 font-medium whitespace-nowrap">Terms of Use</a>
+        <a href="/acceptable-use.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Acceptable Use</a>
+        <a href="/dpa.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">DPA (Data Processing Addendum)</a>
+        <a href="/cookie-policy.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Cookie Policy</a>
+        <a href="/security.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Security &amp; Compliance</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      
+      <!-- Sticky Sidebar Table of Contents -->
+      <aside class="hidden lg:block sticky top-24 space-y-4">
+        <div class="legal-card p-5">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-3 flex items-center justify-between">
+            <span>On This Page</span>
+            <i class="fas fa-list-ul text-blue-400 text-xs"></i>
+          </h3>
+          <nav class="space-y-1">
+            <a href="#acceptance" class="toc-link">1. Acceptance of Terms</a>
+            <a href="#services" class="toc-link">2. Description of Services</a>
+            <a href="#accounts" class="toc-link">3. Accounts &amp; API Keys</a>
+            <a href="#intellectual-property" class="toc-link">4. IP &amp; Customer Data Ownership</a>
+            <a href="#billing" class="toc-link">5. Subscriptions &amp; Billing</a>
+            <a href="#service-level" class="toc-link">6. Service Levels &amp; Uptime</a>
+            <a href="#acceptable-conduct" class="toc-link">7. User Conduct &amp; Restrictions</a>
+            <a href="#termination" class="toc-link">8. Termination &amp; Suspension</a>
+            <a href="#disclaimers" class="toc-link">9. Warranty Disclaimers</a>
+            <a href="#limitation-of-liability" class="toc-link">10. Limitation of Liability</a>
+            <a href="#indemnification" class="toc-link">11. Indemnification</a>
+            <a href="#governing-law" class="toc-link">12. Governing Law &amp; Disputes</a>
+            <a href="#contact" class="toc-link">13. Legal Contact</a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Policy Prose Content -->
+      <article class="lg:col-span-3 legal-card p-6 sm:p-10 prose-legal">
+        
+        <div class="callout callout-info">
+          <strong>Key Highlights:</strong> You retain complete ownership of all test code, test results, traces, and screenshots ingested into Playwright Dashboard. We do not claim any proprietary rights over your test suites or codebases.
+        </div>
+
+        <section id="acceptance">
+          <h2><i class="fas fa-handshake text-blue-400 text-sm"></i> 1. Acceptance of Terms</h2>
+          <p>
+            By creating an account, installing the Playwright Dashboard reporter, invoking our ingestion API, or otherwise accessing our services, you (<strong>"Customer"</strong>, <strong>"User"</strong>, or <strong>"you"</strong>) agree to be bound by these Terms of Use (<strong>"Terms"</strong>). If you represent an entity or organization, you warrant that you possess the legal authority to bind that entity to these Terms.
+          </p>
+        </section>
+
+        <section id="services">
+          <h2><i class="fas fa-cubes text-blue-400 text-sm"></i> 2. Description of Services</h2>
+          <p>
+            Playwright Dashboard provides test visualization, real-time WebSocket test run streams, automated flaky test detection algorithms, trace inspectors, and CI/CD reporting integrations. We offer these services through:
+          </p>
+          <ul>
+            <li><strong>Cloud Service:</strong> Hosted multi-tenant platform managed by us on <a href="https://playwright-dashboard.easytesting.app">playwright-dashboard.easytesting.app</a>.</li>
+            <li><strong>Self-Hosted / Open Source Edition:</strong> Docker and repository packages made available under the MIT License for deployment in customer-managed environments.</li>
+          </ul>
+        </section>
+
+        <section id="accounts">
+          <h2><i class="fas fa-key text-blue-400 text-sm"></i> 3. Accounts, Roles, &amp; API Key Security</h2>
+          <p>
+            To access features, you must register a workspace account. You agree to provide accurate registration information and keep credentials secure.
+          </p>
+          <ul>
+            <li><strong>API Key Responsibility:</strong> Each project issues ingestion API tokens. You are solely responsible for keeping these keys confidential and avoiding committing them to public git repositories.</li>
+            <li><strong>Team Permissions:</strong> Workspace administrators may assign roles (Owner, Admin, Member, Viewer). Administrators are responsible for revoking access when team members depart.</li>
+            <li><strong>Compromised Credentials:</strong> You must immediately notify <a href="mailto:security@playwright-dashboard.easytesting.app">security@playwright-dashboard.easytesting.app</a> upon discovering unauthorized access or token leakage.</li>
+          </ul>
+        </section>
+
+        <section id="intellectual-property">
+          <h2><i class="fas fa-copyright text-blue-400 text-sm"></i> 4. Intellectual Property &amp; Customer Data Ownership</h2>
+          <h3>A. Customer Data Ownership</h3>
+          <p>
+            You retain all right, title, and interest (including all intellectual property rights) in and to your test suites, test run results, DOM trees, screenshots, error logs, and trace zip files (collectively, <strong>"Customer Data"</strong>). You grant Playwright Dashboard a limited, worldwide, non-exclusive license solely to process, host, cache, and display Customer Data as necessary to provide the service to you.
+          </p>
+
+          <h3>B. Platform Intellectual Property</h3>
+          <p>
+            Playwright Dashboard, its logo, user interface designs, flaky test detection heuristics, and underlying platform software (excluding open source dependencies) are protected by copyright, trade secret, and trademark laws.
+          </p>
+        </section>
+
+        <section id="billing">
+          <h2><i class="fas fa-credit-card text-blue-400 text-sm"></i> 5. Subscriptions, Ingestion Quotas, &amp; Billing</h2>
+          <ul>
+            <li><strong>Free Tier:</strong> Free accounts provide access to core dashboard analytics subject to monthly test run ingestion caps and artifact retention windows.</li>
+            <li><strong>Paid Team &amp; Enterprise Plans:</strong> Paid subscriptions are billed in advance on a recurring monthly or annual basis. Failure to remit payment within 14 days of due date may result in workspace downgrade or suspension.</li>
+            <li><strong>Cancellation:</strong> You may cancel paid subscriptions at any time via Workspace Settings. Cancellations take effect at the conclusion of the current billing cycle.</li>
+          </ul>
+        </section>
+
+        <section id="service-level">
+          <h2><i class="fas fa-chart-line text-blue-400 text-sm"></i> 6. Service Levels &amp; Scheduled Maintenance</h2>
+          <p>
+            We target <strong>99.9% monthly uptime</strong> for our cloud ingestion endpoint (<code>/api/tests/ingest</code>) and dashboard UI, excluding emergency security patches and scheduled maintenance. Scheduled maintenance will be announced with at least 48 hours notice via status page and email notifications.
+          </p>
+        </section>
+
+        <section id="acceptable-conduct">
+          <h2><i class="fas fa-ban text-blue-400 text-sm"></i> 7. User Conduct &amp; Prohibited Uses</h2>
+          <p>
+            You agree to comply fully with our <a href="/acceptable-use.html">Acceptable Use Policy</a>. You must not attempt to reverse engineer our proprietary endpoints, probe for vulnerabilities without authorization, or inject malware into test trace artifacts.
+          </p>
+        </section>
+
+        <section id="termination">
+          <h2><i class="fas fa-user-xmark text-blue-400 text-sm"></i> 8. Termination &amp; Suspension</h2>
+          <p>
+            We reserve the right to suspend or terminate workspace access immediately if:
+          </p>
+          <ul>
+            <li>You materially breach these Terms or the Acceptable Use Policy.</li>
+            <li>Your test runner causes disruptive denial-of-service or ingestion flooding affecting other multi-tenant users.</li>
+            <li>Required by law enforcement or competent regulatory authority.</li>
+          </ul>
+          <p>Upon termination, you may request an export of historical test metadata within 14 days, after which data will be permanently wiped.</p>
+        </section>
+
+        <section id="disclaimers">
+          <h2><i class="fas fa-triangle-exclamation text-blue-400 text-sm"></i> 9. Warranty Disclaimers</h2>
+          <p class="uppercase text-xs tracking-wider text-muted-2">
+            TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT TEST SUITE EXECUTION ANALYTICS WILL BE ERROR-FREE OR UNINTERRUPTED.
+          </p>
+        </section>
+
+        <section id="limitation-of-liability">
+          <h2><i class="fas fa-shield-halved text-blue-400 text-sm"></i> 10. Limitation of Liability</h2>
+          <p class="uppercase text-xs tracking-wider text-muted-2">
+            IN NO EVENT SHALL PLAYWRIGHT DASHBOARD, ITS OFFICERS, DIRECTORS, EMPLOYEES, OR AFFILIATES BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF PROFITS, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES. OUR TOTAL AGGREGATE LIABILITY FOR ALL CLAIMS ARISING UNDER THESE TERMS SHALL NOT EXCEED THE TOTAL FEES PAID BY YOU IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO LIABILITY, OR ONE HUNDRED DOLLARS ($100 USD), WHICHEVER IS GREATER.
+          </p>
+        </section>
+
+        <section id="indemnification">
+          <h2><i class="fas fa-gavel text-blue-400 text-sm"></i> 11. Indemnification</h2>
+          <p>
+            You agree to indemnify, defend, and hold harmless Playwright Dashboard and its team against any third-party claims, damages, liabilities, and expenses (including reasonable legal fees) arising from your Customer Data, breach of these Terms, or violation of third-party rights.
+          </p>
+        </section>
+
+        <section id="governing-law">
+          <h2><i class="fas fa-landmark text-blue-400 text-sm"></i> 12. Governing Law &amp; Dispute Resolution</h2>
+          <p>
+            These Terms shall be governed by and construed in accordance with the laws of Delaware, United States, without regard to its conflict of law principles. Any dispute arising under these Terms shall be resolved via binding individual arbitration administered by the American Arbitration Association (AAA).
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2><i class="fas fa-envelope text-blue-400 text-sm"></i> 13. Legal Contact</h2>
+          <p>For questions or notices regarding these Terms, please contact:</p>
+          <div class="p-4 bg-[#14141b] rounded-xl border border-[#20202a] text-sm space-y-1">
+            <p><strong>Playwright Dashboard Legal Team</strong></p>
+            <p>Email: <a href="mailto:legal@playwright-dashboard.easytesting.app">legal@playwright-dashboard.easytesting.app</a></p>
+            <p>Website: <a href="https://playwright-dashboard.easytesting.app">playwright-dashboard.easytesting.app</a></p>
+          </div>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="relative z-10 border-t border-[#20202a] bg-[#08080a] py-12 px-4 sm:px-6 lg:px-8 mt-16">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-2.5">
+        <span class="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+          <i class="fas fa-chart-line text-xs" aria-hidden="true"></i>
+        </span>
+        <span class="text-sm font-semibold text-white">Playwright Dashboard</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-muted">
+        <a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a>
+        <a href="/terms.html" class="text-blue-400 font-medium">Terms of Use</a>
+        <a href="/acceptable-use.html" class="hover:text-white transition">Acceptable Use</a>
+        <a href="/dpa.html" class="hover:text-white transition">DPA</a>
+        <a href="/cookie-policy.html" class="hover:text-white transition">Cookies</a>
+        <a href="/security.html" class="hover:text-white transition">Security</a>
+      </div>
+      <p class="text-xs text-muted-2">© 2026 Playwright Dashboard. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const sections = document.querySelectorAll('article section');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 140;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>

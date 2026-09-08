@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08080a">
+  
+  <title>Security &amp; Architecture Policy — Playwright Dashboard</title>
+  <meta name="title" content="Security &amp; Architecture Policy — Playwright Dashboard">
+  <meta name="description" content="Security architecture, cryptographic standards, multi-tenant isolation, and responsible vulnerability disclosure policy for Playwright Dashboard.">
+  <link rel="canonical" href="https://playwright-dashboard.easytesting.app/security.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Playwright Dashboard">
+  <meta property="og:url" content="https://playwright-dashboard.easytesting.app/security.html">
+  <meta property="og:title" content="Security &amp; Architecture Policy — Playwright Dashboard">
+  <meta property="og:description" content="Technical overview of encryption, data isolation, and responsible vulnerability disclosure.">
+  <meta property="og:image" content="https://playwright-dashboard.easytesting.app/og-image.png">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --bg: #08080a;
+      --bg-subtle: #0a0a0e;
+      --surface: #0e0e13;
+      --surface-2: #14141b;
+      --border: #20202a;
+      --fg: #f4f4f7;
+      --muted: #9a9aa5;
+      --muted-2: #5e5e68;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .aurora {
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(35% 35% at 20% 20%, rgba(59,130,246,0.15), transparent 60%),
+        radial-gradient(30% 30% at 80% 25%, rgba(96,165,250,0.10), transparent 60%);
+      filter: blur(50px);
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.18;
+    }
+
+    .nav-link { color: var(--muted); transition: color .2s ease; }
+    .nav-link:hover { color: var(--fg); }
+
+    .prose-legal h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f4f4f7;
+      margin-top: 2.5rem;
+      margin-bottom: 0.85rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .prose-legal h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .prose-legal p, .prose-legal ul, .prose-legal ol {
+      color: #9a9aa5;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .prose-legal ul { list-style-type: disc; padding-left: 1.5rem; }
+    .prose-legal ol { list-style-type: decimal; padding-left: 1.5rem; }
+    .prose-legal li { margin-bottom: 0.35rem; }
+    .prose-legal strong { color: #f4f4f7; font-weight: 600; }
+    .prose-legal code {
+      background: #14141b;
+      border: 1px solid #20202a;
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.35rem;
+      font-size: 0.85em;
+      color: #93c5fd;
+    }
+    .prose-legal a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .prose-legal a:hover { color: var(--accent-hover); }
+
+    .legal-card {
+      background: rgba(14, 14, 19, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+    }
+
+    .callout {
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      border-left: 4px solid;
+    }
+    .callout-info { background: rgba(59, 130, 246, 0.08); border-color: #3b82f6; color: #bfdbfe; }
+    .callout-emerald { background: rgba(16, 185, 129, 0.08); border-color: #10b981; color: #a7f3d0; }
+
+    .toc-link {
+      display: block;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.85rem;
+      color: #9a9aa5;
+      border-radius: 0.5rem;
+      transition: all 0.15s ease;
+      text-decoration: none !important;
+    }
+    .toc-link:hover, .toc-link.active {
+      background: #14141b;
+      color: #60a5fa;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-blue-600 selection:text-white">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Global Header -->
+  <header class="sticky top-0 z-50 border-b border-[#20202a] bg-[#08080a]/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="/landing.html" class="flex items-center space-x-2.5">
+          <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+          </span>
+          <span class="font-bold text-base tracking-tight text-white">Playwright Dashboard</span>
+        </a>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 font-medium">Legal Hub</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="/landing.html" class="nav-link">Overview</a>
+        <a href="/landing.html#features" class="nav-link">Features</a>
+        <a href="/docs" class="nav-link">Documentation</a>
+        <a href="/legal.html" class="text-blue-400 font-medium">Legal Center</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="/login" class="text-xs sm:text-sm font-medium text-muted hover:text-white transition px-3 py-1.5">Sign in</a>
+        <a href="/signup" class="text-xs sm:text-sm font-semibold text-black bg-gradient-to-r from-[#93c5fd] to-[#3b82f6] px-4 py-2 rounded-lg hover:opacity-90 transition">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb & Hero -->
+  <section class="relative z-10 pt-10 pb-6 border-b border-[#20202a]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center space-x-2 text-xs text-muted mb-4">
+        <a href="/landing.html" class="hover:text-white">Home</a>
+        <i class="fas fa-chevron-right text-[10px] text-muted-2"></i>
+        <a href="/legal.html" class="hover:text-white">Legal &amp; Trust Center</a>
+        <i class="fas fa-chevron-right text-[10px] text-muted-2"></i>
+        <span class="text-blue-400 font-medium">Security &amp; Architecture</span>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
+            <i class="fas fa-shield-virus text-emerald-400 text-2xl"></i>
+            Security, Architecture &amp; Responsible Disclosure
+          </h1>
+          <p class="text-muted text-sm sm:text-base mt-2 max-w-2xl">
+            A comprehensive overview of our multi-tenant isolation, cryptographic safeguards, continuous scanning, and vulnerability disclosure protocol.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="bg-[#14141b] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-muted">
+            <span class="text-muted-2">Status:</span> <strong class="text-emerald-400">SOC2 Aligned</strong>
+          </div>
+          <button onclick="window.print()" class="bg-[#14141b] hover:bg-[#1f1f2a] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-white flex items-center gap-1.5 transition">
+            <i class="fas fa-print text-muted"></i> Print
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Nav Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto py-4 mt-2 text-xs scrollbar-none">
+        <span class="text-muted-2 whitespace-nowrap">Explore Policies:</span>
+        <a href="/privacy.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Privacy Policy</a>
+        <a href="/terms.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Terms of Use</a>
+        <a href="/acceptable-use.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Acceptable Use</a>
+        <a href="/dpa.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">DPA (Data Processing Addendum)</a>
+        <a href="/cookie-policy.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Cookie Policy</a>
+        <a href="/security.html" class="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 font-medium whitespace-nowrap">Security &amp; Compliance</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      
+      <!-- Sticky Sidebar Table of Contents -->
+      <aside class="hidden lg:block sticky top-24 space-y-4">
+        <div class="legal-card p-5">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-3 flex items-center justify-between">
+            <span>On This Page</span>
+            <i class="fas fa-list-ul text-blue-400 text-xs"></i>
+          </h3>
+          <nav class="space-y-1">
+            <a href="#philosophy" class="toc-link">1. Security Posture</a>
+            <a href="#isolation" class="toc-link">2. Multi-Tenant Isolation</a>
+            <a href="#cryptography" class="toc-link">3. Encryption Standards</a>
+            <a href="#api-security" class="toc-link">4. API Token Lifecycle</a>
+            <a href="#backups" class="toc-link">5. Backups &amp; Disaster Recovery</a>
+            <a href="#self-hosted-security" class="toc-link">6. Self-Hosted Guidance</a>
+            <a href="#responsible-disclosure" class="toc-link">7. Vulnerability Disclosure</a>
+            <a href="#safe-harbor" class="toc-link">8. Safe Harbor</a>
+            <a href="#contact" class="toc-link">9. Security Team Contact</a>
+          </nav>
+        </div>
+
+        <div class="legal-card p-5 text-xs text-muted space-y-2">
+          <div class="font-semibold text-emerald-400 flex items-center gap-1.5">
+            <i class="fas fa-check-double"></i> Automated Safeguards
+          </div>
+          <p>Continuous vulnerability scanning, automated dependency auditing via Dependabot, and strict Content Security Policies.</p>
+        </div>
+      </aside>
+
+      <!-- Policy Prose Content -->
+      <article class="lg:col-span-3 legal-card p-6 sm:p-10 prose-legal">
+        
+        <div class="callout callout-emerald">
+          <strong>Security Promise:</strong> We treat your test code, trace files, and execution metrics with zero-trust rigor. Our infrastructure enforces hardware-level encryption, multi-tenant row isolation, and rigorous token validation.
+        </div>
+
+        <section id="philosophy">
+          <h2><i class="fas fa-shield-halved text-blue-400 text-sm"></i> 1. Security Posture &amp; Standards</h2>
+          <p>
+            Playwright Dashboard protects development pipelines by embedding security into every architectural layer. Our controls are designed in alignment with <strong>SOC 2 Type II</strong> trust services criteria and <strong>ISO/IEC 27001</strong> information security management principles.
+          </p>
+        </section>
+
+        <section id="isolation">
+          <h2><i class="fas fa-cubes-stacked text-blue-400 text-sm"></i> 2. Multi-Tenant Architecture &amp; Workspace Isolation</h2>
+          <p>
+            Our cloud architecture strictly isolates workspace data using both logical and database-enforced controls:
+          </p>
+          <ul>
+            <li><strong>Row-Level Security (RLS):</strong> PostgreSQL tables enforce cryptographic tenant binding on every query. Workspace members can only query data belonging to authorized organizations.</li>
+            <li><strong>Signed Storage URLs:</strong> Artifacts such as trace zips and failure recordings stored in S3/R2 are served exclusively via short-lived, pre-signed HMAC URLs expiring within 15 minutes.</li>
+            <li><strong>Isolated Pub/Sub Channels:</strong> WebSocket streaming connections subscribe strictly to tenant-keyed Redis channels; cross-tenant message contamination is mathematically prevented.</li>
+          </ul>
+        </section>
+
+        <section id="cryptography">
+          <h2><i class="fas fa-key text-blue-400 text-sm"></i> 3. Cryptographic Standards</h2>
+          <ul>
+            <li><strong>Data in Transit:</strong> 100% of web, API, and WebSocket traffic is protected via TLS 1.3 with modern AEAD cipher suites (ChaCha20-Poly1305, AES-256-GCM). HSTS is enforced with preloading enabled.</li>
+            <li><strong>Data at Rest:</strong> Database volumes, backup images, and object storage buckets are encrypted using industry-standard AES-256 with automated KMS key rotation.</li>
+            <li><strong>Credential Storage:</strong> User passwords are never stored in plaintext and are hashed using bcrypt with adaptive cost factors.</li>
+          </ul>
+        </section>
+
+        <section id="api-security">
+          <h2><i class="fas fa-fingerprint text-blue-400 text-sm"></i> 4. API Token Lifecycle &amp; Ingestion Security</h2>
+          <p>
+            To eliminate the risk of database compromise leaking test runner credentials:
+          </p>
+          <ul>
+            <li>Project ingestion tokens are displayed exactly once during generation.</li>
+            <li>Our database stores only the SHA-256 cryptographic hash of the token.</li>
+            <li>Workspace administrators can instantaneously revoke and rotate keys from Workspace Settings if a CI runner is compromised.</li>
+          </ul>
+        </section>
+
+        <section id="backups">
+          <h2><i class="fas fa-cloud-arrow-up text-blue-400 text-sm"></i> 5. Backups &amp; Disaster Recovery</h2>
+          <p>
+            We maintain continuous automated backups with point-in-time recovery (PITR) across geo-distributed regions:
+          </p>
+          <ul>
+            <li><strong>Recovery Point Objective (RPO):</strong> Less than 1 hour.</li>
+            <li><strong>Recovery Time Objective (RTO):</strong> Less than 4 hours for complete system recovery.</li>
+            <li><strong>Backup Verification:</strong> Automated quarterly restoration drills ensure backup integrity and disaster readiness.</li>
+          </ul>
+        </section>
+
+        <section id="self-hosted-security">
+          <h2><i class="fas fa-server text-blue-400 text-sm"></i> 6. Self-Hosted Hardening Recommendations</h2>
+          <p>
+            When self-hosting Playwright Dashboard on Docker or Kubernetes within your internal VPC:
+          </p>
+          <ul>
+            <li>Set strong random strings for <code>JWT_SECRET</code> and <code>ENCRYPTION_KEY</code> environment variables.</li>
+            <li>Terminate SSL at a reverse proxy (e.g., Traefik, Nginx, or Cloudflare Tunnel) with modern TLS ciphers.</li>
+            <li>Place PostgreSQL and Redis on private internal Docker networks unexposed to the public internet.</li>
+          </ul>
+        </section>
+
+        <section id="responsible-disclosure">
+          <h2><i class="fas fa-user-ninja text-blue-400 text-sm"></i> 7. Vulnerability Disclosure Policy</h2>
+          <p>
+            We welcome vulnerability reports from security researchers. If you discover a potential vulnerability in Playwright Dashboard:
+          </p>
+          <ul>
+            <li>Email our team immediately at <a href="mailto:security@playwright-dashboard.easytesting.app">security@playwright-dashboard.easytesting.app</a> with detailed reproduction steps.</li>
+            <li>Provide a reasonable embargo period (minimum 30 days) for our engineering team to develop and deploy a patch before public disclosure.</li>
+            <li>Do not view, modify, or exfiltrate customer test data. Test vulnerabilities only against accounts you own.</li>
+          </ul>
+        </section>
+
+        <section id="safe-harbor">
+          <h2><i class="fas fa-anchor text-blue-400 text-sm"></i> 8. Safe Harbor Commitment</h2>
+          <p>
+            If you conduct vulnerability research in good faith and in compliance with this policy, we will consider your research authorized, will not pursue legal action, and will not request law enforcement intervention.
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2><i class="fas fa-envelope text-blue-400 text-sm"></i> 9. Security Team Contact</h2>
+          <div class="p-4 bg-[#14141b] rounded-xl border border-[#20202a] text-sm space-y-1">
+            <p><strong>Playwright Dashboard Security Operations</strong></p>
+            <p>Email: <a href="mailto:security@playwright-dashboard.easytesting.app">security@playwright-dashboard.easytesting.app</a></p>
+            <p>PGP Key Fingerprint: <code>4A9F 8201 9B4C 38E2 15DF  9A10 7C8E 24D1 3F29 80E4</code></p>
+            <p>Response SLA: Initial acknowledgement within 12 business hours.</p>
+          </div>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="relative z-10 border-t border-[#20202a] bg-[#08080a] py-12 px-4 sm:px-6 lg:px-8 mt-16">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-2.5">
+        <span class="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+          <i class="fas fa-chart-line text-xs" aria-hidden="true"></i>
+        </span>
+        <span class="text-sm font-semibold text-white">Playwright Dashboard</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-muted">
+        <a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a>
+        <a href="/terms.html" class="hover:text-white transition">Terms of Use</a>
+        <a href="/acceptable-use.html" class="hover:text-white transition">Acceptable Use</a>
+        <a href="/dpa.html" class="hover:text-white transition">DPA</a>
+        <a href="/cookie-policy.html" class="hover:text-white transition">Cookies</a>
+        <a href="/security.html" class="text-blue-400 font-medium">Security</a>
+      </div>
+      <p class="text-xs text-muted-2">© 2026 Playwright Dashboard. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const sections = document.querySelectorAll('article section');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 140;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>

@@ -159,6 +159,17 @@ const Signup: React.FC = () => {
               )}
             </div>
 
+            <p className="text-[11px] text-[#9a9aa5] text-center leading-relaxed">
+              By creating an account, you agree to our{' '}
+              <Link to="/terms" className="text-[#3b82f6] hover:underline">
+                Terms of Use
+              </Link>{' '}
+              and acknowledge our{' '}
+              <Link to="/privacy" className="text-[#3b82f6] hover:underline">
+                Privacy Policy
+              </Link>.
+            </p>
+
             <button
               type="submit"
               disabled={loading || showPasswordError}
