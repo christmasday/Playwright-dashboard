@@ -1,13 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Playwright Dashboard — Test management, in real time</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="theme-color" content="#08080a">
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>Playwright Dashboard — Real-Time Playwright Test Reporting &amp; Flaky Detection</title>
+  <meta name="title" content="Playwright Dashboard — Real-Time Playwright Test Reporting &amp; Flaky Detection">
+  <meta name="description" content="Playwright Dashboard is the real-time test management platform for Playwright E2E automation. Live test run monitoring, automated flaky test detection engine, trace viewer, and seamless CI/CD integration.">
+  <meta name="keywords" content="playwright dashboard, playwright test reporting, flaky test detection, e2e test analytics, playwright reporter, automated testing dashboard, ci cd test management, test run visualization, playwright trace viewer">
+  <meta name="author" content="Playwright Dashboard Team">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://playwright-dashboard.easytesting.app/landing.html">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Playwright Dashboard">
+  <meta property="og:url" content="https://playwright-dashboard.easytesting.app/landing.html">
+  <meta property="og:title" content="Playwright Dashboard — Real-Time Test Reporting &amp; Analytics">
+  <meta property="og:description" content="Stream live Playwright E2E test runs, detect flaky tests automatically, and inspect execution traces with a unified real-time test management platform.">
+  <meta property="og:image" content="https://playwright-dashboard.easytesting.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Playwright Dashboard Real-Time Analytics Interface">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@playwrightdash">
+  <meta name="twitter:creator" content="@playwrightdash">
+  <meta name="twitter:url" content="https://playwright-dashboard.easytesting.app/landing.html">
+  <meta name="twitter:title" content="Playwright Dashboard — Real-Time Test Reporting &amp; Analytics">
+  <meta name="twitter:description" content="Stream live Playwright E2E test runs, detect flaky tests automatically, and inspect execution traces with a unified real-time test management platform.">
+  <meta name="twitter:image" content="https://playwright-dashboard.easytesting.app/og-image.png">
+
+  <!-- Performance Preconnects -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+  <!-- Stylesheets -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- JSON-LD Structured Data Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://playwright-dashboard.easytesting.app/#software",
+        "name": "Playwright Dashboard",
+        "url": "https://playwright-dashboard.easytesting.app",
+        "operatingSystem": "All",
+        "applicationCategory": "DeveloperApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Real-time Playwright test management, live dashboard analytics, flaky test detection engine, and trace viewer for E2E automation pipelines."
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://playwright-dashboard.easytesting.app/#organization",
+        "name": "Playwright Dashboard",
+        "url": "https://playwright-dashboard.easytesting.app",
+        "logo": "https://playwright-dashboard.easytesting.app/logo.png"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://playwright-dashboard.easytesting.app/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What makes Playwright Dashboard different?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Built specifically for modern automation teams — real-time monitoring, smart orchestration, flaky test detection, and CI/CD integration, available both as a cloud service and self-hosted."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Playwright Dashboard free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. You can sign up for a 100% free cloud account or host it on your own infrastructure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does setup take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Setup takes about 2 minutes: Sign up, generate an API key, install the reporter package, and connect your Playwright test suite."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it support real-time test run updates?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — real-time sub-second updates surface results as test suites execute across local or CI environments."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does CI/CD pipeline integration work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Install the Playwright reporter package in your config or POST results to the /api/tests/ingest API endpoint from GitHub Actions, GitLab CI, or Jenkins."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <style>
     @property --p {
       syntax: '<number>';
@@ -278,8 +392,6 @@
     }
     .reveal.in { opacity: 1; transform: none; }
 
-    .divider-top { border-top: 1px solid var(--border); }
-
     .code-block {
       white-space: pre-wrap;
       word-break: break-word;
@@ -318,303 +430,372 @@
 </head>
 <body class="bg-[#08080a] text-[#f4f4f7]">
 
-  <div class="aurora"></div>
-  <div class="grid-overlay"></div>
-  <div class="noise"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
 
-  <!-- Navigation -->
-  <nav id="nav" class="fixed w-full top-0 z-50 bg-[#08080a]/80 backdrop-blur-md border-b border-[#20202a] transition-shadow">
-    <div class="container px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <a href="/" class="flex items-center space-x-2.5">
-          <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
-            <i class="fas fa-chart-line text-sm"></i>
-          </span>
-          <span class="text-[15px] font-semibold tracking-tight text-[#f4f4f7]">Playwright Dashboard</span>
-        </a>
-        <div class="hidden md:flex items-center space-x-8 text-sm">
-          <a href="#features" class="nav-link">Features</a>
-          <a href="#comparison" class="nav-link">Comparison</a>
-          <a href="#faq" class="nav-link">FAQ</a>
-          <a href="/docs" class="nav-link">Guide</a>
-        </div>
-        <div class="flex items-center space-x-3">
-          <a href="https://github.com/christmasday/Playwright-dashboard" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub Repository" title="GitHub Repository">
-            <i class="fab fa-github text-base"></i>
+  <!-- Header Navigation -->
+  <header role="banner">
+    <nav id="nav" aria-label="Main Navigation" class="fixed w-full top-0 z-50 bg-[#08080a]/80 backdrop-blur-md border-b border-[#20202a] transition-shadow">
+      <div class="container px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <a href="/landing.html" id="nav-brand-logo" class="flex items-center space-x-2.5" aria-label="Playwright Dashboard Homepage">
+            <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+              <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+            </span>
+            <span class="text-[15px] font-semibold tracking-tight text-[#f4f4f7]">Playwright Dashboard</span>
           </a>
-          <a href="/login" class="nav-link text-sm">Login</a>
-          <a href="/signup" class="btn-primary !py-2 !px-4 text-sm">Get Started</a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="relative pt-36 pb-24 px-4">
-    <div class="container">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-        <div class="reveal">
-          <span class="pill mb-6">
-            <span class="pulse-dot"></span> Real-time · Cloud & Self-hosted
-          </span>
-          <h1 class="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight">
-            Test management,<br>
-            in <span class="gradient-text">real time</span>.
-          </h1>
-          <p class="text-lg text-muted mt-6 max-w-xl leading-relaxed">
-            A calm, single view of every Playwright run — live dashboards,
-            flaky detection, and smart orchestration.
-          </p>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:space-x-3 mt-8">
-            <a href="/signup" class="btn-primary">
-              Start free <i class="fas fa-arrow-right ml-1"></i>
+          <div class="hidden md:flex items-center space-x-8 text-sm">
+            <a href="#features" id="nav-link-features" class="nav-link">Features</a>
+            <a href="#comparison" id="nav-link-comparison" class="nav-link">Comparison</a>
+            <a href="#faq" id="nav-link-faq" class="nav-link">FAQ</a>
+            <a href="/docs" id="nav-link-docs" class="nav-link">User Guide</a>
+          </div>
+          <div class="flex items-center space-x-3">
+            <a href="https://github.com/christmasday/Playwright-dashboard" target="_blank" rel="noopener noreferrer" id="nav-link-github" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub Repository" title="GitHub Repository">
+              <i class="fab fa-github text-base" aria-hidden="true"></i>
             </a>
-            <a href="/docs" class="btn-ghost">
-              <i class="fas fa-book"></i> View guide
-            </a>
-          </div>
-          <div class="flex items-center gap-6 mt-10 text-sm text-muted-2">
-            <span><span class="text-fg font-semibold">2 min</span> setup</span>
-            <span class="w-px h-4 bg-[#20202a]"></span>
-            <span><span class="text-fg font-semibold">100%</span> free cloud tier</span>
-            <span class="w-px h-4 bg-[#20202a]"></span>
-            <span><span class="text-fg font-semibold">Sub-second</span> updates</span>
+            <a href="/login" id="nav-btn-login" class="nav-link text-sm">Login</a>
+            <a href="/signup" id="nav-btn-signup" class="btn-primary !py-2 !px-4 text-sm">Get Started</a>
           </div>
         </div>
+      </div>
+    </nav>
+  </header>
 
-        <!-- Animated mock dashboard -->
-        <div class="reveal" style="transition-delay:.12s">
-          <div class="mock">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2 text-sm text-muted">
-                <span class="pulse-dot"></span> Live · build #4821
+  <!-- Main Content Container -->
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section aria-labelledby="hero-title" class="relative pt-36 pb-24 px-4">
+      <div class="container">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+          <div class="reveal">
+            <span class="pill mb-6">
+              <span class="pulse-dot" aria-hidden="true"></span> Real-Time Playwright Test Reporting · Cloud &amp; Self-Hosted
+            </span>
+            <h1 id="hero-title" class="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight">
+              Playwright test management,<br>
+              in <span class="gradient-text">real time</span>.
+            </h1>
+            <p class="text-lg text-muted mt-6 max-w-xl leading-relaxed">
+              A single unified view of every Playwright test run — live dashboards,
+              automated flaky test detection engine, trace viewer, and smart pipeline orchestration.
+            </p>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:space-x-3 mt-8">
+              <a href="/signup" id="hero-cta-signup" class="btn-primary">
+                Start free <i class="fas fa-arrow-right ml-1" aria-hidden="true"></i>
+              </a>
+              <a href="/docs" id="hero-cta-docs" class="btn-ghost">
+                <i class="fas fa-book" aria-hidden="true"></i> Read User Guide
+              </a>
+            </div>
+            <div class="flex items-center gap-6 mt-10 text-sm text-muted-2">
+              <span><strong class="text-fg font-semibold">2 min</strong> setup</span>
+              <span class="w-px h-4 bg-[#20202a]" aria-hidden="true"></span>
+              <span><strong class="text-fg font-semibold">100%</strong> free cloud tier</span>
+              <span class="w-px h-4 bg-[#20202a]" aria-hidden="true"></span>
+              <span><strong class="text-fg font-semibold">Sub-second</strong> latency</span>
+            </div>
+          </div>
+
+          <!-- Animated mock dashboard visual -->
+          <div class="reveal" style="transition-delay:.12s">
+            <div class="mock" aria-label="Playwright Live Test Run Visualization Dashboard">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="pulse-dot" aria-hidden="true"></span> Live · build #4821
+                </div>
+                <span class="text-xs text-muted border border-[#20202a] rounded-full px-2.5 py-1">main branch</span>
               </div>
-              <span class="text-xs text-muted border border-[#20202a] rounded-full px-2.5 py-1">main</span>
-            </div>
-            <div class="mock-bars">
-              <span style="animation-delay:0s"></span>
-              <span style="animation-delay:.15s"></span>
-              <span style="animation-delay:.3s"></span>
-              <span style="animation-delay:.45s"></span>
-              <span style="animation-delay:.6s"></span>
-              <span style="animation-delay:.75s"></span>
-              <span style="animation-delay:.9s"></span>
-              <span style="animation-delay:1.05s"></span>
-              <span style="animation-delay:1.2s"></span>
-              <span style="animation-delay:1.35s"></span>
-              <span style="animation-delay:1.5s"></span>
-              <span style="animation-delay:1.65s"></span>
-            </div>
-            <div class="flex items-center gap-4 mb-2">
-              <div class="ring" style="--p:0"><span class="relative text-[11px] font-semibold text-[#f4f4f7]">98%</span></div>
-              <div class="text-sm text-muted leading-tight">
-                <div class="text-fg font-medium">Pass rate trending up</div>
-                <div>412 passed · 7 failed · 3 flaky</div>
+              <div class="mock-bars" aria-hidden="true">
+                <span style="animation-delay:0s"></span>
+                <span style="animation-delay:.15s"></span>
+                <span style="animation-delay:.3s"></span>
+                <span style="animation-delay:.3s"></span>
+                <span style="animation-delay:.45s"></span>
+                <span style="animation-delay:.6s"></span>
+                <span style="animation-delay:.75s"></span>
+                <span style="animation-delay:.9s"></span>
+                <span style="animation-delay:1.05s"></span>
+                <span style="animation-delay:1.2s"></span>
+                <span style="animation-delay:1.35s"></span>
+                <span style="animation-delay:1.5s"></span>
               </div>
+              <div class="flex items-center gap-4 mb-2">
+                <div class="ring" style="--p:0"><span class="relative text-[11px] font-semibold text-[#f4f4f7]">98%</span></div>
+                <div class="text-sm text-muted leading-tight">
+                  <div class="text-fg font-medium">Pass rate trending up</div>
+                  <div>412 passed · 7 failed · 3 flaky</div>
+                </div>
+              </div>
+              <div class="mock-row"><span class="status-dot" aria-hidden="true"></span> auth.spec.ts — login succeeds <span class="ml-auto text-muted-2">1.2s</span></div>
+              <div class="mock-row"><span class="status-dot" style="animation-delay:.4s" aria-hidden="true"></span> checkout.spec.ts — payment flow <span class="ml-auto text-muted-2">3.4s</span></div>
+              <div class="mock-row"><span class="status-dot" style="animation-delay:.8s" aria-hidden="true"></span> search.spec.ts — index query <span class="ml-auto text-muted-2">0.9s</span></div>
             </div>
-            <div class="mock-row"><span class="status-dot"></span> auth.spec.ts — login succeeds <span class="ml-auto text-muted-2">1.2s</span></div>
-            <div class="mock-row"><span class="status-dot" style="animation-delay:.4s"></span> checkout.spec.ts — payment flow <span class="ml-auto text-muted-2">3.4s</span></div>
-            <div class="mock-row"><span class="status-dot" style="animation-delay:.8s"></span> search.spec.ts — index query <span class="ml-auto text-muted-2">0.9s</span></div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Features -->
-  <section id="features" class="section-py relative">
-    <div class="container">
-      <div class="reveal text-center mb-14">
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Everything you need, nothing you don't</h2>
-        <p class="text-muted mt-3 max-w-xl mx-auto">A focused toolkit for teams who run tests constantly and care about signal.</p>
+    <!-- Features Section -->
+    <section id="features" aria-labelledby="features-title" class="section-py relative">
+      <div class="container">
+        <div class="reveal text-center mb-14">
+          <h2 id="features-title" class="text-3xl md:text-4xl font-bold tracking-tight">Features Built for Playwright E2E Teams</h2>
+          <p class="text-muted mt-3 max-w-xl mx-auto">A focused analytics and orchestration toolkit for engineering teams running end-to-end browser tests.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6">
+            <div class="icon-box mb-4" aria-hidden="true"><i class="fas fa-chart-pie"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Real-Time Test Dashboards</h3>
+            <p class="text-sm text-muted leading-relaxed">Watch pass rates, suite execution durations, and visual trend graphs update live as Playwright test runs execute across environments.</p>
+          </article>
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.08s">
+            <div class="icon-box mb-4" aria-hidden="true"><i class="fas fa-photo-video"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Deep Failure Diagnostics</h3>
+            <p class="text-sm text-muted leading-relaxed">Inspect failure screenshots, WebM video recordings, ZIP execution traces, and detailed stack traces instantly.</p>
+          </article>
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.16s">
+            <div class="icon-box mb-4" aria-hidden="true"><i class="fas fa-bug"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Flaky Test Detection Engine</h3>
+            <p class="text-sm text-muted leading-relaxed">Automatic flakiness scoring, root-cause categorization, and quarantine management to resolve flaky tests before production.</p>
+          </article>
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.24s">
+            <div class="icon-box mb-4" aria-hidden="true"><i class="fas fa-users"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Team Access &amp; Role Management</h3>
+            <p class="text-sm text-muted leading-relaxed">Invite team members with granular project Viewer and Admin permissions, email invitations, and team workspace controls.</p>
+          </article>
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.32s">
+            <div class="icon-box mb-4" aria-hidden="true"><i class="fas fa-list-ol"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Granular Test Step Trees</h3>
+            <p class="text-sm text-muted leading-relaxed">Interactive accordion step breakdowns detailing spec file actions, locator timings, assertions, and console execution logs.</p>
+          </article>
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.40s">
+            <div class="icon-box mb-4" aria-hidden="true"><i class="fas fa-key"></i></div>
+            <h3 class="text-lg font-semibold mb-2">API Keys &amp; CI/CD Pipeline Ingest</h3>
+            <p class="text-sm text-muted leading-relaxed">Self-service API key management for authenticating custom Playwright reporters across GitHub Actions, GitLab CI, and Jenkins.</p>
+          </article>
+        </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6">
-          <div class="icon-box mb-4"><i class="fas fa-chart-pie"></i></div>
-          <h3 class="text-lg font-semibold mb-2">Real-time dashboards</h3>
-          <p class="text-sm text-muted leading-relaxed">Watch pass rates, suite durations, and visual trend graphs update live as runs execute across environments.</p>
-        </div>
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.08s">
-          <div class="icon-box mb-4"><i class="fas fa-photo-video"></i></div>
-          <h3 class="text-lg font-semibold mb-2">Deep failure diagnostics</h3>
-          <p class="text-sm text-muted leading-relaxed">Access failure screenshots, WebM video recordings, ZIP execution traces, and detailed stack traces instantly.</p>
-        </div>
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.16s">
-          <div class="icon-box mb-4"><i class="fas fa-bug"></i></div>
-          <h3 class="text-lg font-semibold mb-2">Flaky test detection</h3>
-          <p class="text-sm text-muted leading-relaxed">Automatic flakiness scoring and historical stability tracking to catch intermittent failures before they reach production.</p>
-        </div>
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.24s">
-          <div class="icon-box mb-4"><i class="fas fa-users"></i></div>
-          <h3 class="text-lg font-semibold mb-2">Team management & access</h3>
-          <p class="text-sm text-muted leading-relaxed">Invite teammates by email with granular project Viewer and Admin permissions and automatic pending invite resolution.</p>
-        </div>
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.32s">
-          <div class="icon-box mb-4"><i class="fas fa-list-ol"></i></div>
-          <h3 class="text-lg font-semibold mb-2">Granular test step trees</h3>
-          <p class="text-sm text-muted leading-relaxed">Interactive accordion step breakdowns detailing spec file actions, locator timings, assertions, and execution logs.</p>
-        </div>
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.40s">
-          <div class="icon-box mb-4"><i class="fas fa-key"></i></div>
-          <h3 class="text-lg font-semibold mb-2">API keys & CI/CD ingest</h3>
-          <p class="text-sm text-muted leading-relaxed">Self-service API key management for authenticating custom reporters across GitHub Actions, GitLab CI, and Jenkins.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Comparison -->
-  <section id="comparison" class="section-py relative bg-bg-subtle">
-    <div class="container">
-      <div class="reveal text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">How it compares</h2>
-        <p class="text-muted mt-3">Same job, fewer trade-offs.</p>
+    <!-- Comparison Section -->
+    <section id="comparison" aria-labelledby="comparison-title" class="section-py relative bg-bg-subtle">
+      <div class="container">
+        <div class="reveal text-center mb-12">
+          <h2 id="comparison-title" class="text-3xl md:text-4xl font-bold tracking-tight">Playwright Dashboard vs Traditional Test Tools</h2>
+          <p class="text-muted mt-3">Compare real-time Playwright reporting features against legacy test management suites.</p>
+        </div>
+        <div class="reveal overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <caption>Feature comparison between Playwright Dashboard and legacy test platforms</caption>
+            <thead>
+              <tr class="border-b border-line text-muted">
+                <th scope="col" class="text-left font-medium p-4">Capability</th>
+                <th scope="col" class="text-center font-semibold p-4 text-fg">Playwright Dashboard</th>
+                <th scope="col" class="text-center font-medium p-4">TestRail</th>
+                <th scope="col" class="text-center font-medium p-4">TestProject</th>
+                <th scope="col" class="text-center font-medium p-4">Lighthouse</th>
+              </tr>
+            </thead>
+            <tbody class="text-muted">
+              <tr class="border-b border-line"><th scope="row" class="font-medium text-fg p-4">Real-time WebSocket updates</th><td class="text-center p-4 text-accent"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td></tr>
+              <tr class="border-b border-line"><th scope="row" class="font-medium text-fg p-4">CI/CD Pipeline Ingestion</th><td class="text-center p-4 text-accent"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check" aria-hidden="true"></i></td></tr>
+              <tr class="border-b border-line"><th scope="row" class="font-medium text-fg p-4">Self-Hosted Deployment</th><td class="text-center p-4 text-accent"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td></tr>
+              <tr class="border-b border-line"><th scope="row" class="font-medium text-fg p-4">Flaky Test Detection Engine</th><td class="text-center p-4 text-accent"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td></tr>
+              <tr class="border-b border-line"><th scope="row" class="font-medium text-fg p-4">Webhook &amp; Slack Alerts</th><td class="text-center p-4 text-accent"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td></tr>
+              <tr class="border-b border-line"><th scope="row" class="font-medium text-fg p-4">Conditional Rule Execution</th><td class="text-center p-4 text-accent"><i class="fas fa-check" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times" aria-hidden="true"></i></td></tr>
+              <tr><th scope="row" class="font-medium text-fg p-4">Pricing</th><td class="text-center p-4 text-accent font-semibold">Free Tier</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="reveal overflow-x-auto">
-        <table class="w-full text-sm">
-          <thead>
-            <tr class="border-b border-line text-muted">
-              <th class="text-left font-medium p-4">Capability</th>
-              <th class="text-center font-semibold p-4 text-fg">Playwright Dashboard</th>
-              <th class="text-center font-medium p-4">TestRail</th>
-              <th class="text-center font-medium p-4">TestProject</th>
-              <th class="text-center font-medium p-4">Lighthouse</th>
-            </tr>
-          </thead>
-          <tbody class="text-muted">
-            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Real-time updates</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
-            <tr class="border-b border-line"><td class="font-medium text-fg p-4">CI/CD integration</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td></tr>
-            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Self-hosted</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
-            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Flaky detection</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
-            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Webhook support</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
-            <tr class="border-b border-line"><td class="font-medium text-fg p-4">Conditional execution</td><td class="text-center p-4 text-accent"><i class="fas fa-check"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td><td class="text-center p-4 text-muted-2"><i class="fas fa-times"></i></td></tr>
-            <tr><td class="font-medium text-fg p-4">Cost</td><td class="text-center p-4 text-accent font-semibold">Free</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td><td class="text-center p-4 text-muted-2 font-semibold">Paid</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FAQ -->
-  <section id="faq" class="section-py relative">
-    <div class="container max-w-3xl">
-      <div class="reveal text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Questions, answered</h2>
+    <!-- FAQ Section -->
+    <section id="faq" aria-labelledby="faq-title" class="section-py relative">
+      <div class="container max-w-3xl">
+        <div class="reveal text-center mb-12">
+          <h2 id="faq-title" class="text-3xl md:text-4xl font-bold tracking-tight">Frequently Asked Questions</h2>
+        </div>
+        <div class="space-y-3 reveal">
+          <div class="faq-item">
+            <button class="faq-toggle w-full flex items-center justify-between text-left p-5" aria-expanded="false">
+              <span class="font-medium">What makes Playwright Dashboard different?</span>
+              <i class="fas fa-chevron-down text-muted faq-icon" aria-hidden="true"></i>
+            </button>
+            <div class="faq-content text-muted text-sm">Built specifically for modern automation teams — real-time monitoring, smart orchestration, flaky test detection, and CI/CD integration, available both as a cloud service and self-hosted.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-toggle w-full flex items-center justify-between text-left p-5" aria-expanded="false">
+              <span class="font-medium">Is Playwright Dashboard free to use?</span>
+              <i class="fas fa-chevron-down text-muted faq-icon" aria-hidden="true"></i>
+            </button>
+            <div class="faq-content text-muted text-sm">Yes. You can sign up for a 100% free cloud account or host it on your own infrastructure.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-toggle w-full flex items-center justify-between text-left p-5" aria-expanded="false">
+              <span class="font-medium">How long does setup take?</span>
+              <i class="fas fa-chevron-down text-muted faq-icon" aria-hidden="true"></i>
+            </button>
+            <div class="faq-content text-muted text-sm">About two minutes: Sign up, generate an API key, install the reporter package, and connect your test suite.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-toggle w-full flex items-center justify-between text-left p-5" aria-expanded="false">
+              <span class="font-medium">Does it support real-time updates?</span>
+              <i class="fas fa-chevron-down text-muted faq-icon" aria-hidden="true"></i>
+            </button>
+            <div class="faq-content text-muted text-sm">Yes — WebSocket-based updates surface results with sub-second latency as tests run.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-toggle w-full flex items-center justify-between text-left p-5" aria-expanded="false">
+              <span class="font-medium">How does CI/CD pipeline integration work?</span>
+              <i class="fas fa-chevron-down text-muted faq-icon" aria-hidden="true"></i>
+            </button>
+            <div class="faq-content text-muted text-sm">Install the Playwright reporter package — it posts results on every run — or POST to the /api/tests/ingest endpoint from any pipeline (GitHub Actions, GitLab CI, Jenkins).</div>
+          </div>
+        </div>
       </div>
-      <div class="space-y-3 reveal">
-        <div class="faq-item">
-          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
-            <span class="font-medium">What makes Playwright Dashboard different?</span>
-            <i class="fas fa-chevron-down text-muted faq-icon"></i>
-          </button>
-          <div class="faq-content text-muted text-sm">Built for modern automation teams — real-time monitoring, smart orchestration, and CI/CD integration, available both as a cloud service and self-hosted.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
-            <span class="font-medium">Is it free to use?</span>
-            <i class="fas fa-chevron-down text-muted faq-icon"></i>
-          </button>
-          <div class="faq-content text-muted text-sm">Yes. Sign up for a free cloud account or host it on your own infrastructure.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
-            <span class="font-medium">How long does setup take?</span>
-            <i class="fas fa-chevron-down text-muted faq-icon"></i>
-          </button>
-          <div class="faq-content text-muted text-sm">About two minutes: Sign up, generate an API key, install the reporter package, and connect your test suite.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
-            <span class="font-medium">Does it support real-time updates?</span>
-            <i class="fas fa-chevron-down text-muted faq-icon"></i>
-          </button>
-          <div class="faq-content text-muted text-sm">Yes — WebSocket-based updates surface results with sub-second latency as tests run.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-toggle w-full flex items-center justify-between text-left p-5">
-            <span class="font-medium">CI/CD integration?</span>
-            <i class="fas fa-chevron-down text-muted faq-icon"></i>
-          </button>
-          <div class="faq-content text-muted text-sm">Install the Playwright reporter — it posts results on every run — or POST to the /api/tests/ingest endpoint from any pipeline (GitHub Actions, GitLab CI, Jenkins).</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- User Guide -->
-  <section id="guide" class="section-py relative bg-bg-subtle">
-    <div class="container">
-      <div class="reveal text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Up and running in minutes</h2>
-        <p class="text-muted mt-3">Four steps from signup to live results.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6">
-          <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">1</div>
-          <h3 class="font-semibold mb-2">Sign up &amp; get API key</h3>
-          <p class="text-sm text-muted mb-4">Sign up for a cloud account and generate an API key in Settings → API Keys.</p>
-          <pre class="code-block"># 1. Sign up at /signup
+    <!-- Setup Guide Section -->
+    <section id="guide" aria-labelledby="guide-title" class="section-py relative bg-bg-subtle">
+      <div class="container">
+        <div class="reveal text-center mb-12">
+          <h2 id="guide-title" class="text-3xl md:text-4xl font-bold tracking-tight">Up and Running in 2 Minutes</h2>
+          <p class="text-muted mt-3">Four steps from signup to live Playwright test results.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6">
+            <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">1</div>
+            <h3 class="font-semibold mb-2">Sign Up &amp; Get API Key</h3>
+            <p class="text-sm text-muted mb-4">Sign up for a cloud account and generate an API key in Settings → API Keys.</p>
+            <pre class="code-block"># 1. Sign up at /signup
 # 2. Go to Settings → API Keys
 DASHBOARD_API_KEY=pd_sk_735ae732...</pre>
-        </div>
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.08s">
-          <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">2</div>
-          <h3 class="font-semibold mb-2">Install Reporter</h3>
-          <p class="text-sm text-muted mb-4">Install the custom reporter package in your test project.</p>
-          <pre class="code-block">npm i @christmasday/playwright-dashboard-reporter --save-dev</pre>
-        </div>
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.16s">
-          <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">3</div>
-          <h3 class="font-semibold mb-2">Connect Playwright</h3>
-          <p class="text-sm text-muted mb-4">Add the reporter to playwright.config.ts with your API key.</p>
-          <pre class="code-block">// playwright.config.ts
+          </article>
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.08s">
+            <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">2</div>
+            <h3 class="font-semibold mb-2">Install Reporter Package</h3>
+            <p class="text-sm text-muted mb-4">Install the custom reporter package in your Playwright test repository.</p>
+            <pre class="code-block">npm i @christmasday/playwright-dashboard-reporter --save-dev</pre>
+          </article>
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.16s">
+            <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">3</div>
+            <h3 class="font-semibold mb-2">Connect playwright.config.ts</h3>
+            <p class="text-sm text-muted mb-4">Add the reporter to your Playwright configuration file with your API key.</p>
+            <pre class="code-block">// playwright.config.ts
 reporter: [
   ['@christmasday/playwright-dashboard-reporter', {
-    url: 'http://localhost:3002/api',
+    url: 'https://playwright-dashboard.easytesting.app/api',
     apiKey: process.env.DASHBOARD_API_KEY,
   }]
 ]</pre>
-        </div>
-        <div class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.24s">
-          <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">4</div>
-          <h3 class="font-semibold mb-2">Run &amp; watch</h3>
-          <p class="text-sm text-muted mb-4">Results stream to the dashboard in real time.</p>
-          <pre class="code-block">npx playwright test
-# → live at /dashboard</pre>
+          </article>
+          <article class="card-hover reveal bg-surface border border-line rounded-2xl p-6" style="transition-delay:.24s">
+            <div class="w-8 h-8 rounded-full bg-[#14141b] border border-[#20202a] text-accent flex items-center justify-center text-sm font-semibold mb-4">4</div>
+            <h3 class="font-semibold mb-2">Run Tests &amp; Stream Results</h3>
+            <p class="text-sm text-muted mb-4">Run tests and watch execution metrics stream live on the dashboard.</p>
+            <pre class="code-block">npx playwright test
+# → live results at /dashboard</pre>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CTA -->
-  <section class="relative py-24 px-4">
-    <div class="container">
-      <div class="reveal text-center max-w-2xl mx-auto">
-        <h2 class="text-3xl md:text-5xl font-bold tracking-tight">Ready to see your tests clearly?</h2>
-        <p class="text-muted mt-4 text-lg">Join the teams running calmer, faster test pipelines.</p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:space-x-3 mt-8">
-          <a href="/signup" class="btn-primary">Start free <i class="fas fa-arrow-right ml-1"></i></a>
-          <a href="/docs" class="btn-ghost"><i class="fas fa-book"></i> Read the guide</a>
+    <!-- Call To Action Section -->
+    <section aria-labelledby="cta-title" class="relative py-24 px-4">
+      <div class="container">
+        <div class="reveal text-center max-w-2xl mx-auto">
+          <h2 id="cta-title" class="text-3xl md:text-5xl font-bold tracking-tight">Ready to see your Playwright tests clearly?</h2>
+          <p class="text-muted mt-4 text-lg">Join engineering teams running calmer, faster, and flaky-free test pipelines.</p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:space-x-3 mt-8">
+            <a href="/signup" id="cta-btn-signup" class="btn-primary">Start free <i class="fas fa-arrow-right ml-1" aria-hidden="true"></i></a>
+            <a href="/docs" id="cta-btn-docs" class="btn-ghost"><i class="fas fa-book" aria-hidden="true"></i> Read User Guide</a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="relative border-t border-[#20202a] py-10 px-4">
-    <div class="container flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center space-x-2.5">
-        <span class="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
-          <i class="fas fa-chart-line text-xs"></i>
-        </span>
-        <span class="text-sm font-semibold text-[#f4f4f7]">Playwright Dashboard</span>
+  <footer role="contentinfo" class="relative border-t border-[#20202a] bg-[#08080a] pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="container max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#20202a]">
+        
+        <!-- Brand / Col 1 & 2 -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center space-x-2.5">
+            <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+              <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+            </span>
+            <span class="text-base font-bold text-[#f4f4f7]">Playwright Dashboard</span>
+          </div>
+          <p class="text-xs text-muted max-w-sm leading-relaxed">
+            Real-time test reporting, flaky test detection engine, and trace visualization for modern Playwright E2E automation pipelines.
+          </p>
+          <div class="flex items-center space-x-3 pt-2">
+            <a href="https://github.com/christmasday/playwright-dashboard" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub Repository"><i class="fab fa-github text-xs" aria-hidden="true"></i></a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Twitter Profile"><i class="fab fa-twitter text-xs" aria-hidden="true"></i></a>
+            <a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Discord Community"><i class="fab fa-discord text-xs" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <!-- Product Col -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Product</h3>
+          <ul class="space-y-2 text-xs text-muted">
+            <li><a href="#features" class="hover:text-white transition">Features</a></li>
+            <li><a href="#comparison" class="hover:text-white transition">Compare Tools</a></li>
+            <li><a href="/dashboard" class="hover:text-white transition">Live Dashboard</a></li>
+            <li><a href="#pricing" class="hover:text-white transition">Pricing Plans</a></li>
+            <li><a href="/docs" class="hover:text-white transition">Documentation</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources Col -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Resources</h3>
+          <ul class="space-y-2 text-xs text-muted">
+            <li><a href="/docs" class="hover:text-white transition">User Guide</a></li>
+            <li><a href="https://github.com/christmasday/playwright-dashboard" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">GitHub Repository</a></li>
+            <li><a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">Discord Community</a></li>
+            <li><a href="/signup" class="hover:text-white transition">Create Free Account</a></li>
+            <li><a href="/login" class="hover:text-white transition">Sign In</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal & Trust Col -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fas fa-shield-halved text-blue-500 text-xs"></i>
+            Legal &amp; Trust
+          </h3>
+          <ul class="space-y-2 text-xs text-muted">
+            <li><a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="hover:text-white transition">Terms of Use</a></li>
+            <li><a href="/acceptable-use.html" class="hover:text-white transition">Acceptable Use</a></li>
+            <li><a href="/dpa.html" class="hover:text-white transition">Data Processing (DPA)</a></li>
+            <li><a href="/cookie-policy.html" class="hover:text-white transition">Cookie Policy</a></li>
+            <li><a href="/security.html" class="hover:text-white transition">Security &amp; Compliance</a></li>
+            <li><a href="/legal.html" class="text-blue-400 font-medium hover:underline">Trust Center &rarr;</a></li>
+          </ul>
+        </div>
+
       </div>
-      <div class="flex items-center space-x-3">
-        <a href="https://github.com/christmasday/playwright-dashboard" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub"><i class="fab fa-github text-sm"></i></a>
-        <a href="#" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Twitter"><i class="fab fa-twitter text-sm"></i></a>
-        <a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-muted hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="Discord"><i class="fab fa-discord text-sm"></i></a>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-2">
+        <p>© 2026 Playwright Dashboard. All rights reserved.</p>
+        <div class="flex items-center space-x-4 text-xs">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px]">
+            <i class="fas fa-check text-[9px]"></i> GDPR Compliant
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px]">
+            <i class="fas fa-lock text-[9px]"></i> TLS 1.3 / AES-256
+          </span>
+        </div>
       </div>
-      <p class="text-sm text-muted-2">© 2024 Playwright Dashboard</p>
     </div>
   </footer>
 
@@ -622,7 +803,9 @@ reporter: [
     // FAQ accordion
     document.querySelectorAll('.faq-toggle').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        btn.closest('.faq-item').classList.toggle('open');
+        var item = btn.closest('.faq-item');
+        var isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
     });
 

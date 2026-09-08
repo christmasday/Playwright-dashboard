@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08080a">
+  
+  <title>Privacy Policy — Playwright Dashboard</title>
+  <meta name="title" content="Privacy Policy — Playwright Dashboard">
+  <meta name="description" content="Privacy Policy for Playwright Dashboard. Learn how we handle test execution metadata, traces, screenshots, CI/CD telemetry, and protect customer personal data under GDPR and CCPA.">
+  <link rel="canonical" href="https://playwright-dashboard.easytesting.app/privacy.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Playwright Dashboard">
+  <meta property="og:url" content="https://playwright-dashboard.easytesting.app/privacy.html">
+  <meta property="og:title" content="Privacy Policy — Playwright Dashboard">
+  <meta property="og:description" content="Learn how Playwright Dashboard collects, uses, and safeguards data from your E2E test runs, traces, and CI/CD pipelines.">
+  <meta property="og:image" content="https://playwright-dashboard.easytesting.app/og-image.png">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --bg: #08080a;
+      --bg-subtle: #0a0a0e;
+      --surface: #0e0e13;
+      --surface-2: #14141b;
+      --border: #20202a;
+      --fg: #f4f4f7;
+      --muted: #9a9aa5;
+      --muted-2: #5e5e68;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .aurora {
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(35% 35% at 20% 20%, rgba(59,130,246,0.15), transparent 60%),
+        radial-gradient(30% 30% at 80% 25%, rgba(96,165,250,0.10), transparent 60%);
+      filter: blur(50px);
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.18;
+    }
+
+    .nav-link { color: var(--muted); transition: color .2s ease; }
+    .nav-link:hover { color: var(--fg); }
+
+    .prose-legal h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f4f4f7;
+      margin-top: 2.5rem;
+      margin-bottom: 0.85rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .prose-legal h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .prose-legal p, .prose-legal ul, .prose-legal ol {
+      color: #9a9aa5;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .prose-legal ul { list-style-type: disc; padding-left: 1.5rem; }
+    .prose-legal ol { list-style-type: decimal; padding-left: 1.5rem; }
+    .prose-legal li { margin-bottom: 0.35rem; }
+    .prose-legal strong { color: #f4f4f7; font-weight: 600; }
+    .prose-legal code {
+      background: #14141b;
+      border: 1px solid #20202a;
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.35rem;
+      font-size: 0.85em;
+      color: #93c5fd;
+    }
+    .prose-legal a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .prose-legal a:hover { color: var(--accent-hover); }
+
+    .legal-card {
+      background: rgba(14, 14, 19, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      background: #0e0e13;
+    }
+    .table-container table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+    .table-container th {
+      background: #14141b;
+      color: #f4f4f7;
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-container td {
+      padding: 0.75rem 1rem;
+      color: #9a9aa5;
+      border-bottom: 1px solid #1a1a24;
+    }
+    .table-container tr:last-child td { border-bottom: none; }
+
+    .callout {
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      border-left: 4px solid;
+    }
+    .callout-info { background: rgba(59, 130, 246, 0.08); border-color: #3b82f6; color: #bfdbfe; }
+    .callout-warn { background: rgba(245, 158, 11, 0.08); border-color: #f59e0b; color: #fde68a; }
+
+    .toc-link {
+      display: block;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.85rem;
+      color: #9a9aa5;
+      border-radius: 0.5rem;
+      transition: all 0.15s ease;
+      text-decoration: none !important;
+    }
+    .toc-link:hover, .toc-link.active {
+      background: #14141b;
+      color: #60a5fa;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-blue-600 selection:text-white">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Global Header -->
+  <header class="sticky top-0 z-50 border-b border-[#20202a] bg-[#08080a]/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="/landing.html" class="flex items-center space-x-2.5">
+          <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+          </span>
+          <span class="font-bold text-base tracking-tight text-white">Playwright Dashboard</span>
+        </a>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 font-medium">Legal Hub</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="/landing.html" class="nav-link">Overview</a>
+        <a href="/landing.html#features" class="nav-link">Features</a>
+        <a href="/docs" class="nav-link">Documentation</a>
+        <a href="/legal.html" class="text-blue-400 font-medium">Legal Center</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="/login" class="text-xs sm:text-sm font-medium text-muted hover:text-white transition px-3 py-1.5">Sign in</a>
+        <a href="/signup" class="text-xs sm:text-sm font-semibold text-black bg-gradient-to-r from-[#93c5fd] to-[#3b82f6] px-4 py-2 rounded-lg hover:opacity-90 transition">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb & Hero -->
+  <section class="relative z-10 pt-10 pb-6 border-b border-[#20202a]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center space-x-2 text-xs text-muted mb-4">
+        <a href="/landing.html" class="hover:text-white">Home</a>
+        <i class="fas fa-chevron-right text-[10px] text-muted-2"></i>
+        <a href="/legal.html" class="hover:text-white">Legal &amp; Trust Center</a>
+        <i class="fas fa-chevron-right text-[10px] text-muted-2"></i>
+        <span class="text-blue-400 font-medium">Privacy Policy</span>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
+            <i class="fas fa-shield-halved text-blue-500 text-2xl"></i>
+            Privacy Policy
+          </h1>
+          <p class="text-muted text-sm sm:text-base mt-2 max-w-2xl">
+            How Playwright Dashboard collects, stores, protects, and handles your test metadata, trace files, and personal data.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="bg-[#14141b] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-muted">
+            <span class="text-muted-2">Effective:</span> <strong class="text-white">September 1, 2026</strong>
+          </div>
+          <div class="bg-[#14141b] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-muted">
+            <span class="text-muted-2">Version:</span> <strong class="text-white">3.2 (GDPR &amp; CCPA)</strong>
+          </div>
+          <button onclick="window.print()" class="bg-[#14141b] hover:bg-[#1f1f2a] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-white flex items-center gap-1.5 transition">
+            <i class="fas fa-print text-muted"></i> Print
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Nav Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto py-4 mt-2 text-xs scrollbar-none">
+        <span class="text-muted-2 whitespace-nowrap">Explore Policies:</span>
+        <a href="/privacy.html" class="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 font-medium whitespace-nowrap">Privacy Policy</a>
+        <a href="/terms.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Terms of Use</a>
+        <a href="/acceptable-use.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Acceptable Use</a>
+        <a href="/dpa.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">DPA (Data Processing Addendum)</a>
+        <a href="/cookie-policy.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Cookie Policy</a>
+        <a href="/security.html" class="px-3 py-1 rounded-full bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-muted hover:text-white whitespace-nowrap">Security &amp; Compliance</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      
+      <!-- Sticky Sidebar Table of Contents -->
+      <aside class="hidden lg:block sticky top-24 space-y-4">
+        <div class="legal-card p-5">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-3 flex items-center justify-between">
+            <span>On This Page</span>
+            <i class="fas fa-list-ul text-blue-400 text-xs"></i>
+          </h3>
+          <nav class="space-y-1">
+            <a href="#introduction" class="toc-link">1. Introduction &amp; Roles</a>
+            <a href="#information-we-collect" class="toc-link">2. Information We Collect</a>
+            <a href="#how-we-use-data" class="toc-link">3. How We Use Information</a>
+            <a href="#lawful-basis" class="toc-link">4. Legal Bases (GDPR)</a>
+            <a href="#data-retention" class="toc-link">5. Data Retention &amp; Pruning</a>
+            <a href="#subprocessors" class="toc-link">6. Sub-processors &amp; Sharing</a>
+            <a href="#data-transfers" class="toc-link">7. International Transfers</a>
+            <a href="#security-safeguards" class="toc-link">8. Security Safeguards</a>
+            <a href="#your-rights" class="toc-link">9. Your Rights (GDPR / CCPA)</a>
+            <a href="#self-hosted" class="toc-link">10. Self-Hosted Deployments</a>
+            <a href="#children" class="toc-link">11. Children's Privacy</a>
+            <a href="#changes" class="toc-link">12. Changes to this Policy</a>
+            <a href="#contact" class="toc-link">13. Contact &amp; DPO</a>
+          </nav>
+        </div>
+
+        <div class="legal-card p-5 text-xs text-muted space-y-2">
+          <div class="font-semibold text-white flex items-center gap-1.5">
+            <i class="fas fa-lock text-emerald-400"></i> Privacy Commitment
+          </div>
+          <p>We do not sell test data, pipeline logs, or user information to data brokers or advertising networks.</p>
+        </div>
+      </aside>
+
+      <!-- Policy Prose Content -->
+      <article class="lg:col-span-3 legal-card p-6 sm:p-10 prose-legal">
+        
+        <div class="callout callout-info">
+          <strong>Summary for Engineers:</strong> Playwright Dashboard ingests test results, duration metrics, flaky test patterns, screenshots, and trace artifacts generated during automated testing. We encrypt all data in transit and at rest, enforce strict role-based access, and provide automated pruning tools to keep your data footprint minimal.
+        </div>
+
+        <section id="introduction">
+          <h2><i class="fas fa-circle-info text-blue-400 text-sm"></i> 1. Introduction &amp; Roles</h2>
+          <p>
+            Playwright Dashboard (referred to as <strong>"Playwright Dashboard"</strong>, <strong>"we"</strong>, <strong>"us"</strong>, or <strong>"our"</strong>) provides an automated end-to-end (E2E) test visualization, flaky test detection, and test analytics platform accessible via our web application (<a href="https://playwright-dashboard.easytesting.app">playwright-dashboard.easytesting.app</a>), API endpoints, CLI packages, and self-hosted distributions.
+          </p>
+          <p>
+            Depending on your relationship with us, we operate in two distinct capacities under data privacy regulations such as the EU/UK General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA/CPRA):
+          </p>
+          <ul>
+            <li>
+              <strong>Data Controller:</strong> For account registration details, billing identifiers, marketing communications, and website usage telemetry of our direct customers.
+            </li>
+            <li>
+              <strong>Data Processor / Service Provider:</strong> For test execution artifacts, DOM snapshots, network payloads, console logs, and test metrics transmitted to our ingest API from your automated test runners or CI/CD pipelines. You (the customer) remain the Data Controller of this content.
+            </li>
+          </ul>
+        </section>
+
+        <section id="information-we-collect">
+          <h2><i class="fas fa-database text-blue-400 text-sm"></i> 2. Information We Collect</h2>
+          <p>We collect information in three categories when you use our platform:</p>
+
+          <h3>A. Account &amp; Identity Data (Provided Directly)</h3>
+          <ul>
+            <li>Full name, email address, username, password hash (salted using bcrypt or Argon2).</li>
+            <li>Organization name, workspace preferences, and team member email invitations.</li>
+            <li>API keys, webhook URLs (e.g., Slack or Discord endpoints), and authentication tokens.</li>
+          </ul>
+
+          <h3>B. Test Execution &amp; Ingestion Data (From CI/CD and Local Test Runs)</h3>
+          <p>When you run the Playwright Dashboard reporter or send payloads to <code>/api/tests/ingest</code>, our system receives:</p>
+          <ul>
+            <li><strong>Test Metadata:</strong> Test suite names, file paths, test case titles, line numbers, execution tags, and retry counts.</li>
+            <li><strong>Execution Statuses &amp; Metrics:</strong> Passed, failed, timed out, skipped, duration (milliseconds), and worker process IDs.</li>
+            <li><strong>Flaky Test Engine Telemetry:</strong> Historical pass/fail ratios across branches to calculate flakiness coefficients.</li>
+            <li><strong>Test Artifacts:</strong> Failure screenshots (PNG/JPEG), browser console stdout/stderr logs, network request har files, Playwright trace zip files (<code>trace.zip</code>), and video captures.</li>
+            <li><strong>CI/CD Environment Context:</strong> Git commit hash, branch name, author email (if configured in git), pull request number, CI provider name (GitHub Actions, GitLab CI, Jenkins, Docker), and runner OS/browser versions.</li>
+          </ul>
+
+          <div class="callout callout-warn">
+            <strong>Important Recommendation regarding Sensitive Test Data:</strong> Automated E2E tests should never record production passwords, payment card numbers, or real patient data. We strongly recommend configuring Playwright environment variables and redaction fixtures to sanitize secrets before uploading artifacts.
+          </div>
+
+          <h3>C. Technical &amp; Operational Telemetry</h3>
+          <ul>
+            <li>IP addresses, browser user agent, referring URL, session timestamps, and device parameters.</li>
+            <li>System crash diagnostics and API response latency measurements.</li>
+          </ul>
+        </section>
+
+        <section id="how-we-use-data">
+          <h2><i class="fas fa-cogs text-blue-400 text-sm"></i> 3. How We Use Information</h2>
+          <p>We use the data collected strictly for platform operations and feature delivery:</p>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Purpose</th>
+                  <th>Primary Legal Basis</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Account Data</td>
+                  <td>Authenticating users, workspace authorization, sending security alerts, billing.</td>
+                  <td>Performance of a Contract</td>
+                </tr>
+                <tr>
+                  <td>Test Ingestion Data</td>
+                  <td>Rendering real-time dashboard analytics, computing flaky test metrics, displaying traces.</td>
+                  <td>Performance of a Contract</td>
+                </tr>
+                <tr>
+                  <td>Webhook Endpoints</td>
+                  <td>Delivering automated pass/fail and flaky test notifications to Slack, Discord, or webhooks.</td>
+                  <td>Legitimate Interest / Consent</td>
+                </tr>
+                <tr>
+                  <td>Technical Telemetry</td>
+                  <td>Mitigating DDoS attacks, enforcing API rate limits, debugging platform outages.</td>
+                  <td>Legitimate Interest</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="lawful-basis">
+          <h2><i class="fas fa-scale-balanced text-blue-400 text-sm"></i> 4. Legal Bases for Processing (GDPR)</h2>
+          <p>If you are an individual located in the European Economic Area (EEA) or United Kingdom, our legal bases under GDPR Article 6 include:</p>
+          <ul>
+            <li><strong>Performance of a Contract (Art. 6(1)(b)):</strong> To provide the services described in our Terms of Use, including ingesting and rendering your test reports.</li>
+            <li><strong>Legitimate Interests (Art. 6(1)(f)):</strong> To maintain platform security, prevent fraudulent abuse, and improve flaky test clustering algorithms without overriding your fundamental rights.</li>
+            <li><strong>Compliance with Legal Obligations (Art. 6(1)(c)):</strong> To comply with tax, financial, and regulatory reporting mandates.</li>
+          </ul>
+        </section>
+
+        <section id="data-retention">
+          <h2><i class="fas fa-clock-rotate-left text-blue-400 text-sm"></i> 5. Data Retention &amp; Automated Pruning</h2>
+          <p>We believe in data minimization. You can configure data retention schedules directly in Workspace Settings:</p>
+          <ul>
+            <li><strong>Aggregated Test Summaries:</strong> Stored for the lifetime of your active workspace or up to 365 days on enterprise tiers.</li>
+            <li><strong>Heavy Test Artifacts (Traces &amp; Videos):</strong> Automatically pruned after 14 to 30 days (customizable) to conserve storage and reduce privacy liability.</li>
+            <li><strong>Account Records:</strong> Retained as long as your workspace account remains open, and wiped within 30 days of verified account deletion.</li>
+          </ul>
+        </section>
+
+        <section id="subprocessors">
+          <h2><i class="fas fa-network-wired text-blue-400 text-sm"></i> 6. Third-Party Sub-processors &amp; Data Sharing</h2>
+          <p>We work with carefully vetted service providers who process data on our behalf under written Data Processing Agreements (DPAs):</p>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Sub-processor</th>
+                  <th>Service Rendered</th>
+                  <th>Data Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Supabase / PostgreSQL</td>
+                  <td>Relational storage for user accounts, project configs, test records.</td>
+                  <td>USA / EU</td>
+                </tr>
+                <tr>
+                  <td>Amazon Web Services (S3) / Cloudflare R2</td>
+                  <td>Encrypted object storage for screenshots, traces, and video artifacts.</td>
+                  <td>USA / Global CDN</td>
+                </tr>
+                <tr>
+                  <td>Redis Labs / Upstash</td>
+                  <td>Sub-second test run cache and real-time WebSocket pub/sub message brokering.</td>
+                  <td>USA / EU</td>
+                </tr>
+                <tr>
+                  <td>Vercel</td>
+                  <td>Frontend hosting, edge routing, and global CDN delivery.</td>
+                  <td>Global Edge Network</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>We do not sell, rent, or lease your personal data or test artifacts to third parties.</p>
+        </section>
+
+        <section id="data-transfers">
+          <h2><i class="fas fa-globe text-blue-400 text-sm"></i> 7. International Data Transfers</h2>
+          <p>
+            When data is transferred from the EEA or UK to servers located in the United States, we rely on the European Commission's Standard Contractual Clauses (SCCs) and UK International Data Transfer Addendum, alongside robust technical safeguards including end-to-end encryption.
+          </p>
+        </section>
+
+        <section id="security-safeguards">
+          <h2><i class="fas fa-shield-virus text-blue-400 text-sm"></i> 8. Security Safeguards</h2>
+          <p>We implement defense-in-depth technical and organizational measures:</p>
+          <ul>
+            <li><strong>Encryption in Transit:</strong> All HTTP traffic and WebSocket channels are enforced over TLS 1.3 with modern cipher suites and HSTS.</li>
+            <li><strong>Encryption at Rest:</strong> Database tables, backups, and artifact storage buckets are encrypted using AES-256 keys.</li>
+            <li><strong>API Key Security:</strong> Project ingestion keys are hashed using SHA-256 before storage; raw tokens are never logged or exposed in client bundles.</li>
+            <li><strong>Workspace Multi-Tenancy:</strong> Strict row-level security (RLS) policies prevent data leakage across distinct organization accounts.</li>
+          </ul>
+        </section>
+
+        <section id="your-rights">
+          <h2><i class="fas fa-user-shield text-blue-400 text-sm"></i> 9. Your Rights (GDPR &amp; CCPA/CPRA)</h2>
+          <p>Depending on your jurisdiction, you have statutory rights regarding your personal data:</p>
+          <ul>
+            <li><strong>Right of Access &amp; Portability:</strong> Request a machine-readable copy (JSON/CSV) of your personal account data and test history.</li>
+            <li><strong>Right to Rectification:</strong> Update inaccurate or incomplete account credentials directly via Workspace Settings.</li>
+            <li><strong>Right to Erasure ("Right to be Forgotten"):</strong> Request complete deletion of your account, projects, test runs, and traces.</li>
+            <li><strong>Right to Restrict or Object to Processing:</strong> Object to processing based on legitimate interests.</li>
+            <li><strong>Non-Discrimination:</strong> CCPA consumers will never be denied services or charged differentiated pricing for exercising statutory rights.</li>
+          </ul>
+          <p>To exercise any of these rights, email us at <a href="mailto:privacy@playwright-dashboard.easytesting.app">privacy@playwright-dashboard.easytesting.app</a>. We fulfill requests within 30 days free of charge.</p>
+        </section>
+
+        <section id="self-hosted">
+          <h2><i class="fas fa-server text-blue-400 text-sm"></i> 10. Self-Hosted &amp; On-Premise Deployments</h2>
+          <p>
+            If you run Playwright Dashboard on your own private infrastructure using Docker, Kubernetes, or self-hosted servers, <strong>zero test execution data or artifacts</strong> leave your perimeter. You hold sole controller and processor responsibilities for all data generated within self-hosted instances.
+          </p>
+        </section>
+
+        <section id="children">
+          <h2><i class="fas fa-child text-blue-400 text-sm"></i> 11. Children's Privacy</h2>
+          <p>
+            Our services are designed strictly for professional software engineering and quality assurance workflows. We do not knowingly collect personal data from individuals under 16 years of age.
+          </p>
+        </section>
+
+        <section id="changes">
+          <h2><i class="fas fa-pen-nib text-blue-400 text-sm"></i> 12. Changes to this Privacy Policy</h2>
+          <p>
+            We may periodically update this policy to reflect emerging product features or regulatory changes. Material changes will be communicated via email notifications to workspace owners and prominent dashboard banners at least 14 days prior to effective adoption.
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2><i class="fas fa-envelope text-blue-400 text-sm"></i> 13. Contact &amp; Data Protection Officer</h2>
+          <p>
+            For privacy inquiries, Data Protection Officer (DPO) escalation, or security inquiries, contact our team:
+          </p>
+          <div class="p-4 bg-[#14141b] rounded-xl border border-[#20202a] text-sm space-y-1">
+            <p><strong>Playwright Dashboard Data Protection Team</strong></p>
+            <p>Email: <a href="mailto:privacy@playwright-dashboard.easytesting.app">privacy@playwright-dashboard.easytesting.app</a></p>
+            <p>Security Team: <a href="mailto:security@playwright-dashboard.easytesting.app">security@playwright-dashboard.easytesting.app</a></p>
+            <p>Community &amp; Support: <a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer">Join our Discord Community</a></p>
+          </div>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="relative z-10 border-t border-[#20202a] bg-[#08080a] py-12 px-4 sm:px-6 lg:px-8 mt-16">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-2.5">
+        <span class="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+          <i class="fas fa-chart-line text-xs" aria-hidden="true"></i>
+        </span>
+        <span class="text-sm font-semibold text-white">Playwright Dashboard</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-muted">
+        <a href="/privacy.html" class="text-blue-400 font-medium">Privacy Policy</a>
+        <a href="/terms.html" class="hover:text-white transition">Terms of Use</a>
+        <a href="/acceptable-use.html" class="hover:text-white transition">Acceptable Use</a>
+        <a href="/dpa.html" class="hover:text-white transition">DPA</a>
+        <a href="/cookie-policy.html" class="hover:text-white transition">Cookies</a>
+        <a href="/security.html" class="hover:text-white transition">Security</a>
+      </div>
+      <p class="text-xs text-muted-2">© 2026 Playwright Dashboard. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll active state tracking for TOC
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const sections = document.querySelectorAll('article section');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 140;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>
