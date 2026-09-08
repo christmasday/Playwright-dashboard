@@ -53,8 +53,14 @@ if (!fs.existsSync(uploadsArtifactsDir)) {
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
+app.use((req, res, next) => {
+  if (req.headers['access-control-request-private-network']) {
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  }
+  next();
+});
 app.use(cors({
-  origin: env.FRONTEND_URL,
+  origin: true,
   credentials: true,
 }));
 
