@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { supabase, query, queryOne, queryAll } from '../config/database.js';
 import { AlertDestination } from './alertDestination.js';
 import { IntegrationConfig, IssueLink } from './issueSync.js';
+import { StoragePolicy } from './storageRetention.js';
 
 // Build Model
 export const Build = {
@@ -404,7 +405,7 @@ export const ConditionalRule = {
   },
 };
 
-export { AlertDestination, IntegrationConfig, IssueLink };
+export { AlertDestination, IntegrationConfig, IssueLink, StoragePolicy };
 
 export default {
   Build,
@@ -418,6 +419,7 @@ export default {
   AlertDestination,
   IntegrationConfig,
   IssueLink,
+  StoragePolicy,
 };
 
 

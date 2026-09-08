@@ -29,8 +29,6 @@ const Sidebar: React.FC = () => {
     { label: 'Compare Runs', path: '/builds/compare', icon: '🔀' },
     { label: 'Flaky Tests', path: '/flaky-tests', icon: '⚠️' },
     { label: 'Alerts', path: '/alerts', icon: '🔔' },
-    { label: 'Integrations', path: '/settings/integrations', icon: '🔗' },
-    { label: 'API Keys', path: '/settings/api-keys', icon: '🔑' },
     { label: 'Documentation', path: '/docs', icon: '📚' },
     ...(user?.role === 'admin'
       ? [{ label: 'Users', path: '/users', icon: '👥' } as NavItem]
@@ -46,9 +44,14 @@ const Sidebar: React.FC = () => {
     navigate('/login', { replace: true });
   };
 
-  const handleNavigateToSettings = () => {
+  const handleNavigateToProfile = () => {
     setDropdownOpen(false);
     navigate('/settings/profile');
+  };
+
+  const handleNavigateToSettings = () => {
+    setDropdownOpen(false);
+    navigate('/settings');
   };
 
   // Close dropdown when clicking outside
@@ -160,15 +163,30 @@ const Sidebar: React.FC = () => {
                 {/* Dropdown Action Menu */}
                 <div className="p-1.5 space-y-0.5">
                   <button
-                    onClick={handleNavigateToSettings}
+                    aria-label="Profile Settings"
+                    onClick={handleNavigateToProfile}
                     className="w-full flex items-center gap-3 px-3 py-2.5 text-xs text-[#f4f4f7] hover:bg-[#1c1c26] rounded-xl transition-colors font-medium text-left"
                   >
                     <span className="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
-                      <i className="fas fa-cog text-xs"></i>
+                      <i className="fas fa-user-cog text-xs"></i>
                     </span>
                     <div>
                       <div className="font-semibold">Profile Settings</div>
-                      <div className="text-[10px] text-[#9a9aa5]">Name, password, avatar & alerts</div>
+                      <div className="text-[10px] text-[#9a9aa5]">Name, avatar & password</div>
+                    </div>
+                  </button>
+
+                  <button
+                    aria-label="Settings"
+                    onClick={handleNavigateToSettings}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 text-xs text-[#f4f4f7] hover:bg-[#1c1c26] rounded-xl transition-colors font-medium text-left"
+                  >
+                    <span className="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#10b981]">
+                      <i className="fas fa-sliders text-xs"></i>
+                    </span>
+                    <div>
+                      <div className="font-semibold">Settings</div>
+                      <div className="text-[10px] text-[#9a9aa5]">Integrations, Storage, Keys & AI</div>
                     </div>
                   </button>
 

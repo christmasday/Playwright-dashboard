@@ -461,6 +461,46 @@ class ApiService {
   unlinkIssue(id: string) {
     return this.client.delete(`/integrations/issues/${id}`);
   }
+
+  // Storage & Data Retention Policies
+  getStoragePolicy(params?: { projectId?: string }) {
+    return this.client.get('/storage/policy', { params });
+  }
+
+  saveStoragePolicy(data: {
+    projectId?: string | null;
+    tier?: string;
+    artifacts_passed_days?: number | null;
+    artifacts_failed_days?: number | null;
+    test_results_days?: number | null;
+    test_details_days?: number | null;
+    reports_analytics_days?: number | null;
+    byos_enabled?: boolean;
+    byos_provider?: string;
+    byos_config?: any;
+    auto_purge_enabled?: boolean;
+  }) {
+    return this.client.put('/storage/policy', data);
+  }
+
+  testByosConnection(data: {
+    provider?: string;
+    bucket: string;
+    region?: string;
+    endpoint?: string;
+    access_key?: string;
+    secret_key?: string;
+  }) {
+    return this.client.post('/storage/test-byos', data);
+  }
+
+  runRetentionCleanup(data?: { dryRun?: boolean; projectId?: string | null }) {
+    return this.client.post('/storage/cleanup', data || {});
+  }
+
+  getStorageStats(params?: { projectId?: string }) {
+    return this.client.get('/storage/stats', { params });
+  }
 }
 
 export const apiService = new ApiService();

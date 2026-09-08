@@ -247,4 +247,57 @@ export interface CreateIssuePayload {
   includeError?: boolean;
 }
 
+export type StorageByosProvider = 's3' | 'gcs' | 'azure' | 'minio' | 'r2';
+
+export interface ByosConfig {
+  provider?: StorageByosProvider;
+  bucket?: string;
+  region?: string;
+  endpoint?: string;
+  access_key?: string;
+  secret_key?: string;
+  accessKey?: string;
+  secretKey?: string;
+}
+
+export interface StoragePolicyItem {
+  id?: string;
+  project_id?: string | null;
+  tier?: string;
+  artifacts_passed_days: number | null;
+  artifacts_failed_days: number | null;
+  test_results_days: number | null;
+  test_details_days: number | null;
+  reports_analytics_days: number | null;
+  byos_enabled: boolean;
+  byos_provider: StorageByosProvider;
+  byos_config: ByosConfig;
+  auto_purge_enabled: boolean;
+  last_cleanup_at?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface StorageStats {
+  totalArtifacts: number;
+  totalBytes: number;
+  breakdown: {
+    screenshots: { count: number; bytes: number };
+    videos: { count: number; bytes: number };
+    traces: { count: number; bytes: number };
+    other: { count: number; bytes: number };
+  };
+  counts: {
+    builds: number;
+    testRuns: number;
+  };
+  expiredCandidates: {
+    passedArtifacts: number;
+    failedArtifacts: number;
+    testRuns: number;
+    totalEligibleForCleanup: number;
+  };
+  lastCleanupAt: string | null;
+}
+
 
