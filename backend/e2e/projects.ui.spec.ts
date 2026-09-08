@@ -6,8 +6,8 @@ test.describe('Projects UI', () => {
     const name = `e2e-${randomSuffix()}`;
     await authedPage.goto('/projects');
     await authedPage.getByRole('button', { name: 'New Project' }).click();
-    await authedPage.fill('input[placeholder="Project name"]', name);
-    await authedPage.fill('textarea[placeholder="Description (optional)"]', 'created by e2e');
+    await authedPage.getByPlaceholder(/Project name/i).fill(name);
+    await authedPage.getByPlaceholder(/description/i).fill('created by e2e');
     await authedPage.getByRole('button', { name: 'Create Project' }).click();
 
     const card = authedPage.locator('div', { hasText: name }).first();

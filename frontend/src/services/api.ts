@@ -413,9 +413,58 @@ class ApiService {
   getAlertDeliveryLogs(params?: { destinationId?: string; buildId?: string; limit?: number }) {
     return this.client.get('/alerts/logs', { params });
   }
+
+  // Issue Tracking Integrations (Jira & GitHub)
+  getIntegrationConfigs(params?: { projectId?: string }) {
+    return this.client.get('/integrations/configs', { params });
+  }
+
+  saveIntegrationConfig(data: {
+    projectId?: string | null;
+    provider: string;
+    config: any;
+    enabled?: boolean;
+  }) {
+    return this.client.post('/integrations/configs', data);
+  }
+
+  testIntegrationConnection(data: {
+    provider: string;
+    config?: any;
+    projectId?: string | null;
+  }) {
+    return this.client.post('/integrations/test-connection', data);
+  }
+
+  createIssueFromTest(payload: {
+    testRunId: string;
+    provider: string;
+    title?: string;
+    description?: string;
+    priority?: string;
+    issueType?: string;
+    labels?: string[];
+    includeAi?: boolean;
+    includeError?: boolean;
+  }) {
+    return this.client.post('/integrations/issues/create', payload);
+  }
+
+  getLinkedIssues(params?: { testRunId?: string; testName?: string; projectId?: string }) {
+    return this.client.get('/integrations/issues/linked', { params });
+  }
+
+  syncIssue(id: string) {
+    return this.client.post(`/integrations/issues/${id}/sync`);
+  }
+
+  unlinkIssue(id: string) {
+    return this.client.delete(`/integrations/issues/${id}`);
+  }
 }
 
 export const apiService = new ApiService();
 
 export default apiService;
+
 
