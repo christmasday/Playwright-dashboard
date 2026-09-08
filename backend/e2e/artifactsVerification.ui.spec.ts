@@ -45,4 +45,41 @@ test.describe('Test Run Artifacts Verification', () => {
       path: '/Users/Fabian/.gemini/antigravity-ide/brain/780bf668-7fc4-4de3-a02e-dd1417b2de03/verified_video_screen.png',
     });
   });
+
+  test('opens Trace Inspector modal without broken relative URL errors', async ({ page }) => {
+    // 1. Authenticate
+    await page.goto('/login');
+    await page.fill('input[placeholder="you@example.com"]', USER_EMAIL);
+    await page.fill('input[type="password"]', USER_PASSWORD);
+    await page.click('button[type="submit"]');
+    await page.waitForURL('**/dashboard');
+
+    // 2. Navigate to test details artifacts tab
+    await page.goto('/tests/6b216f29-f29b-434a-8b6d-5cd84fdb13f5?tab=artifacts');
+    await page.waitForLoadState('networkidle');
+
+    // 3. Click "Inspect In Dashboard" button on the trace card
+    const inspectBtn = page.getByRole('button', { name: /Inspect In Dashboard/i }).first();
+    await expect(inspectBtn).toBeVisible();
+    await inspectBtn.click();
+
+    // 4. Verify Trace Inspector modal appears
+    await expect(page.getByText('Playwright Trace Inspector')).toBeVisible();
+
+    // Verify iframe source is the clean trace viewer (not appending broken relative path)
+    const iframe = page.locator('iframe[title="Playwright Trace Viewer"]');
+    await expect(iframe).toBeVisible();
+    const iframeSrc = await iframe.getAttribute('src');
+    expect(iframeSrc).toBe('https://trace.playwright.dev/');
+
+    // Wait for modal and capture screenshot
+    await page.waitForTimeout(2000);
+    await page.screenshot({
+      path: '/Users/Fabian/.gemini/antigravity-ide/brain/780bf668-7fc4-4de3-a02e-dd1417b2de03/verified_trace_modal.png',
+    });
+
+    // 5. Close modal with ESC
+    await page.keyboard.press('Escape');
+    await expect(page.getByText('Playwright Trace Inspector')).not.toBeVisible();
+  });
 });
