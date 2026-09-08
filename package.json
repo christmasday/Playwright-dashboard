@@ -1,6 +1,6 @@
 {
   "name": "playwright-dashboard",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Modern, self-hosted test management platform for Playwright test automation teams",
   "private": true,
   "type": "module",
@@ -44,7 +44,10 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
-    "docker:restart": "docker-compose restart"
+    "docker:restart": "docker-compose restart",
+    "bump:patch": "node scripts/bump-version.js patch",
+    "bump:minor": "node scripts/bump-version.js minor",
+    "bump:major": "node scripts/bump-version.js major"
   },
   "keywords": [
     "playwright",

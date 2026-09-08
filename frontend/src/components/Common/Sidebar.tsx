@@ -209,7 +209,7 @@ const Sidebar: React.FC = () => {
         )}
 
         <div className="text-[10px] text-[#5e5e68] pt-2 text-center">
-          <p>&copy; 2026 Playwright Dashboard v1.0.0</p>
+          <p>&copy; 2026 Playwright Dashboard v{import.meta.env.VITE_APP_VERSION || '1.0.0'}</p>
         </div>
       </div>
     </aside>

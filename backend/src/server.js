@@ -76,12 +76,25 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+function getAppVersion() {
+  try {
+    const pkgPath = path.resolve(process.cwd(), 'package.json');
+    if (fs.existsSync(pkgPath)) {
+      const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+      if (pkg.version) return pkg.version;
+    }
+  } catch (e) {
+    // fallback
+  }
+  return '1.0.0';
+}
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    version: '1.0.0',
+    version: getAppVersion(),
   });
 });
 
@@ -89,7 +102,7 @@ app.get('/api', (req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    version: '1.0.0',
+    version: getAppVersion(),
   });
 });
 

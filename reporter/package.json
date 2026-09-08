@@ -1,6 +1,6 @@
 {
   "name": "@christmasday/playwright-dashboard-reporter",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "Playwright reporter that streams test results to the cloud-based Playwright Dashboard @ https://playwright-dashboard.easytesting.app",
   "main": "index.js",
   "files": [
