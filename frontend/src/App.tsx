@@ -17,6 +17,7 @@ import ResetPassword from './pages/ResetPassword';
 import UserManagement from './pages/UserManagement';
 import ApiKeys from './pages/ApiKeys';
 import ProfileSettings from './pages/ProfileSettings';
+import AlertSettings from './pages/AlertSettings';
 import VerifyEmail from './pages/VerifyEmail';
 import Docs from './pages/Docs';
 import './styles/globals.css';
@@ -67,6 +68,8 @@ function App() {
                   <Route path="/builds/:buildId" element={<BuildDetails />} />
                   <Route path="/tests/:testId" element={<TestDetails />} />
                   <Route path="/flaky-tests" element={<FlakyTests />} />
+                  <Route path="/alerts" element={<AlertSettings />} />
+                  <Route path="/settings/alerts" element={<AlertSettings />} />
                   <Route path="/users" element={<UserManagement />} />
                   <Route path="/settings/api-keys" element={<ApiKeys />} />
                   <Route path="/settings/profile" element={<ProfileSettings />} />

@@ -402,6 +402,8 @@ export const ConditionalRule = {
   },
 };
 
+export { AlertDestination } from './alertDestination.js';
+
 export default {
   Build,
   TestRun,
@@ -412,3 +414,4 @@ export default {
   Action,
   ConditionalRule,
 };
+

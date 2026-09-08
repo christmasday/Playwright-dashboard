@@ -29,6 +29,15 @@ jest.mock('../../models/index.js', () => ({
     create: jest.fn(),
   },
 }));
+jest.mock('../../utils/logger.js', () => ({
+  __esModule: true,
+  default: {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    debug: jest.fn(),
+  },
+}));
 jest.mock('../../config/database.js', () => ({
   __esModule: true,
   transaction: jest.fn((cb) => cb({})),
@@ -44,6 +53,15 @@ jest.mock('../../utils/playwrightParser.js', () => ({
     totalDuration: 100,
     averageDuration: 50,
   })),
+}));
+jest.mock('../../services/alertService.js', () => ({
+  __esModule: true,
+  default: {
+    dispatchBuildAlerts: jest.fn().mockResolvedValue([]),
+  },
+  alertService: {
+    dispatchBuildAlerts: jest.fn().mockResolvedValue([]),
+  },
 }));
 
 import testService from '../../services/testService.js';
