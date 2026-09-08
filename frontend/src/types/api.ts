@@ -150,3 +150,41 @@ export interface ProjectWithMembers extends Project {
   buildCount?: number;
   testCount?: number;
 }
+
+export type AlertProvider = 'slack' | 'teams' | 'discord' | 'webhook';
+export type AlertEventTrigger = 'all' | 'failures_only' | 'status_change';
+
+export interface AlertDestination {
+  id: string;
+  project_id?: string | null;
+  projectId?: string | null;
+  project_name?: string | null;
+  name: string;
+  provider: AlertProvider;
+  webhook_url: string;
+  webhookUrl?: string;
+  events: AlertEventTrigger;
+  branches: string;
+  include_ai_summary?: boolean;
+  includeAiSummary?: boolean;
+  enabled: boolean;
+  created_by?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AlertDeliveryLog {
+  id: string;
+  alert_destination_id?: string;
+  destination_name?: string;
+  build_id?: string;
+  build_name?: string;
+  provider: AlertProvider;
+  status: 'success' | 'failed';
+  status_code?: number;
+  latency_ms?: number;
+  error_message?: string | null;
+  payload?: any;
+  created_at: string;
+}
+

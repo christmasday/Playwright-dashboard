@@ -6,6 +6,7 @@
 import { Build, Metrics } from '../../models/index.js';
 import { Project } from '../../models/user.js';
 import buildComparisonService from '../../services/buildComparisonService.js';
+import alertService from '../../services/alertService.js';
 import logger from '../../utils/logger.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -91,6 +92,12 @@ export const updateBuild = async (req, res, next) => {
       status,
       ended_at: endedAt,
     });
+
+    if (status && ['passed', 'failed', 'completed'].includes(status)) {
+      alertService.dispatchBuildAlerts(buildId).catch((alertErr) => {
+        logger.warn(`Failed to dispatch build alerts for ${buildId}`, { error: alertErr.message });
+      });
+    }
 
     res.json(build);
   } catch (error) {

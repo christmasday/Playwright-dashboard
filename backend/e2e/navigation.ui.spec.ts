@@ -31,7 +31,13 @@ test.describe('Navigation & Frontend Workflows UI', () => {
     await page.waitForURL('**/flaky-tests');
     await expect(page).toHaveURL(/.*\/flaky-tests/);
 
-    // 5. Documentation
+    // 5. Alerts
+    await page.getByRole('link', { name: 'Alerts' }).click();
+    await page.waitForURL('**/alerts');
+    await expect(page).toHaveURL(/.*\/alerts/);
+    await expect(page.getByRole('heading', { name: /Alerts & Integrations/i })).toBeVisible();
+
+    // 6. Documentation
     const docsLink = page.getByRole('link', { name: 'Docs' });
     if (await docsLink.isVisible()) {
       await docsLink.click();

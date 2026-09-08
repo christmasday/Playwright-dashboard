@@ -28,6 +28,7 @@ const Sidebar: React.FC = () => {
     { label: 'Builds', path: '/builds', icon: '🏗️' },
     { label: 'Compare Runs', path: '/builds/compare', icon: '🔀' },
     { label: 'Flaky Tests', path: '/flaky-tests', icon: '⚠️' },
+    { label: 'Alerts', path: '/alerts', icon: '🔔' },
     { label: 'API Keys', path: '/settings/api-keys', icon: '🔑' },
     { label: 'Documentation', path: '/docs', icon: '📚' },
     ...(user?.role === 'admin'

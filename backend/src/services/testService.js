@@ -6,6 +6,7 @@
 import { TestRun, TestResult, Artifact, FlakyTest, Build, Metrics } from '../models/index.js';
 import { transaction } from '../config/database.js';
 import { calculateTestMetrics } from '../utils/playwrightParser.js';
+import alertService from './alertService.js';
 import logger from '../utils/logger.js';
 
 export const testService = {
@@ -14,7 +15,7 @@ export const testService = {
    */
   ingestTestResults: async (buildId, parsedReport) => {
     // Wrap ingestion in a DB transaction to ensure atomicity
-    return transaction(async (client) => {
+    const testRuns = await transaction(async (client) => {
       try {
         const testRuns = [];
 
@@ -52,7 +53,15 @@ export const testService = {
         throw error;
       }
     });
+
+    // Trigger Slack / Teams / Discord alerts asynchronously without blocking response
+    alertService.dispatchBuildAlerts(buildId).catch((alertErr) => {
+      logger.warn(`Failed to dispatch build alerts for ${buildId}`, { error: alertErr.message });
+    });
+
+    return testRuns;
   },
+
 
   /**
    * Get test details with steps and artifacts

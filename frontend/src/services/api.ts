@@ -366,8 +366,56 @@ class ApiService {
   analyzeCluster(cluster: any, options?: { provider?: string; apiKey?: string; model?: string; customEndpoint?: string }) {
     return this.client.post('/ai/clusters/analysis', { cluster, ...(options || {}) });
   }
+
+  // Alerts & Webhooks (Slack, Teams, Discord)
+  listAlertDestinations(params?: { projectId?: string; provider?: string; enabled?: boolean }) {
+    return this.client.get('/alerts', { params });
+  }
+
+  getAlertDestination(id: string) {
+    return this.client.get(`/alerts/${id}`);
+  }
+
+  createAlertDestination(data: {
+    name: string;
+    provider: string;
+    webhookUrl: string;
+    projectId?: string | null;
+    events?: string;
+    branches?: string;
+    includeAiSummary?: boolean;
+    enabled?: boolean;
+  }) {
+    return this.client.post('/alerts', data);
+  }
+
+  updateAlertDestination(id: string, data: Partial<{
+    name: string;
+    provider: string;
+    webhookUrl: string;
+    projectId?: string | null;
+    events?: string;
+    branches?: string;
+    includeAiSummary?: boolean;
+    enabled?: boolean;
+  }>) {
+    return this.client.patch(`/alerts/${id}`, data);
+  }
+
+  deleteAlertDestination(id: string) {
+    return this.client.delete(`/alerts/${id}`);
+  }
+
+  testAlertDestination(data: { provider?: string; webhookUrl?: string; destinationId?: string }) {
+    return this.client.post('/alerts/test', data);
+  }
+
+  getAlertDeliveryLogs(params?: { destinationId?: string; buildId?: string; limit?: number }) {
+    return this.client.get('/alerts/logs', { params });
+  }
 }
 
 export const apiService = new ApiService();
 
 export default apiService;
+
