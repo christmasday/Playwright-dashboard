@@ -188,3 +188,63 @@ export interface AlertDeliveryLog {
   created_at: string;
 }
 
+export type IntegrationProvider = 'jira' | 'github';
+
+export interface GitHubConfig {
+  owner: string;
+  repo: string;
+  token?: string;
+  default_labels?: string[];
+}
+
+export interface JiraConfig {
+  host_url: string;
+  email: string;
+  api_token?: string;
+  project_key: string;
+  issue_type?: string;
+  default_priority?: string;
+  default_labels?: string[];
+}
+
+export interface IntegrationConfigItem {
+  id: string;
+  project_id?: string | null;
+  project_name?: string | null;
+  provider: IntegrationProvider;
+  config: GitHubConfig | JiraConfig | any;
+  enabled: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IssueLink {
+  id: string;
+  project_id?: string | null;
+  test_run_id?: string | null;
+  test_name: string;
+  test_file?: string | null;
+  provider: IntegrationProvider;
+  issue_id: string;
+  issue_key: string;
+  issue_url: string;
+  issue_title: string;
+  issue_status: string;
+  last_synced_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateIssuePayload {
+  testRunId: string;
+  provider: IntegrationProvider;
+  title?: string;
+  description?: string;
+  priority?: string;
+  issueType?: string;
+  labels?: string[];
+  includeAi?: boolean;
+  includeError?: boolean;
+}
+
+

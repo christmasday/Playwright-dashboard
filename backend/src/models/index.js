@@ -5,6 +5,8 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { supabase, query, queryOne, queryAll } from '../config/database.js';
+import { AlertDestination } from './alertDestination.js';
+import { IntegrationConfig, IssueLink } from './issueSync.js';
 
 // Build Model
 export const Build = {
@@ -402,7 +404,7 @@ export const ConditionalRule = {
   },
 };
 
-export { AlertDestination } from './alertDestination.js';
+export { AlertDestination, IntegrationConfig, IssueLink };
 
 export default {
   Build,
@@ -413,5 +415,9 @@ export default {
   Metrics,
   Action,
   ConditionalRule,
+  AlertDestination,
+  IntegrationConfig,
+  IssueLink,
 };
+
 

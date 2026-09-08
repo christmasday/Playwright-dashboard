@@ -16,6 +16,9 @@ import TraceViewerModal from '../components/Visualization/TraceViewerModal';
 import AiAnalysisCard from '../components/Visualization/AiAnalysisCard';
 import VisualDiffViewer from '../components/Visualization/VisualDiffViewer';
 import { detectVisualSnapshotPairs, VisualSnapshotPair } from '../utils/canvasImageDiff';
+import IssueSyncModal from '../components/Integrations/IssueSyncModal';
+import LinkedIssuesBadge from '../components/Integrations/LinkedIssuesBadge';
+import { IssueLink } from '../types/api';
 
 interface TestRunResponse {
   id: string;
@@ -92,6 +95,41 @@ const TestDetails: React.FC = () => {
     error: { message: string; stack?: string; location?: string };
     title?: string;
   } | null>(null);
+
+  // Issue Tracking Integrations State
+  const [issueModalOpen, setIssueModalOpen] = useState(false);
+  const [linkedIssues, setLinkedIssues] = useState<IssueLink[]>([]);
+  const [loadingLinkedIssues, setLoadingLinkedIssues] = useState(false);
+
+  const fetchLinkedIssues = async () => {
+    if (!testId) return;
+    setLoadingLinkedIssues(true);
+    try {
+      const res = await apiService.getLinkedIssues({ testRunId: testId });
+      setLinkedIssues(res.data?.data || []);
+    } catch (err) {
+      console.error('Failed to load linked issues for test', err);
+    } finally {
+      setLoadingLinkedIssues(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLinkedIssues();
+  }, [testId]);
+
+  const handleSyncIssue = async (id: string) => {
+    const res = await apiService.syncIssue(id);
+    const updated = res.data?.data;
+    if (updated) {
+      setLinkedIssues((prev) => prev.map((i) => (i.id === id ? updated : i)));
+    }
+  };
+
+  const handleUnlinkIssue = async (id: string) => {
+    await apiService.unlinkIssue(id);
+    setLinkedIssues((prev) => prev.filter((i) => i.id !== id));
+  };
 
   // Check for existing AI analysis cache on mount
   useEffect(() => {
@@ -462,6 +500,16 @@ const TestDetails: React.FC = () => {
                 <i className="fas fa-play-circle text-xs"></i> Inspect Trace Viewer
               </button>
             )}
+
+            {/* 1-Click Jira / GitHub Issue Sync */}
+            <button
+              onClick={() => setIssueModalOpen(true)}
+              className="px-3.5 py-1.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg flex items-center gap-1.5 shadow-teal-500/15"
+              title="Create Jira ticket or GitHub issue for this test failure"
+            >
+              <i className="fas fa-ticket text-xs"></i>
+              <span>Sync to Jira / GitHub</span>
+            </button>
             <span className="text-xs bg-[#0e0e13] border border-[#20202a] px-3 py-1.5 rounded-xl font-mono text-[#f4f4f7]">
               Duration: <strong className="text-[#3b82f6]">{testRun.duration}ms</strong>
             </span>
@@ -537,6 +585,15 @@ const TestDetails: React.FC = () => {
               <p className="text-2xl font-extrabold text-[#3b82f6] mt-1">{testRun.duration}ms</p>
             </div>
           </div>
+
+          {/* Linked Issues Card */}
+          <LinkedIssuesBadge
+            issues={linkedIssues}
+            loading={loadingLinkedIssues}
+            onSync={handleSyncIssue}
+            onUnlink={handleUnlinkIssue}
+            onOpenCreateModal={() => setIssueModalOpen(true)}
+          />
 
           {/* AI Root Cause & Fix Diagnostic Card or Callout */}
           {aiAnalysis && (
@@ -891,6 +948,19 @@ const TestDetails: React.FC = () => {
           onClose={() => setStackTraceModalOpen(false)}
           error={stackTraceModalData.error}
           testTitle={stackTraceModalData.title}
+        />
+      )}
+
+      {/* 1-Click Issue Sync Modal */}
+      {testRun && (
+        <IssueSyncModal
+          isOpen={issueModalOpen}
+          onClose={() => setIssueModalOpen(false)}
+          testRun={testRun}
+          aiAnalysis={aiAnalysis}
+          onIssueCreated={(newLink) => {
+            setLinkedIssues((prev) => [newLink, ...prev.filter((i) => i.id !== newLink.id)]);
+          }}
         />
       )}
     </div>

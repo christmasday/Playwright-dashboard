@@ -18,6 +18,7 @@ import UserManagement from './pages/UserManagement';
 import ApiKeys from './pages/ApiKeys';
 import ProfileSettings from './pages/ProfileSettings';
 import AlertSettings from './pages/AlertSettings';
+import IntegrationSettings from './pages/IntegrationSettings';
 import VerifyEmail from './pages/VerifyEmail';
 import Docs from './pages/Docs';
 import './styles/globals.css';
@@ -70,6 +71,8 @@ function App() {
                   <Route path="/flaky-tests" element={<FlakyTests />} />
                   <Route path="/alerts" element={<AlertSettings />} />
                   <Route path="/settings/alerts" element={<AlertSettings />} />
+                  <Route path="/integrations" element={<IntegrationSettings />} />
+                  <Route path="/settings/integrations" element={<IntegrationSettings />} />
                   <Route path="/users" element={<UserManagement />} />
                   <Route path="/settings/api-keys" element={<ApiKeys />} />
                   <Route path="/settings/profile" element={<ProfileSettings />} />
