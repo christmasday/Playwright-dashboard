@@ -26,6 +26,7 @@ import analyticsRoutes from './api/routes/analytics.js';
 import aiRoutes from './api/routes/ai.js';
 import alertRoutes from './api/routes/alerts.js';
 import integrationRoutes from './api/routes/integrations.js';
+import storageRoutes from './api/routes/storage.js';
 
 const app = express();
 app.set('trust proxy', 1);
@@ -88,6 +89,7 @@ app.use('/api/conditionalExecution', conditionalRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/integrations', integrationRoutes);
+app.use('/api/storage', storageRoutes);
 
 // Error handling
 app.use(notFoundHandler);

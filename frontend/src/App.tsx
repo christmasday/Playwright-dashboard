@@ -15,10 +15,9 @@ import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import UserManagement from './pages/UserManagement';
-import ApiKeys from './pages/ApiKeys';
 import ProfileSettings from './pages/ProfileSettings';
 import AlertSettings from './pages/AlertSettings';
-import IntegrationSettings from './pages/IntegrationSettings';
+import UserSettings from './pages/UserSettings';
 import VerifyEmail from './pages/VerifyEmail';
 import Docs from './pages/Docs';
 import './styles/globals.css';
@@ -71,13 +70,18 @@ function App() {
                   <Route path="/flaky-tests" element={<FlakyTests />} />
                   <Route path="/alerts" element={<AlertSettings />} />
                   <Route path="/settings/alerts" element={<AlertSettings />} />
-                  <Route path="/integrations" element={<IntegrationSettings />} />
-                  <Route path="/settings/integrations" element={<IntegrationSettings />} />
+                  <Route path="/integrations" element={<UserSettings initialTab="integrations" />} />
+                  <Route path="/settings/integrations" element={<UserSettings initialTab="integrations" />} />
+                  <Route path="/storage" element={<UserSettings initialTab="storage" />} />
+                  <Route path="/settings/storage" element={<UserSettings initialTab="storage" />} />
+                  <Route path="/settings/ai" element={<UserSettings initialTab="ai" />} />
+                  <Route path="/settings/notifications" element={<UserSettings initialTab="notifications" />} />
+                  <Route path="/settings/api-keys" element={<UserSettings initialTab="api-keys" />} />
+                  <Route path="/api-keys" element={<UserSettings initialTab="api-keys" />} />
                   <Route path="/users" element={<UserManagement />} />
-                  <Route path="/settings/api-keys" element={<ApiKeys />} />
                   <Route path="/settings/profile" element={<ProfileSettings />} />
                   <Route path="/profile" element={<ProfileSettings />} />
-                  <Route path="/settings" element={<ProfileSettings />} />
+                  <Route path="/settings" element={<UserSettings />} />
                   <Route path="/docs" element={<Docs />} />
                 </Routes>
               </Layout>
