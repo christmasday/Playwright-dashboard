@@ -185,25 +185,97 @@ export const getArtifactFile = async (req, res, next) => {
       return res.status(400).json({ error: 'path parameter is required' });
     }
 
-    const resolved = path.resolve(String(targetPath));
+    let resolved = path.resolve(String(targetPath));
+
+    // Fallback: If not found directly, check uploads/artifacts or test-results
+    if (!fs.existsSync(resolved)) {
+      const baseName = path.basename(String(targetPath));
+      const uploadsCandidate = path.resolve(process.cwd(), 'uploads/artifacts', baseName);
+      if (fs.existsSync(uploadsCandidate)) {
+        resolved = uploadsCandidate;
+      } else {
+        // Search recursively in uploads/artifacts if file exists
+        const artifactsDir = path.resolve(process.cwd(), 'uploads/artifacts');
+        if (fs.existsSync(artifactsDir)) {
+          const findInDir = (dir) => {
+            const files = fs.readdirSync(dir, { withFileTypes: true });
+            for (const file of files) {
+              const full = path.join(dir, file.name);
+              if (file.isDirectory()) {
+                const found = findInDir(full);
+                if (found) return found;
+              } else if (file.name === baseName) {
+                return full;
+              }
+            }
+            return null;
+          };
+          const match = findInDir(artifactsDir);
+          if (match) {
+            resolved = match;
+          }
+        }
+      }
+    }
+
     if (!fs.existsSync(resolved)) {
       return res.status(404).json({ error: 'Artifact file not found on disk' });
     }
 
+    const stat = fs.statSync(resolved);
+    const fileSize = stat.size;
     const ext = path.extname(resolved).toLowerCase();
+
     let contentType = 'application/octet-stream';
     if (['.png', '.jpg', '.jpeg', '.gif', '.webp'].includes(ext)) {
-      contentType = ext === '.png' ? 'image/png' : 'image/jpeg';
+      contentType = ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : ext === '.gif' ? 'image/gif' : 'image/jpeg';
     } else if (['.webm', '.mp4', '.ogg'].includes(ext)) {
-      contentType = ext === '.webm' ? 'video/webm' : 'video/mp4';
+      contentType = ext === '.webm' ? 'video/webm' : ext === '.mp4' ? 'video/mp4' : 'video/ogg';
     } else if (['.zip'].includes(ext)) {
       contentType = 'application/zip';
-    } else if (['.txt', '.log', '.json', '.xml'].includes(ext)) {
-      contentType = 'text/plain';
+    } else if (['.txt', '.log', '.json', '.xml', '.md'].includes(ext)) {
+      contentType = ext === '.json' ? 'application/json' : ext === '.xml' ? 'application/xml' : 'text/plain';
     }
 
+    // Common media headers for modern browsers
+    res.setHeader('Accept-Ranges', 'bytes');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+
+    // Handle HTTP Range requests for video playback and audio streaming
+    const range = req.headers.range;
+    if (range) {
+      const parts = range.replace(/bytes=/, '').split('-');
+      const start = parseInt(parts[0], 10);
+      const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+      if (start >= fileSize || end >= fileSize || start > end) {
+        res.setHeader('Content-Range', `bytes */${fileSize}`);
+        return res.status(416).json({ error: 'Requested range not satisfiable' });
+      }
+
+      const chunkSize = end - start + 1;
+      res.status(206);
+      res.setHeader('Content-Range', `bytes ${start}-${end}/${fileSize}`);
+      res.setHeader('Content-Length', chunkSize);
+      res.setHeader('Content-Type', contentType);
+
+      const stream = fs.createReadStream(resolved, { start, end });
+      stream.on('error', (err) => {
+        logger.error('Stream read error during range request', { error: err.message });
+        if (!res.headersSent) res.status(500).end();
+      });
+      return stream.pipe(res);
+    }
+
+    // Standard whole-file response
+    res.setHeader('Content-Length', fileSize);
     res.setHeader('Content-Type', contentType);
     const stream = fs.createReadStream(resolved);
+    stream.on('error', (err) => {
+      logger.error('Stream read error during artifact delivery', { error: err.message });
+      if (!res.headersSent) res.status(500).end();
+    });
     stream.pipe(res);
   } catch (error) {
     logger.error('Error serving artifact file', { error: error.message });

@@ -40,8 +40,19 @@ export const io = new SocketIOServer(server, {
   },
 });
 
+import fs from 'fs';
+import path from 'path';
+
+// Ensure persistent uploads directory for test artifacts
+const uploadsArtifactsDir = path.resolve(process.cwd(), 'uploads/artifacts');
+if (!fs.existsSync(uploadsArtifactsDir)) {
+  fs.mkdirSync(uploadsArtifactsDir, { recursive: true });
+}
+
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 app.use(cors({
   origin: env.FRONTEND_URL,
   credentials: true,
