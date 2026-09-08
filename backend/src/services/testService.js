@@ -3,6 +3,8 @@
  * Handles test data operations and workflows
  */
 
+import fs from 'fs';
+import path from 'path';
 import { TestRun, TestResult, Artifact, FlakyTest, Build, Metrics } from '../models/index.js';
 import { transaction } from '../config/database.js';
 import { calculateTestMetrics } from '../utils/playwrightParser.js';
@@ -287,7 +289,38 @@ async function processTestSuite(suite, buildId, client = null) {
             type = 'log';
           }
 
-          let fileUrl = attachment.url || attachment.path || '';
+          // Persist artifact into uploads/artifacts/:buildId/:testRunId/
+          let destPath = attachment.path || '';
+          let fileSize = attachment.size || 0;
+
+          try {
+            const artifactsBaseDir = path.resolve(process.cwd(), 'uploads/artifacts', String(buildId), String(testRun.id));
+            if (!fs.existsSync(artifactsBaseDir)) {
+              fs.mkdirSync(artifactsBaseDir, { recursive: true });
+            }
+
+            const rawName = attachment.name ? path.basename(attachment.name) : (type + (type === 'screenshot' ? '.png' : type === 'video' ? '.webm' : type === 'trace' ? '.zip' : '.txt'));
+            const safeName = rawName.replace(/[^a-zA-Z0-9._-]/g, '_');
+            const targetFile = path.join(artifactsBaseDir, safeName);
+
+            if (attachment.content) {
+              const buffer = Buffer.from(attachment.content, 'base64');
+              fs.writeFileSync(targetFile, buffer);
+              destPath = targetFile;
+              fileSize = buffer.length;
+            } else if (attachment.path && fs.existsSync(attachment.path)) {
+              fs.copyFileSync(attachment.path, targetFile);
+              destPath = targetFile;
+              fileSize = fs.statSync(targetFile).size;
+            } else if (fs.existsSync(targetFile)) {
+              destPath = targetFile;
+              fileSize = fs.statSync(targetFile).size;
+            }
+          } catch (storageErr) {
+            logger.warn('Failed to persist artifact file', { error: storageErr.message, name: attachment.name });
+          }
+
+          let fileUrl = destPath || attachment.url || attachment.path || '';
           if (fileUrl && (fileUrl.startsWith('/') || fileUrl.includes('/'))) {
             fileUrl = `/api/tests/artifact-file?path=${encodeURIComponent(fileUrl)}`;
           }
@@ -297,8 +330,9 @@ async function processTestSuite(suite, buildId, client = null) {
             buildId,
             type,
             name: attachment.name || type,
-            path: attachment.path,
+            path: destPath,
             url: fileUrl,
+            size: fileSize,
           }, client);
         }
       }

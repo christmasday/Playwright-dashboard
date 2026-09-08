@@ -9,6 +9,9 @@
  * X-API-Key authenticated ingest endpoints.
  */
 
+const fs = require('fs');
+const path = require('path');
+
 const DEFAULT_API_URL = 'http://localhost:3002/api';
 
 function transformSuite(suite) {
@@ -56,12 +59,36 @@ function transformTest(testCase) {
   const results = testCase.results || [];
   const result = results[results.length - 1] || {};
   const steps = extractSteps(result.steps || []);
-  const attachments = (result.attachments || []).map((att) => ({
-    name: att.name,
-    type: att.contentType || att.type || 'application/octet-stream',
-    path: att.path || null,
-    url: att.path || null,
-  }));
+  const attachments = (result.attachments || []).map((att) => {
+    let size = 0;
+    let content = null;
+
+    try {
+      if (att.body && Buffer.isBuffer(att.body)) {
+        size = att.body.length;
+        if (size <= 30 * 1024 * 1024) {
+          content = att.body.toString('base64');
+        }
+      } else if (att.path && fs.existsSync(att.path)) {
+        const stat = fs.statSync(att.path);
+        size = stat.size;
+        if (size <= 30 * 1024 * 1024) {
+          content = fs.readFileSync(att.path).toString('base64');
+        }
+      }
+    } catch (e) {
+      // Best effort file reading
+    }
+
+    return {
+      name: att.name,
+      type: att.contentType || att.type || 'application/octet-stream',
+      path: att.path || null,
+      url: att.path || null,
+      size,
+      content,
+    };
+  });
 
   // Extract comprehensive error, stack trace, and location
   let errorMessage = null;
