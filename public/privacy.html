@@ -7,7 +7,7 @@
   
   <title>Privacy Policy — Playwright Dashboard</title>
   <meta name="title" content="Privacy Policy — Playwright Dashboard">
-  <meta name="description" content="Privacy Policy for Playwright Dashboard. Learn how we handle test execution metadata, traces, screenshots, CI/CD telemetry, and protect customer personal data under GDPR and CCPA.">
+  <meta name="description" content="Privacy Policy for Playwright Dashboard. Learn how we handle test execution metadata, traces, screenshots, CI/CD telemetry, and protect customer personal data under GDPR, CCPA, and NDPA (Nigeria Data Protection Act).">
   <link rel="canonical" href="https://playwright-dashboard.easytesting.app/privacy.html">
   <meta name="robots" content="index, follow">
 
@@ -16,7 +16,7 @@
   <meta property="og:site_name" content="Playwright Dashboard">
   <meta property="og:url" content="https://playwright-dashboard.easytesting.app/privacy.html">
   <meta property="og:title" content="Privacy Policy — Playwright Dashboard">
-  <meta property="og:description" content="Learn how Playwright Dashboard collects, uses, and safeguards data from your E2E test runs, traces, and CI/CD pipelines.">
+  <meta property="og:description" content="Learn how Playwright Dashboard collects, uses, and safeguards data from your E2E test runs, traces, and CI/CD pipelines under GDPR, CCPA, and NDPA.">
   <meta property="og:image" content="https://playwright-dashboard.easytesting.app/og-image.png">
 
   <!-- Fonts & Icons -->
@@ -231,7 +231,7 @@
             <span class="text-muted-2">Effective:</span> <strong class="text-white">September 1, 2026</strong>
           </div>
           <div class="bg-[#14141b] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-muted">
-            <span class="text-muted-2">Version:</span> <strong class="text-white">3.2 (GDPR &amp; CCPA)</strong>
+            <span class="text-muted-2">Version:</span> <strong class="text-white">3.3 (GDPR, CCPA &amp; NDPA)</strong>
           </div>
           <button onclick="window.print()" class="bg-[#14141b] hover:bg-[#1f1f2a] border border-[#20202a] rounded-lg px-3 py-1.5 text-xs text-white flex items-center gap-1.5 transition">
             <i class="fas fa-print text-muted"></i> Print
@@ -267,16 +267,17 @@
             <a href="#introduction" class="toc-link">1. Introduction &amp; Roles</a>
             <a href="#information-we-collect" class="toc-link">2. Information We Collect</a>
             <a href="#how-we-use-data" class="toc-link">3. How We Use Information</a>
-            <a href="#lawful-basis" class="toc-link">4. Legal Bases (GDPR)</a>
+            <a href="#lawful-basis" class="toc-link">4. Legal Bases (GDPR &amp; NDPA)</a>
             <a href="#data-retention" class="toc-link">5. Data Retention &amp; Pruning</a>
             <a href="#subprocessors" class="toc-link">6. Sub-processors &amp; Sharing</a>
             <a href="#data-transfers" class="toc-link">7. International Transfers</a>
             <a href="#security-safeguards" class="toc-link">8. Security Safeguards</a>
-            <a href="#your-rights" class="toc-link">9. Your Rights (GDPR / CCPA)</a>
-            <a href="#self-hosted" class="toc-link">10. Self-Hosted Deployments</a>
-            <a href="#children" class="toc-link">11. Children's Privacy</a>
-            <a href="#changes" class="toc-link">12. Changes to this Policy</a>
-            <a href="#contact" class="toc-link">13. Contact &amp; DPO</a>
+            <a href="#your-rights" class="toc-link">9. Your Rights (GDPR, CCPA, NDPA)</a>
+            <a href="#ndpa-provisions" class="toc-link">10. NDPA (Nigeria) Specifics</a>
+            <a href="#self-hosted" class="toc-link">11. Self-Hosted Deployments</a>
+            <a href="#children" class="toc-link">12. Children's Privacy</a>
+            <a href="#changes" class="toc-link">13. Changes to this Policy</a>
+            <a href="#contact" class="toc-link">14. Contact &amp; DPO</a>
           </nav>
         </div>
 
@@ -292,7 +293,7 @@
       <article class="lg:col-span-3 legal-card p-6 sm:p-10 prose-legal">
         
         <div class="callout callout-info">
-          <strong>Summary for Engineers:</strong> Playwright Dashboard ingests test results, duration metrics, flaky test patterns, screenshots, and trace artifacts generated during automated testing. We encrypt all data in transit and at rest, enforce strict role-based access, and provide automated pruning tools to keep your data footprint minimal.
+          <strong>Summary for Engineers:</strong> Playwright Dashboard ingests test results, duration metrics, flaky test patterns, screenshots, and trace artifacts generated during automated testing. We encrypt all data in transit and at rest, enforce strict role-based access, and comply with international regulations including GDPR, CCPA/CPRA, and the Nigeria Data Protection Act 2023 (NDPA).
         </div>
 
         <section id="introduction">
@@ -301,14 +302,14 @@
             Playwright Dashboard (referred to as <strong>"Playwright Dashboard"</strong>, <strong>"we"</strong>, <strong>"us"</strong>, or <strong>"our"</strong>) provides an automated end-to-end (E2E) test visualization, flaky test detection, and test analytics platform accessible via our web application (<a href="https://playwright-dashboard.easytesting.app">playwright-dashboard.easytesting.app</a>), API endpoints, CLI packages, and self-hosted distributions.
           </p>
           <p>
-            Depending on your relationship with us, we operate in two distinct capacities under data privacy regulations such as the EU/UK General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA/CPRA):
+            Depending on your relationship with us, we operate in two distinct capacities under data privacy regulations such as the EU/UK General Data Protection Regulation (GDPR), the California Consumer Privacy Act (CCPA/CPRA), and the <strong>Nigeria Data Protection Act 2023 (NDPA)</strong>:
           </p>
           <ul>
             <li>
-              <strong>Data Controller:</strong> For account registration details, billing identifiers, marketing communications, and website usage telemetry of our direct customers.
+              <strong>Data Controller:</strong> For account registration details, billing identifiers, marketing communications, and website usage telemetry of our direct customers. Under NDPA Section 65, we act as a Data Controller for our registered user base.
             </li>
             <li>
-              <strong>Data Processor / Service Provider:</strong> For test execution artifacts, DOM snapshots, network payloads, console logs, and test metrics transmitted to our ingest API from your automated test runners or CI/CD pipelines. You (the customer) remain the Data Controller of this content.
+              <strong>Data Processor / Service Provider:</strong> For test execution artifacts, DOM snapshots, network payloads, console logs, and test metrics transmitted to our ingest API from your automated test runners or CI/CD pipelines. You (the customer) remain the Data Controller of this content, and we act as a Data Processor pursuant to GDPR Article 28 and NDPA Section 29.
             </li>
           </ul>
         </section>
@@ -384,12 +385,13 @@
         </section>
 
         <section id="lawful-basis">
-          <h2><i class="fas fa-scale-balanced text-blue-400 text-sm"></i> 4. Legal Bases for Processing (GDPR)</h2>
-          <p>If you are an individual located in the European Economic Area (EEA) or United Kingdom, our legal bases under GDPR Article 6 include:</p>
+          <h2><i class="fas fa-scale-balanced text-blue-400 text-sm"></i> 4. Legal Bases for Processing (GDPR &amp; NDPA)</h2>
+          <p>Depending on whether you are located in the European Economic Area (EEA), United Kingdom, or Nigeria, we process personal data strictly under lawful bases provided by law:</p>
           <ul>
-            <li><strong>Performance of a Contract (Art. 6(1)(b)):</strong> To provide the services described in our Terms of Use, including ingesting and rendering your test reports.</li>
-            <li><strong>Legitimate Interests (Art. 6(1)(f)):</strong> To maintain platform security, prevent fraudulent abuse, and improve flaky test clustering algorithms without overriding your fundamental rights.</li>
-            <li><strong>Compliance with Legal Obligations (Art. 6(1)(c)):</strong> To comply with tax, financial, and regulatory reporting mandates.</li>
+            <li><strong>Performance of a Contract (GDPR Art. 6(1)(b) &amp; NDPA Sec. 25(1)(b)):</strong> To provide the services described in our Terms of Use, including creating user accounts, authenticating test runners, ingesting payloads, and rendering your dashboards.</li>
+            <li><strong>Consent (GDPR Art. 6(1)(a) &amp; NDPA Sec. 25(1)(a)):</strong> Where you explicitly choose to enable non-essential notifications, optional beta features, or promotional announcements. You may withdraw consent at any time.</li>
+            <li><strong>Legitimate Interests (GDPR Art. 6(1)(f) &amp; NDPA Sec. 25(1)(e)):</strong> To protect infrastructure against abusive denial-of-service traffic, debug performance bottlenecks, and compute anonymized flaky test patterns without infringing on fundamental rights.</li>
+            <li><strong>Compliance with Legal Obligations (GDPR Art. 6(1)(c) &amp; NDPA Sec. 25(1)(c)):</strong> To comply with mandatory statutory, tax, or regulatory disclosure requirements.</li>
           </ul>
         </section>
 
@@ -445,13 +447,16 @@
         <section id="data-transfers">
           <h2><i class="fas fa-globe text-blue-400 text-sm"></i> 7. International Data Transfers</h2>
           <p>
-            When data is transferred from the EEA or UK to servers located in the United States, we rely on the European Commission's Standard Contractual Clauses (SCCs) and UK International Data Transfer Addendum, alongside robust technical safeguards including end-to-end encryption.
+            When data is transferred from the EEA or UK to servers located in the United States, we rely on the European Commission's Standard Contractual Clauses (SCCs) and UK International Data Transfer Addendum.
+          </p>
+          <p>
+            <strong>Transfers under the NDPA (Part VIII, Sections 41–43):</strong> Where personal data of Nigerian residents is transferred outside Nigeria, such transfers are conducted under lawful cross-border mechanisms, including Standard Contractual Clauses with equivalent data protection obligations, adequacy whitelist criteria recognized by the Nigeria Data Protection Commission (NDPC), or contractual necessity for the fulfillment of our cloud test reporting service.
           </p>
         </section>
 
         <section id="security-safeguards">
           <h2><i class="fas fa-shield-virus text-blue-400 text-sm"></i> 8. Security Safeguards</h2>
-          <p>We implement defense-in-depth technical and organizational measures:</p>
+          <p>We implement defense-in-depth technical and organizational measures under GDPR Article 32 and NDPA Section 39:</p>
           <ul>
             <li><strong>Encryption in Transit:</strong> All HTTP traffic and WebSocket channels are enforced over TLS 1.3 with modern cipher suites and HSTS.</li>
             <li><strong>Encryption at Rest:</strong> Database tables, backups, and artifact storage buckets are encrypted using AES-256 keys.</li>
@@ -461,48 +466,70 @@
         </section>
 
         <section id="your-rights">
-          <h2><i class="fas fa-user-shield text-blue-400 text-sm"></i> 9. Your Rights (GDPR &amp; CCPA/CPRA)</h2>
+          <h2><i class="fas fa-user-shield text-blue-400 text-sm"></i> 9. Your Statutory Rights (GDPR, CCPA &amp; NDPA)</h2>
           <p>Depending on your jurisdiction, you have statutory rights regarding your personal data:</p>
           <ul>
-            <li><strong>Right of Access &amp; Portability:</strong> Request a machine-readable copy (JSON/CSV) of your personal account data and test history.</li>
-            <li><strong>Right to Rectification:</strong> Update inaccurate or incomplete account credentials directly via Workspace Settings.</li>
-            <li><strong>Right to Erasure ("Right to be Forgotten"):</strong> Request complete deletion of your account, projects, test runs, and traces.</li>
-            <li><strong>Right to Restrict or Object to Processing:</strong> Object to processing based on legitimate interests.</li>
-            <li><strong>Non-Discrimination:</strong> CCPA consumers will never be denied services or charged differentiated pricing for exercising statutory rights.</li>
+            <li><strong>Right to be Informed:</strong> Transparent notice of how your data is collected and processed (GDPR Art. 13/14; NDPA Sec. 34).</li>
+            <li><strong>Right of Access &amp; Portability:</strong> Request a machine-readable copy (JSON/CSV) of your personal account data and test history (GDPR Art. 15/20; NDPA Sec. 34(1)(a) &amp; 38).</li>
+            <li><strong>Right to Rectification:</strong> Update inaccurate or incomplete account credentials directly via Workspace Settings (GDPR Art. 16; NDPA Sec. 34(1)(b)).</li>
+            <li><strong>Right to Erasure ("Right to be Forgotten"):</strong> Request complete deletion of your account, projects, test runs, and traces without undue delay (GDPR Art. 17; NDPA Sec. 34(1)(c)).</li>
+            <li><strong>Right to Restrict or Object to Processing:</strong> Object to processing based on legitimate interests or direct communications (GDPR Art. 18/21; NDPA Sec. 34(1)(d) &amp; 36).</li>
+            <li><strong>Automated Decision-Making Protections:</strong> Right not to be subjected to decisions based solely on automated profiling having legal effects (GDPR Art. 22; NDPA Sec. 37).</li>
+            <li><strong>Non-Discrimination:</strong> CCPA and NDPA users will never be denied services or charged differentiated pricing for exercising statutory rights.</li>
           </ul>
-          <p>To exercise any of these rights, email us at <a href="mailto:privacy@playwright-dashboard.easytesting.app">privacy@playwright-dashboard.easytesting.app</a>. We fulfill requests within 30 days free of charge.</p>
+          <p>To exercise any of these rights, email us at <a href="mailto:privacy@easytesting.app">privacy@easytesting.app</a>. We fulfill requests within 30 days free of charge.</p>
+        </section>
+
+        <section id="ndpa-provisions">
+          <h2><i class="fas fa-landmark-flag text-blue-400 text-sm"></i> 10. Specific Disclosures for Nigerian Data Subjects (NDPA 2023)</h2>
+          <p>
+            If you are accessing Playwright Dashboard from the Federal Republic of Nigeria or your test data involves Nigerian data subjects, the following provisions apply in full compliance with the <strong>Nigeria Data Protection Act, 2023</strong>:
+          </p>
+          <ul>
+            <li><strong>Data Controller &amp; Processor Designation:</strong> Playwright Dashboard acts as a Data Controller for workspace registration accounts, and as a Data Processor for automated test payloads sent from your CI/CD pipelines under NDPA Part V.</li>
+            <li><strong>Data Security:</strong> We implement state-of-the-art safeguards required under NDPA Section 39 to protect against data destruction, unauthorized alteration, or unlawful access.</li>
+            <li><strong>Breach Notification:</strong> Where a security breach impacts personal data, we adhere to NDPA Section 40, immediately notifying customer Data Controllers and cooperating to submit required notifications to the Commission within 72 hours.</li>
+            <li><strong>Complaints to the NDPC:</strong> You have the legal right to lodge a complaint with the <strong>Nigeria Data Protection Commission (NDPC)</strong> if you believe your personal data has been handled in contravention of the NDPA:
+              <br>
+              <span class="text-xs text-muted">
+                Nigeria Data Protection Commission (NDPC)<br>
+                Website: <a href="https://ndpc.gov.ng" target="_blank" rel="noopener noreferrer">ndpc.gov.ng</a> &bull; Email: <a href="mailto:info@ndpc.gov.ng">info@ndpc.gov.ng</a>
+              </span>
+            </li>
+          </ul>
         </section>
 
         <section id="self-hosted">
-          <h2><i class="fas fa-server text-blue-400 text-sm"></i> 10. Self-Hosted &amp; On-Premise Deployments</h2>
+          <h2><i class="fas fa-server text-blue-400 text-sm"></i> 11. Self-Hosted &amp; On-Premise Deployments</h2>
           <p>
-            If you run Playwright Dashboard on your own private infrastructure using Docker, Kubernetes, or self-hosted servers, <strong>zero test execution data or artifacts</strong> leave your perimeter. You hold sole controller and processor responsibilities for all data generated within self-hosted instances.
+            If you run Playwright Dashboard on your own private infrastructure using Docker, Kubernetes, or self-hosted servers, <strong>zero test execution data or artifacts</strong> leave your perimeter. You hold sole controller and processor responsibilities for all data generated within self-hosted instances under applicable data protection statutes.
           </p>
         </section>
 
         <section id="children">
-          <h2><i class="fas fa-child text-blue-400 text-sm"></i> 11. Children's Privacy</h2>
+          <h2><i class="fas fa-child text-blue-400 text-sm"></i> 12. Children's Privacy</h2>
           <p>
-            Our services are designed strictly for professional software engineering and quality assurance workflows. We do not knowingly collect personal data from individuals under 16 years of age.
+            Our services are designed strictly for professional software engineering and quality assurance workflows. We do not knowingly collect personal data from individuals under 18 years of age (in accordance with NDPA Section 31 and international child privacy laws).
           </p>
         </section>
 
         <section id="changes">
-          <h2><i class="fas fa-pen-nib text-blue-400 text-sm"></i> 12. Changes to this Privacy Policy</h2>
+          <h2><i class="fas fa-pen-nib text-blue-400 text-sm"></i> 13. Changes to this Privacy Policy</h2>
           <p>
             We may periodically update this policy to reflect emerging product features or regulatory changes. Material changes will be communicated via email notifications to workspace owners and prominent dashboard banners at least 14 days prior to effective adoption.
           </p>
         </section>
 
         <section id="contact">
-          <h2><i class="fas fa-envelope text-blue-400 text-sm"></i> 13. Contact &amp; Data Protection Officer</h2>
+          <h2><i class="fas fa-envelope text-blue-400 text-sm"></i> 14. Contact &amp; Data Protection Officer (DPO)</h2>
           <p>
-            For privacy inquiries, Data Protection Officer (DPO) escalation, or security inquiries, contact our team:
+            For privacy inquiries, Data Protection Officer (DPO) escalation, or regulatory queries under GDPR, CCPA, or NDPA, contact our team:
           </p>
           <div class="p-4 bg-[#14141b] rounded-xl border border-[#20202a] text-sm space-y-1">
             <p><strong>Playwright Dashboard Data Protection Team</strong></p>
-            <p>Email: <a href="mailto:privacy@playwright-dashboard.easytesting.app">privacy@playwright-dashboard.easytesting.app</a></p>
-            <p>Security Team: <a href="mailto:security@playwright-dashboard.easytesting.app">security@playwright-dashboard.easytesting.app</a></p>
+            <p>Data Protection Officer: <a href="mailto:dpo@easytesting.app">dpo@easytesting.app</a></p>
+            <p>Privacy Inquiries: <a href="mailto:privacy@easytesting.app">privacy@easytesting.app</a></p>
+            <p>Security Operations: <a href="mailto:security@easytesting.app">security@easytesting.app</a></p>
             <p>Community &amp; Support: <a href="https://discord.gg/vx2Q4rPK8g" target="_blank" rel="noopener noreferrer">Join our Discord Community</a></p>
           </div>
         </section>

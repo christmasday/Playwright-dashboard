@@ -45,7 +45,7 @@ export const env = {
   GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   GITLAB_TOKEN: process.env.GITLAB_TOKEN,
   RESEND_API_KEY: process.env.RESEND_API_KEY,
-  RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL || 'noreply@playwright-dashboard.com',
+  RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL || 'noreply@easytesting.app',
 
   // Features
   ENABLE_WEBHOOKS: process.env.ENABLE_WEBHOOKS !== 'false',
