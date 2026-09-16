@@ -2,17 +2,21 @@ import { createClient } from 'redis';
 import env from './env.js';
 import logger from '../utils/logger.js';
 
+const redisUrl = env.REDIS_PASSWORD
+  ? `redis://:${encodeURIComponent(env.REDIS_PASSWORD)}@${env.REDIS_HOST}:${env.REDIS_PORT}`
+  : `redis://${env.REDIS_HOST}:${env.REDIS_PORT}`;
+
 const client = createClient({
-  host: env.REDIS_HOST,
-  port: env.REDIS_PORT,
-  password: env.REDIS_PASSWORD,
+  url: redisUrl,
   socket: {
+    host: env.REDIS_HOST,
+    port: env.REDIS_PORT,
     reconnectStrategy: (retries) => {
       if (retries > 10) {
         logger.error('Max Redis reconnection attempts reached');
         return new Error('Max retries reached');
       }
-      return retries * 50;
+      return retries * 100;
     },
   },
 });

@@ -20,7 +20,7 @@ const TraceViewerModal: React.FC<TraceViewerModalProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [traceBlob, setTraceBlob] = useState<Blob | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const retryTimerRef = useRef<NodeJS.Timeout[]>([]);
+  const retryTimerRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

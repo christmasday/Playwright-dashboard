@@ -18,8 +18,10 @@ services:
     ports:
       - '3001:3001'
     environment:
-      NODE_ENV: development
-      # Database connection via Supabase Cloud
+      NODE_ENV: production
+      PORT: 3001
+      SELF_HOSTED_COMMUNITY: 'true'
+      # Database connection via Supabase Cloud / local Postgres
       DATABASE_URL: ${DATABASE_URL}
       SUPABASE_URL: ${SUPABASE_URL:-}
       SUPABASE_KEY: ${SUPABASE_KEY:-}
@@ -30,9 +32,18 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-    volumes:
-      - ./backend/src:/app/src
-    command: npm run dev
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=http://localhost:3001/api
+    depends_on:
+      - backend
 
 volumes:
   redis_data:
