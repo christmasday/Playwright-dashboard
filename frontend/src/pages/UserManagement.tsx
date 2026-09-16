@@ -157,12 +157,47 @@ const UserManagement: React.FC = () => {
           <h1 className="text-2xl font-bold text-[#f4f4f7]">User Management</h1>
           <p className="text-xs text-[#9a9aa5]">System administrator controls for organization users</p>
         </div>
-        <button
-          onClick={() => setShowCreate((v) => !v)}
-          className="px-4 py-2 rounded-xl font-medium text-xs text-[#08080a] bg-gradient-to-r from-[#93c5fd] to-[#3b82f6] hover:opacity-90 transition-opacity"
+        <div className="flex items-center gap-3">
+          <a
+            href="/pricing"
+            className="px-3.5 py-2 rounded-xl font-medium text-xs text-[#3b82f6] bg-[#3b82f6]/10 border border-[#3b82f6]/30 hover:bg-[#3b82f6]/20 transition-all flex items-center gap-1.5"
+          >
+            <i className="fas fa-sparkles text-xs"></i>
+            <span>View Plans & Quotas</span>
+          </a>
+          <button
+            onClick={() => setShowCreate((v) => !v)}
+            className="px-4 py-2 rounded-xl font-medium text-xs text-[#08080a] bg-gradient-to-r from-[#93c5fd] to-[#3b82f6] hover:opacity-90 transition-opacity"
+          >
+            {showCreate ? 'Cancel' : 'Add User'}
+          </button>
+        </div>
+      </div>
+
+      {/* Plan Tier Seat Limit Info Banner */}
+      <div className="mb-6 p-4 rounded-xl bg-[#1a1a22] border border-[#262635] flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-[#3b82f6]/10 border border-[#3b82f6]/30 flex items-center justify-center text-[#3b82f6] shrink-0">
+            <i className="fas fa-users-gear text-sm"></i>
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-[#f4f4f7]">Team Member Quotas</span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                Current Active: {users.length} {users.length === 1 ? 'member' : 'members'}
+              </span>
+            </div>
+            <p className="text-xs text-[#9a9aa5] mt-0.5">
+              <strong className="text-[#f4f4f7]">Free Community:</strong> 1 Solo user • <strong className="text-[#f4f4f7]">Team Tier:</strong> Up to 3 seats • <strong className="text-[#f4f4f7]">Business:</strong> Unlimited seats with zero per-seat tax
+            </p>
+          </div>
+        </div>
+        <a
+          href="/pricing"
+          className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#f4f4f7] bg-[#252535] hover:bg-[#303045] border border-[#37374d] transition-all text-center"
         >
-          {showCreate ? 'Cancel' : 'Add User'}
-        </button>
+          Upgrade Seats →
+        </a>
       </div>
 
       {error && (

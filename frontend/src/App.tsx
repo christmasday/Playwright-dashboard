@@ -21,6 +21,7 @@ import UserSettings from './pages/UserSettings';
 import VerifyEmail from './pages/VerifyEmail';
 import Docs from './pages/Docs';
 import Legal from './pages/Legal';
+import Pricing from './pages/Pricing';
 import './styles/globals.css';
 
 const LandingRedirect = () => {
@@ -57,6 +58,7 @@ function App() {
         <Route path="/cookie-policy" element={<Legal initialTab="cookie-policy" />} />
         <Route path="/security" element={<Legal initialTab="security" />} />
         <Route path="/legal" element={<Legal initialTab="privacy" />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />

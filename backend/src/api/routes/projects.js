@@ -5,6 +5,7 @@ import express from 'express';
 import {
   authenticateToken,
 } from '../middleware/auth.js';
+import { enforceMemberLimit } from '../../middleware/planGating.js';
 import {
   createProject,
   getProject,
@@ -36,7 +37,7 @@ router.get('/:id/builds', getProjectBuilds);
 
 // Member management
 router.get('/:id/members', getProjectMembers);
-router.post('/:id/members', addProjectMember);
+router.post('/:id/members', enforceMemberLimit, addProjectMember);
 router.patch('/:id/members/:userId', updateProjectMemberRole);
 router.delete('/:id/members/:userId', removeProjectMember);
 

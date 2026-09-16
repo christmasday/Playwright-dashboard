@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08080a">
+  
+  <title>Pricing Plans — Playwright Dashboard</title>
+  <meta name="title" content="Pricing Plans — Playwright Dashboard">
+  <meta name="description" content="Transparent, predictable pricing for automated Playwright test reporting and analytics. Free solo community plan, agile team tiers, and scalable enterprise options.">
+  <link rel="canonical" href="https://playwright-dashboard.easytesting.app/pricing.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://playwright-dashboard.easytesting.app/pricing.html">
+  <meta property="og:title" content="Playwright Dashboard Pricing — Free &amp; Scalable Tiers">
+  <meta property="og:description" content="Transparent pricing for Playwright test reporting, traces, and flaky test management. Free Community plan, Team, Business, and Enterprise.">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --bg: #08080a;
+      --bg-subtle: #0a0a0e;
+      --surface: #0e0e13;
+      --surface-2: #14141b;
+      --border: #20202a;
+      --border-accent: rgba(59, 130, 246, 0.4);
+      --fg: #f4f4f7;
+      --muted: #9a9aa5;
+      --muted-2: #5e5e68;
+      --accent: #3b82f6;
+      --accent-strong: #60a5fa;
+      --accent-soft: rgba(59, 130, 246, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .aurora {
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(40% 40% at 20% 15%, rgba(59,130,246,0.15), transparent 60%),
+        radial-gradient(35% 35% at 80% 20%, rgba(139,92,246,0.12), transparent 60%),
+        radial-gradient(30% 30% at 50% 60%, rgba(59,130,246,0.08), transparent 70%);
+      filter: blur(60px);
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.18;
+    }
+
+    .pricing-card {
+      background: rgba(14, 14, 19, 0.75);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .pricing-card:hover {
+      border-color: rgba(59, 130, 246, 0.45);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.5);
+    }
+    .pricing-card.featured {
+      background: linear-gradient(180deg, rgba(20, 24, 38, 0.85), rgba(14, 14, 19, 0.9));
+      border-color: rgba(59, 130, 246, 0.6);
+      box-shadow: 0 0 28px -4px rgba(59, 130, 246, 0.25);
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .faq-item {
+      background: rgba(20, 20, 27, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 0.875rem;
+      transition: all 0.2s ease;
+    }
+    .faq-item:hover {
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+    .faq-answer {
+      display: none;
+    }
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-blue-600 selection:text-white">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Global Header -->
+  <header class="sticky top-0 z-50 border-b border-[#20202a] bg-[#08080a]/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="/landing.html" class="flex items-center space-x-2.5">
+          <span class="w-8 h-8 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+          </span>
+          <span class="font-bold text-base tracking-tight text-white">Playwright Dashboard</span>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-7 text-sm font-medium">
+        <a href="/landing.html#features" class="text-[#9a9aa5] hover:text-white transition">Features</a>
+        <a href="/landing.html#comparison" class="text-[#9a9aa5] hover:text-white transition">Comparison</a>
+        <a href="/pricing.html" class="text-blue-400 font-semibold">Pricing</a>
+        <a href="/docs" class="text-[#9a9aa5] hover:text-white transition">User Guide</a>
+        <a href="/legal.html" class="text-[#9a9aa5] hover:text-white transition">Legal &amp; Trust</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="https://github.com/christmasday/Playwright-dashboard" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#9a9aa5] hover:text-[#3b82f6] hover:border-[#3b82f6] transition" aria-label="GitHub Repository">
+          <i class="fab fa-github text-base" aria-hidden="true"></i>
+        </a>
+        <a href="/login" class="text-xs sm:text-sm font-medium text-[#9a9aa5] hover:text-white transition px-3 py-1.5">Sign In</a>
+        <a href="/signup" class="text-xs sm:text-sm font-semibold text-black bg-gradient-to-r from-[#93c5fd] to-[#3b82f6] px-4 py-2 rounded-lg hover:opacity-90 transition">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Billing Switcher -->
+  <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24">
+    
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-4">
+        <i class="fas fa-tag"></i> Simple, Transparent &amp; Predictable
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+        Predictable Pricing for <br><span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">High-Velocity Automation</span>
+      </h1>
+      <p class="text-[#9a9aa5] text-sm sm:text-base mt-4 max-w-2xl mx-auto">
+        Start free forever on our solo Community tier, or scale with collaborative team plans featuring automated flaky test quarantine and unlimited seat access.
+      </p>
+
+      <!-- Billing Cycle Toggle -->
+      <div class="mt-8 inline-flex items-center p-1.5 bg-[#14141b] border border-[#20202a] rounded-2xl shadow-inner">
+        <button id="btn-monthly" onclick="setBilling('monthly')" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-blue-600 text-white shadow-md">
+          Monthly Billing
+        </button>
+        <button id="btn-annual" onclick="setBilling('annual')" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all text-[#9a9aa5] hover:text-white flex items-center gap-2">
+          <span>Annual Billing</span>
+          <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
+            Save 20%
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 Pricing Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+      
+      <!-- Tier 1: Community -->
+      <div class="pricing-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="pill-badge bg-zinc-500/10 border border-zinc-500/20 text-zinc-300">Community</span>
+            <span class="text-xs text-[#5e5e68] font-semibold">Self-Host or Cloud</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">Free Forever</h2>
+          <p class="text-xs text-[#9a9aa5] mt-1">For individual engineers, side projects, and open-source packages.</p>
+
+          <div class="my-6">
+            <div class="text-3xl font-extrabold text-white">$0</div>
+            <div class="text-xs text-[#5e5e68] mt-0.5">Free forever &bull; No credit card</div>
+          </div>
+
+          <!-- Highlight Feature Badge -->
+          <div class="p-3 bg-[#101017] rounded-xl border border-[#20202a] mb-6 text-xs flex items-center gap-2 text-zinc-300">
+            <i class="fas fa-user text-blue-400"></i>
+            <span><strong>1 User (Solo Developer)</strong> &bull; No team invites</span>
+          </div>
+
+          <ul class="space-y-3 text-xs text-[#9a9aa5]">
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>3,000</strong> recorded tests / month</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>14 days</strong> trace &amp; video retention</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Up to <strong>3 active projects</strong></span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Live WebSocket execution stream</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Full Playwright Trace Viewer</span>
+            </li>
+            <li class="flex items-start gap-2.5 text-[#5e5e68]">
+              <i class="fas fa-times mt-0.5 text-xs"></i>
+              <span>Build comparison engine</span>
+            </li>
+            <li class="flex items-start gap-2.5 text-[#5e5e68]">
+              <i class="fas fa-times mt-0.5 text-xs"></i>
+              <span>Flaky test auto-quarantine</span>
+            </li>
+            <li class="flex items-start gap-2.5 text-[#5e5e68]">
+              <i class="fas fa-times mt-0.5 text-xs"></i>
+              <span>Jira &amp; Linear issue sync</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-[#20202a]">
+          <a href="/signup?plan=community" class="block text-center w-full py-2.5 px-4 bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] hover:border-[#3b82f6]/40 text-white font-semibold text-xs rounded-xl transition">
+            Start Free Solo
+          </a>
+        </div>
+      </div>
+
+      <!-- Tier 2: Team -->
+      <div class="pricing-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="pill-badge bg-blue-500/10 border border-blue-500/20 text-blue-400">Team</span>
+            <span class="text-xs text-[#5e5e68] font-semibold">Micro-Squads</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">Team</h2>
+          <p class="text-xs text-[#9a9aa5] mt-1">For dev pairs and agile QA squads running continuous CI suites.</p>
+
+          <div class="my-6">
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-extrabold text-white price-display" data-monthly="$49" data-annual="$39">$49</span>
+              <span class="text-xs text-[#9a9aa5]">/ month</span>
+            </div>
+            <div class="text-[11px] text-[#5e5e68] mt-0.5 billing-note" data-monthly="Billed monthly" data-annual="Billed annually ($468/yr)">Billed monthly</div>
+          </div>
+
+          <!-- Highlight Feature Badge -->
+          <div class="p-3 bg-blue-500/10 rounded-xl border border-blue-500/20 mb-6 text-xs flex items-center gap-2 text-blue-200">
+            <i class="fas fa-users text-blue-400"></i>
+            <span><strong>Up to 3 Team Members</strong> &bull; Collab ready</span>
+          </div>
+
+          <ul class="space-y-3 text-xs text-[#9a9aa5]">
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>25,000</strong> recorded tests / month</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>45 days</strong> trace &amp; video retention</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>Unlimited</strong> active projects</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>Build Compare Engine:</strong> Diff runs &amp; branches</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Slack, Discord &amp; MS Teams webhooks</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>GitHub Actions &amp; GitLab PR comments</span>
+            </li>
+            <li class="flex items-start gap-2.5 text-[#5e5e68]">
+              <i class="fas fa-times mt-0.5 text-xs"></i>
+              <span>Flaky test auto-quarantine</span>
+            </li>
+            <li class="flex items-start gap-2.5 text-[#5e5e68]">
+              <i class="fas fa-times mt-0.5 text-xs"></i>
+              <span>Jira &amp; Linear issue sync</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-[#20202a]">
+          <a href="/signup?plan=team" class="block text-center w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl transition shadow-lg shadow-blue-600/20">
+            Start 14-Day Team Trial
+          </a>
+        </div>
+      </div>
+
+      <!-- Tier 3: Business (Featured) -->
+      <div class="pricing-card featured p-6 flex flex-col justify-between">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] font-extrabold uppercase tracking-widest shadow-md">
+          Most Popular
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="pill-badge bg-indigo-500/20 border border-indigo-500/30 text-indigo-300">Business</span>
+            <span class="text-xs text-blue-400 font-semibold">Scaling Departments</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">Business</h2>
+          <p class="text-xs text-[#9a9aa5] mt-1">For multi-team departments requiring quarantine, Jira sync &amp; zero seat limits.</p>
+
+          <div class="my-6">
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-extrabold text-white price-display" data-monthly="$149" data-annual="$119">$149</span>
+              <span class="text-xs text-[#9a9aa5]">/ month</span>
+            </div>
+            <div class="text-[11px] text-[#5e5e68] mt-0.5 billing-note" data-monthly="Billed monthly" data-annual="Billed annually ($1,428/yr)">Billed monthly</div>
+          </div>
+
+          <!-- Highlight Feature Badge -->
+          <div class="p-3 bg-indigo-500/10 rounded-xl border border-indigo-500/20 mb-6 text-xs flex items-center gap-2 text-indigo-200">
+            <i class="fas fa-infinity text-indigo-400"></i>
+            <span><strong>Unlimited Team Seats</strong> &bull; Zero per-seat tax</span>
+          </div>
+
+          <ul class="space-y-3 text-xs text-[#9a9aa5]">
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>100,000</strong> recorded tests / month</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>90 days</strong> trace &amp; video retention</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>Flaky Test Auto-Quarantine:</strong> Stop pipeline breakage</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>Jira &amp; Linear 1-Click Sync:</strong> Auto-file regressions</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Advanced flakiness &amp; velocity trends</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Custom conditional webhook alerts</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Custom artifact retention &amp; S3 policies</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Priority email support &amp; private Slack connect</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-[#20202a]">
+          <a href="/signup?plan=business" class="block text-center w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs rounded-xl transition shadow-lg shadow-blue-600/30">
+            Start 14-Day Business Trial
+          </a>
+        </div>
+      </div>
+
+      <!-- Tier 4: Enterprise -->
+      <div class="pricing-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="pill-badge bg-purple-500/10 border border-purple-500/20 text-purple-400">Enterprise</span>
+            <span class="text-xs text-[#5e5e68] font-semibold">Custom Scale</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">Enterprise</h2>
+          <p class="text-xs text-[#9a9aa5] mt-1">For regulated industries, security governance, and high-volume CI.</p>
+
+          <div class="my-6">
+            <div class="text-3xl font-extrabold text-white">Custom</div>
+            <div class="text-xs text-[#5e5e68] mt-0.5">Annual contracts &bull; Starts at $499/mo</div>
+          </div>
+
+          <!-- Highlight Feature Badge -->
+          <div class="p-3 bg-purple-500/10 rounded-xl border border-purple-500/20 mb-6 text-xs flex items-center gap-2 text-purple-200">
+            <i class="fas fa-shield-halved text-purple-400"></i>
+            <span><strong>SAML SSO &amp; Signed DPA</strong> &bull; Full compliance</span>
+          </div>
+
+          <ul class="space-y-3 text-xs text-[#9a9aa5]">
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>500,000+ to millions</strong> of tests / month</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>180 days to 1 year+</strong> custom retention</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>SAML 2.0 SSO &amp; SCIM Provisioning</strong> (Okta, Azure)</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>Immutable Audit Logs</strong> &amp; granular RBAC</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span><strong>Signed Enterprise DPA</strong> (GDPR &amp; NDPA 2023)</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>SOC 2 Type II compliance audit packet</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Air-gapped on-premise Kubernetes option</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fas fa-check text-emerald-400 mt-0.5 text-xs"></i>
+              <span>Dedicated Technical Account Manager &amp; 99.99% SLA</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-[#20202a]">
+          <a href="mailto:legal@easytesting.app?subject=Enterprise%20Plan%20Inquiry%20-%20Playwright%20Dashboard" class="block text-center w-full py-2.5 px-4 bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] hover:border-purple-500/40 text-white font-semibold text-xs rounded-xl transition">
+            Contact Enterprise Sales
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Feature Comparison Matrix -->
+    <section class="mb-24">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white">Full Feature Comparison</h2>
+        <p class="text-xs sm:text-sm text-[#9a9aa5] mt-2">Detailed breakdown of quotas, analytics capabilities, and enterprise controls.</p>
+      </div>
+
+      <div class="overflow-x-auto bg-[#0e0e13] border border-[#20202a] rounded-2xl p-6">
+        <table class="w-full text-xs sm:text-sm text-left border-collapse">
+          <thead>
+            <tr class="border-b border-[#20202a] text-[#9a9aa5]">
+              <th class="p-3.5 font-semibold text-white">Feature Capability</th>
+              <th class="p-3.5 font-semibold text-center text-zinc-300">Community ($0)</th>
+              <th class="p-3.5 font-semibold text-center text-blue-400">Team ($49/mo)</th>
+              <th class="p-3.5 font-semibold text-center text-indigo-400">Business ($149/mo)</th>
+              <th class="p-3.5 font-semibold text-center text-purple-400">Enterprise</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#20202a]/60 text-[#9a9aa5]">
+            <!-- Group 1: Scale & Seats -->
+            <tr class="bg-[#14141b]/40 font-semibold text-white">
+              <td colspan="5" class="p-3 text-xs uppercase tracking-wider text-blue-400">Scale &amp; Team Limits</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Team Members / Seats</td>
+              <td class="p-3 text-center text-zinc-300"><strong>1 User (Solo)</strong></td>
+              <td class="p-3 text-center text-blue-300"><strong>Up to 3 Members</strong></td>
+              <td class="p-3 text-center text-indigo-300"><strong>Unlimited</strong></td>
+              <td class="p-3 text-center text-purple-300"><strong>Unlimited</strong></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Monthly Test Executions</td>
+              <td class="p-3 text-center">3,000</td>
+              <td class="p-3 text-center">25,000</td>
+              <td class="p-3 text-center">100,000</td>
+              <td class="p-3 text-center">500,000+ (Custom)</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Trace &amp; Video Retention</td>
+              <td class="p-3 text-center">14 days</td>
+              <td class="p-3 text-center">45 days</td>
+              <td class="p-3 text-center">90 days</td>
+              <td class="p-3 text-center">180d – 1 year+</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Active Test Projects</td>
+              <td class="p-3 text-center">3 Projects</td>
+              <td class="p-3 text-center">Unlimited</td>
+              <td class="p-3 text-center">Unlimited</td>
+              <td class="p-3 text-center">Unlimited</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Max Artifact Size per Run</td>
+              <td class="p-3 text-center">25 MB</td>
+              <td class="p-3 text-center">100 MB</td>
+              <td class="p-3 text-center">250 MB</td>
+              <td class="p-3 text-center">1 GB+</td>
+            </tr>
+
+            <!-- Group 2: Diagnostics & Intelligence -->
+            <tr class="bg-[#14141b]/40 font-semibold text-white">
+              <td colspan="5" class="p-3 text-xs uppercase tracking-wider text-blue-400">Diagnostics &amp; Analytics</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">WebSocket Real-Time Ingest</td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Trace Viewer &amp; Video Player</td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Flaky Test Scoring</td>
+              <td class="p-3 text-center">Last 7 Days</td>
+              <td class="p-3 text-center">45-Day History</td>
+              <td class="p-3 text-center">Full 90-Day Trends</td>
+              <td class="p-3 text-center">Custom Multi-Branch</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Flaky Test Auto-Quarantine</td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Build Comparison (Run vs. Run Diff)</td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+
+            <!-- Group 3: Integrations & Notifications -->
+            <tr class="bg-[#14141b]/40 font-semibold text-white">
+              <td colspan="5" class="p-3 text-xs uppercase tracking-wider text-blue-400">Integrations &amp; Automation</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Standard Webhook Ingestion</td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Slack, Discord &amp; MS Teams Alerts</td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Jira &amp; Linear 1-Click Issue Sync</td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Custom Artifact Pruning Policies</td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+
+            <!-- Group 4: Security & Compliance -->
+            <tr class="bg-[#14141b]/40 font-semibold text-white">
+              <td colspan="5" class="p-3 text-xs uppercase tracking-wider text-blue-400">Security, Governance &amp; Compliance</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">GDPR &amp; NDPA 2023 Adherence</td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">SAML 2.0 SSO &amp; SCIM Provisioning</td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Immutable Audit Trail &amp; Access Logs</td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Countersigned DPA &amp; Security Audits</td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-[#5e5e68]"><i class="fas fa-times"></i></td>
+              <td class="p-3 text-center text-emerald-400"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-white font-medium">Self-Hosted Deployment</td>
+              <td class="p-3 text-center">Community (Docker)</td>
+              <td class="p-3 text-center">Community (Docker)</td>
+              <td class="p-3 text-center">Community (Docker)</td>
+              <td class="p-3 text-center text-purple-300"><strong>Enterprise Kubernetes / Air-Gapped</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Interactive FAQ Section -->
+    <section class="max-w-3xl mx-auto mb-20">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white">Frequently Asked Questions</h2>
+        <p class="text-xs sm:text-sm text-[#9a9aa5] mt-2">Everything you need to know about billing, member seats, and test volume.</p>
+      </div>
+
+      <div class="space-y-3">
+        <!-- FAQ 1 -->
+        <div class="faq-item p-4 sm:p-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between font-semibold text-xs sm:text-sm text-white">
+            <span>What counts as a "recorded test execution"?</span>
+            <i class="fas fa-chevron-down text-xs text-[#9a9aa5] faq-chevron transition-transform"></i>
+          </div>
+          <div class="faq-answer text-xs sm:text-sm text-[#9a9aa5] mt-3 leading-relaxed border-t border-[#20202a] pt-3">
+            A recorded test is a single <code>test('name', ...)</code> block processed by our reporter in CI. If a build runs 50 tests, that consumes 50 test credits. Retries count toward the total if uploaded. Running tests locally without pointing to your dashboard API endpoint never consumes credits.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item p-4 sm:p-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between font-semibold text-xs sm:text-sm text-white">
+            <span>How do the team member / seat limits work?</span>
+            <i class="fas fa-chevron-down text-xs text-[#9a9aa5] faq-chevron transition-transform"></i>
+          </div>
+          <div class="faq-answer text-xs sm:text-sm text-[#9a9aa5] mt-3 leading-relaxed border-t border-[#20202a] pt-3">
+            The **Community tier** is dedicated to solo engineers (1 user account, no collaborator invites). The **Team tier** supports up to **3 team members**, making it ideal for dev pairs and small squads. The **Business tier** and **Enterprise tier** unlock **unlimited team seats**, ensuring your entire engineering department can triage traces without extra per-seat invoices.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item p-4 sm:p-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between font-semibold text-xs sm:text-sm text-white">
+            <span>What happens if my workspace exceeds monthly test quotas?</span>
+            <i class="fas fa-chevron-down text-xs text-[#9a9aa5] faq-chevron transition-transform"></i>
+          </div>
+          <div class="faq-answer text-xs sm:text-sm text-[#9a9aa5] mt-3 leading-relaxed border-t border-[#20202a] pt-3">
+            We believe in developer-first continuity. We never hard-block your CI pipelines. When a Free workspace hits 3,000 tests, we continue ingesting pass/fail status but temporarily pause heavy trace/video storage until the next cycle or upgrade. Paid plans can opt for automatic scalable overages ($3–$4 per 2,500 tests) so work never stops.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item p-4 sm:p-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between font-semibold text-xs sm:text-sm text-white">
+            <span>Can I still self-host Playwright Dashboard for free?</span>
+            <i class="fas fa-chevron-down text-xs text-[#9a9aa5] faq-chevron transition-transform"></i>
+          </div>
+          <div class="faq-answer text-xs sm:text-sm text-[#9a9aa5] mt-3 leading-relaxed border-t border-[#20202a] pt-3">
+            Yes! Our open-source Community distribution is 100% free and runnable on your own infrastructure via Docker and Docker Compose. Self-hosting means all traces and database records stay entirely within your private network perimeter.
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item p-4 sm:p-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between font-semibold text-xs sm:text-sm text-white">
+            <span>Do you offer compliance packages and signed DPAs?</span>
+            <i class="fas fa-chevron-down text-xs text-[#9a9aa5] faq-chevron transition-transform"></i>
+          </div>
+          <div class="faq-answer text-xs sm:text-sm text-[#9a9aa5] mt-3 leading-relaxed border-t border-[#20202a] pt-3">
+            Yes. All cloud plans adhere strictly to EU/UK GDPR, CCPA, and Nigeria Data Protection Act (NDPA 2023). For organizations requiring custom countersigned Data Processing Addendums (DPAs), vendor questionnaires, and SOC 2 Type II audit packages, these are provided under our Enterprise contracts.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA Banner -->
+    <div class="p-8 sm:p-12 rounded-2xl bg-gradient-to-r from-blue-900/30 via-indigo-900/20 to-purple-900/30 border border-blue-500/30 text-center relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl mx-auto">
+        <h3 class="text-2xl sm:text-3xl font-bold text-white">Ready to elevate your Playwright automation?</h3>
+        <p class="text-xs sm:text-sm text-[#9a9aa5] mt-3">
+          Join modern software engineering teams running faster, flaky-free CI/CD pipelines with real-time analytics.
+        </p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <a href="/signup?plan=community" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl transition shadow-lg shadow-blue-600/25">
+            Start Free Solo Developer Account
+          </a>
+          <a href="/docs" class="px-6 py-3 bg-[#14141b] hover:bg-[#1a1a24] border border-[#20202a] text-white font-semibold text-xs rounded-xl transition">
+            Explore Documentation
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="relative z-10 border-t border-[#20202a] bg-[#08080a] py-12 px-4 sm:px-6 lg:px-8 mt-16">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-2.5">
+        <span class="w-7 h-7 rounded-lg bg-[#14141b] border border-[#20202a] flex items-center justify-center text-[#3b82f6]">
+          <i class="fas fa-chart-line text-xs" aria-hidden="true"></i>
+        </span>
+        <span class="text-sm font-semibold text-white">Playwright Dashboard</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-[#9a9aa5]">
+        <a href="/landing.html" class="hover:text-white transition">Overview</a>
+        <a href="/pricing.html" class="text-blue-400 hover:underline">Pricing</a>
+        <a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a>
+        <a href="/terms.html" class="hover:text-white transition">Terms of Use</a>
+        <a href="/dpa.html" class="hover:text-white transition">DPA</a>
+        <a href="/security.html" class="hover:text-white transition">Security</a>
+        <a href="/legal.html" class="hover:text-white transition">Legal Hub</a>
+      </div>
+      <p class="text-xs text-[#5e5e68]">© 2026 Playwright Dashboard. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function setBilling(cycle) {
+      const isAnnual = cycle === 'annual';
+      const btnMonthly = document.getElementById('btn-monthly');
+      const btnAnnual = document.getElementById('btn-annual');
+
+      if (isAnnual) {
+        btnAnnual.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+        btnAnnual.classList.remove('text-[#9a9aa5]');
+        btnMonthly.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+        btnMonthly.classList.add('text-[#9a9aa5]');
+      } else {
+        btnMonthly.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+        btnMonthly.classList.remove('text-[#9a9aa5]');
+        btnAnnual.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+        btnAnnual.classList.add('text-[#9a9aa5]');
+      }
+
+      document.querySelectorAll('.price-display').forEach(el => {
+        el.textContent = isAnnual ? el.getAttribute('data-annual') : el.getAttribute('data-monthly');
+      });
+
+      document.querySelectorAll('.billing-note').forEach(el => {
+        el.textContent = isAnnual ? el.getAttribute('data-annual') : el.getAttribute('data-monthly');
+      });
+    }
+
+    function toggleFaq(el) {
+      const isOpen = el.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('open'));
+      if (!isOpen) {
+        el.classList.add('open');
+      }
+    }
+  </script>
+</body>
+</html>

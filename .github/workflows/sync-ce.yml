@@ -1,0 +1,37 @@
+name: Sync Community Edition (CE) to Public Repository
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  sync-to-ce:
+    name: Build & Push Community Edition
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Enterprise Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git Credentials
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run CE Sync Script
+        env:
+          CE_REPO_TOKEN: ${{ secrets.COMMUNITY_REPO_SYNC_TOKEN }}
+        run: |
+          # If a secret token is configured, use it with authentication; otherwise use default public remote
+          if [ -n "$CE_REPO_TOKEN" ]; then
+            CE_TARGET="https://x-access-token:${CE_REPO_TOKEN}@github.com/christmasday/Playwright-dashboard.git"
+          else
+            CE_TARGET="https://github.com/christmasday/Playwright-dashboard.git"
+          fi
+          
+          chmod +x ./scripts/sync-to-ce-repo.sh
+          ./scripts/sync-to-ce-repo.sh --push "$CE_TARGET"

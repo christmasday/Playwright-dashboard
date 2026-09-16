@@ -316,7 +316,12 @@ const FlakyTests: React.FC = () => {
                       <th className="p-4">Test Name & Spec File</th>
                       <th className="p-4">Root Cause Category</th>
                       <th className="p-4 text-center">Score</th>
-                      <th className="p-4 text-center">Quarantine</th>
+                      <th className="p-4 text-center">
+                        <div className="flex items-center justify-center gap-1.5">
+                          <span>Quarantine</span>
+                          <span className="px-1.5 py-0.2 text-[9px] bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded font-bold uppercase tracking-wider">Business</span>
+                        </div>
+                      </th>
                       <th className="p-4 text-right">Actions</th>
                     </tr>
                   </thead>
@@ -436,9 +441,10 @@ const FlakyTests: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleToggleQuarantine(selectedTest.id, selectedTest.quarantine_status)}
-                  className="flex-1 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold rounded-xl hover:bg-amber-500/20 transition-all"
+                  className="flex-1 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold rounded-xl hover:bg-amber-500/20 transition-all flex items-center justify-center gap-1.5"
                 >
-                  {selectedTest.quarantine_status === 'quarantined' ? 'Lift Quarantine' : 'Quarantine Test'}
+                  <span>{selectedTest.quarantine_status === 'quarantined' ? 'Lift Quarantine' : 'Quarantine Test'}</span>
+                  <span className="px-1.5 py-0.2 text-[9px] bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded font-bold uppercase">Business</span>
                 </button>
                 <button
                   onClick={() => handleMarkResolved(selectedTest.id)}

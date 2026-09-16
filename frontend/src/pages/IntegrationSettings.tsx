@@ -301,7 +301,7 @@ export const IntegrationSettings: React.FC = () => {
         <nav className="flex space-x-6 overflow-x-auto">
           {[
             { key: 'github', label: 'GitHub Issues', icon: 'fa-brands fa-github' },
-            { key: 'jira', label: 'Jira Software', icon: 'fa-brands fa-jira' },
+            { key: 'jira', label: 'Jira Software', icon: 'fa-brands fa-jira', tierBadge: 'Business' },
             {
               key: 'issues',
               label: `Linked Test Issues (${recentIssues.length})`,
@@ -319,6 +319,11 @@ export const IntegrationSettings: React.FC = () => {
             >
               <i className={tab.icon}></i>
               <span>{tab.label}</span>
+              {tab.tierBadge && (
+                <span className="px-1.5 py-0.2 text-[9px] bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded font-bold uppercase tracking-wider">
+                  {tab.tierBadge}
+                </span>
+              )}
             </button>
           ))}
         </nav>
@@ -496,7 +501,12 @@ export const IntegrationSettings: React.FC = () => {
                   <i className="fa-brands fa-jira text-lg"></i>
                 </div>
                 <div>
-                  <h2 className="text-sm font-bold text-[#f4f4f7]">Jira Software Integration</h2>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-sm font-bold text-[#f4f4f7]">Jira Software Integration</h2>
+                    <span className="px-2 py-0.5 text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded font-bold uppercase tracking-wider">
+                      Business & Enterprise
+                    </span>
+                  </div>
                   <p className="text-xs text-[#9a9aa5]">
                     Generate Jira Cloud/Server issues formatted with Atlassian Document Format (ADF)
                   </p>

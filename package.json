@@ -31,6 +31,7 @@
     "type-check": "npm run type-check:frontend && npm run type-check:backend",
     "test:frontend": "cd frontend && npm test",
     "test:backend": "cd backend && npm test",
+    "test:gating": "node scripts/test-gated-features.js",
     "test": "npm run test:frontend && npm run test:backend",
     "test:e2e": "cd backend && playwright test",
     "test:e2e:install": "cd backend && npx playwright install chromium",
